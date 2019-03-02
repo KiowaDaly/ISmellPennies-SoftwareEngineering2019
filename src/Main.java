@@ -1,10 +1,14 @@
+import ModularityCheckers.ClassModularityCheck;
+import ModularityCheckers.Countable;
 import ProjectReader.FileChooser;
-import UI.BaseFrame;
 
 public class Main {
     public static void main(String[] argc){
 
-        BaseFrame myFrame = new BaseFrame();
+//        FileChooser file = new FileChooser();
+//        file.selectFile();
+        ClassModularityCheck modularCheck = new ClassModularityCheck(Countable.class);
+        System.out.println(modularCheck.getClassName() +" has "+ modularCheck.getNumberOfMethods() +" Methods");
 
     }
 }
