@@ -2,27 +2,21 @@ package ModularityCheckers;
 
 import java.lang.reflect.Method;
 
-public class ClassModularityCheck implements Countable {
-    private Class objectclass;//class object that we will perform test on
+public class ClassModularityCheck extends ModularityCheck {
 
-        public ClassModularityCheck(Class classObject){
-        this.objectclass = classObject;
+    public ClassModularityCheck(Class myClass){
+        super(myClass);
     }
-
-    public long getLength(){
-        //TODO read the class from the file and count its length
-        return 0;
-    }
-   public int getNumberOfMethods(){
+    public int getNumberOfMethods(){
         //TODO read the number of method declaractions in the class
-        Method[] methods = objectclass.getMethods();
+        return objectclass.getMethods().length;
+    }
 
-        return methods.length;
-   }
 
-   public String getClassName(){
-            return objectclass.getSimpleName();
-   }
+
+
+
+
 
 
 }
