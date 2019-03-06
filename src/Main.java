@@ -1,6 +1,6 @@
-import ModularityCheckers.ClassModularityCheck;
+import BloatedCodeCheckers.ClassBloatedCodeChecker;
 
-import ModularityCheckers.ModularityCheck;
+import BloatedCodeCheckers.BloatedCodeChecker;
 
 
 public class Main {
@@ -8,7 +8,7 @@ public class Main {
 
 //        FileChooser file = new FileChooser();
 //        file.selectFile();
-        ClassModularityCheck modularCheck = new ClassModularityCheck(ClassModularityCheck.class);
+        ClassBloatedCodeChecker modularCheck = new ClassBloatedCodeChecker(BloatedCodeChecker.class);
         System.out.println(modularCheck.getClassName() +" has "+ modularCheck.getNumberOfMethods() +" Methods");
 
     }

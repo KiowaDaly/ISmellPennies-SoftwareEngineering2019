@@ -1,10 +1,8 @@
-package ModularityCheckers;
+package BloatedCodeCheckers;
 
-import java.lang.reflect.Method;
+public class ClassBloatedCodeChecker extends BloatedCodeChecker {
 
-public class ClassModularityCheck extends ModularityCheck {
-
-    public ClassModularityCheck(Class myClass){
+    public ClassBloatedCodeChecker(Class myClass){
         super(myClass);
     }
     public int getNumberOfMethods(){
