@@ -1,21 +1,24 @@
 import BloatedCodeCheckers.ClassBloatedCodeChecker;
 import BloatedCodeCheckers.BloatedCodeChecker;
 import BloatedCodeCheckers.MethodBloatedCodeChecker;
+import ClassLoader.myClassLoader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 
 
 public class Main {
-    public static void main(String[] argc){
+    public static void main(String[] argc) throws MalformedURLException, ClassNotFoundException {
 
 //        FileChooser file = new FileChooser();
 //        file.selectFile();
         //THIS FILE IS FOR TESTING PURPOSES - NOT THE REAL MAIN METHOD
+        myClassLoader loader = new myClassLoader();
         MethodBloatedCodeChecker methodCheck = new MethodBloatedCodeChecker(ClassBloatedCodeChecker.class.getMethods()[1]);
-        ClassBloatedCodeChecker modularCheck = new ClassBloatedCodeChecker(BloatedCodeChecker.class);
-        System.out.println(modularCheck.getClassName() +" has "+ modularCheck.getNumberOfMethods() +" Methods-including its subclasses");
+        ClassBloatedCodeChecker bloatedCheck = new ClassBloatedCodeChecker(BloatedCodeChecker.class);
+        System.out.println(bloatedCheck.getClassName() +" has "+ bloatedCheck.getNumberOfMethods() +" user defined methods");
         System.out.println(methodCheck.methodHasTooManyParameters());
-
+/*
         //06/03/2019 - obtaining methods/ variable types from classes
         //example using BloatedCodeChecker
 
@@ -36,5 +39,6 @@ public class Main {
         for(Method m: MethodBloatedCodeChecker.class.getMethods()) System.out.println(m.toString());
 
         //this whole section of code can be snipped and slotted into proper classes once created - not to stay in class.Main
+    */
     }
 }

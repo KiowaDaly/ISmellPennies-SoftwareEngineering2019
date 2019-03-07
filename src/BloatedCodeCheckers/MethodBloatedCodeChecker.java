@@ -1,5 +1,4 @@
 package BloatedCodeCheckers;
-
 import java.lang.reflect.Method;
 
 public class MethodBloatedCodeChecker extends BloatedCodeChecker {
