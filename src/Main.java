@@ -1,23 +1,28 @@
 import BloatedCodeCheckers.ClassBloatedCodeChecker;
 import BloatedCodeCheckers.BloatedCodeChecker;
 import BloatedCodeCheckers.MethodBloatedCodeChecker;
-import ClassLoader.myClassLoader;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import ProjectReader.FileChooser;
+
 import java.net.MalformedURLException;
 
 
 public class Main {
     public static void main(String[] argc) throws MalformedURLException, ClassNotFoundException {
 
-//        FileChooser file = new FileChooser();
-//        file.selectFile();
+
+
+        FileChooser folder = new FileChooser();
+        System.out.println("List of files and directories");
+        for(String s:folder.selectFolder().list()){
+            System.out.println(s+"\n");
+        }
         //THIS FILE IS FOR TESTING PURPOSES - NOT THE REAL MAIN METHOD
-        myClassLoader loader = new myClassLoader();
-        MethodBloatedCodeChecker methodCheck = new MethodBloatedCodeChecker(ClassBloatedCodeChecker.class.getMethods()[1]);
-        ClassBloatedCodeChecker bloatedCheck = new ClassBloatedCodeChecker(BloatedCodeChecker.class);
-        System.out.println(bloatedCheck.getClassName() +" has "+ bloatedCheck.getNumberOfMethods() +" user defined methods");
-        System.out.println(methodCheck.methodHasTooManyParameters());
+       // myClassLoader loader = new myClassLoader();
+//        MethodBloatedCodeChecker methodCheck = new MethodBloatedCodeChecker(ClassBloatedCodeChecker.class.getMethods()[1]);
+//        ClassBloatedCodeChecker bloatedCheck = new ClassBloatedCodeChecker(BloatedCodeChecker.class);
+//        System.out.println(bloatedCheck.getClassName() +" has "+ bloatedCheck.getNumberOfMethods() +" user defined methods");
+//        System.out.println(methodCheck.methodHasTooManyParameters());
+
 /*
         //06/03/2019 - obtaining methods/ variable types from classes
         //example using BloatedCodeChecker

@@ -5,7 +5,7 @@ public class BloatedCodeChecker {
 
     protected Class class_object;//class object that we will perform test on
     public BloatedCodeChecker(){}
-    public BloatedCodeChecker(Class classObject){
+    public BloatedCodeChecker(Class classObject ){
         this.class_object = classObject;
     }
 

@@ -1,5 +1,7 @@
 package BloatedCodeCheckers;
 
+import java.io.File;
+
 public class ClassBloatedCodeChecker extends BloatedCodeChecker {
     protected final int METHOD_NUMBER_THRESHOLD = 10;
     protected final int FIELD_NUMBER_THRESHOLD = 10;
@@ -20,6 +22,9 @@ public class ClassBloatedCodeChecker extends BloatedCodeChecker {
         return class_object.getDeclaredFields().length > FIELD_NUMBER_THRESHOLD;
     }
 
+    public long getLength  (File myFile){
+        return myFile.length();
+    }
 
 
 

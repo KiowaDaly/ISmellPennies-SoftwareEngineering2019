@@ -15,7 +15,7 @@ public class SelectFileButton extends JButton {
             @Override
             public void actionPerformed(ActionEvent e) {
                 FileChooser file = new FileChooser();
-                file.selectFile();
+                file.selectFolder();
             }
         });
     }
