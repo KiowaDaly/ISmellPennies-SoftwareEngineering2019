@@ -9,15 +9,14 @@ import java.net.URLClassLoader;
 
 public class myClassLoader {
     private static String CLASS_FOLDER;
-    public myClassLoader(String filepath){
-        this.CLASS_FOLDER = filepath;
-    }
-
+    //constructor reading in filepath of class
+    public myClassLoader(String filepath){ this.CLASS_FOLDER = filepath; }
 
     public Class getClassFromFile(String classname) throws ClassNotFoundException, MalformedURLException {
-        URLClassLoader loader = new URLClassLoader(new URL[]{
+        URLClassLoader url_loader = new URLClassLoader(new URL[]{
             new URL("file://"+CLASS_FOLDER)});
-        return loader.loadClass(classname);
+
+        return url_loader.loadClass(classname);
     }
 
 }

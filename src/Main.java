@@ -3,8 +3,12 @@ import BloatedCodeCheckers.BloatedCodeChecker;
 import BloatedCodeCheckers.MethodBloatedCodeChecker;
 import ProjectReader.FileChooser;
 import com.github.javaparser.JavaParser;
+import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import parser.JavaFileParser;
+import com.github.javaparser.StaticJavaParser;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,18 +18,31 @@ import java.util.Optional;
 
 
 public class Main {
-    public static void main(String[] argc) throws IOException, ClassNotFoundException {
+    private static final String FILE_PATH = "C:/Users/rebec/IdeaProjects/ISmellPennies-SoftwareEngineering2019/src";
+
+    public static void main(String[] argc) throws IOException, ClassNotFoundException, Exception {
+//        FileChooser folder = new FileChooser();
+//        System.out.println("List of files and directories");
+//        for (String s : folder.selectFolder().list()) {
+//        //    System.out.println(s + "\n");
+//        }
+//        JavaFileParser ourParser = new JavaFileParser();
+      //  List myclass = ourParser.parseFileToClassObject(new File("C://Users//kiowa//Desktop//classLoader/test.java"));
+      //  System.out.println("List of classed in file: " + myclass.get(0));
 
 
+        //VistorStarted
 
-        FileChooser folder = new FileChooser();
-        System.out.println("List of files and directories");
-        for(String s:folder.selectFolder().list()){
-            System.out.println(s+"\n");
+        CompilationUnit cu = StaticJavaParser.parse(new File(FILE_PATH));
+    }
+
+    private static class MethodNamePrinter extends VoidVisitorAdapter<Void> {
+
+        public void visit(MethodDeclaration md, Void arg) {
+            super.visit(md, arg);
+            System.out.println("Method Name Printed: " + md.getName());
         }
-        JavaFileParser ourParser = new JavaFileParser();
-        List myclass =  ourParser.parseFileToClassObject(new File("C://Users//kiowa//Desktop//classLoader/test.java"));
-        System.out.println("List of classed in file: "+ myclass.get(0));
+    }
 
 
        //THIS FILE IS FOR TESTING PURPOSES - NOT THE REAL MAIN METHOD
@@ -56,5 +73,5 @@ public class Main {
 
         //this whole section of code can be snipped and slotted into proper classes once created - not to stay in class.Main
     */
-    }
+
 }
