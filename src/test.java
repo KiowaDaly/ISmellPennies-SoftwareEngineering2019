@@ -4,7 +4,7 @@ public class test{
 	public test(int number){
 		this.number = number;
 	}
-	public int getNumber(){
+	protected int getNumber(){
 		return number;
 	}
 }

@@ -6,6 +6,7 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.visitor.VoidVisitor;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import parser.JavaFileParser;
 import com.github.javaparser.StaticJavaParser;
@@ -34,6 +35,16 @@ public class Main {
         //VistorStarted
 
         CompilationUnit cu = StaticJavaParser.parse(new File(FILE_PATH));
+        VoidVisitor<?> methodNameVisitor = new MethodNamePrinter();
+        methodNameVisitor.visit(cu, null);
+    }
+
+    public static class MethodNamePrinter extends VoidVisitorAdapter<Void> {
+
+        public void visit(MethodDeclaration md, Void arg) {
+            super.visit(md, arg);
+            System.out.println("Method Name Printed: " + md.getAccessSpecifier().toString());
+        }
     }
 
 
