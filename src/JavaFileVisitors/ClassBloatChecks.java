@@ -5,7 +5,7 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.util.List;
 
-public class ClassCollector extends VoidVisitorAdapter<List<ClassOrInterfaceDeclaration>> {
+public class ClassBloatChecks extends VoidVisitorAdapter<List<ClassOrInterfaceDeclaration>> {
     public void visit(ClassOrInterfaceDeclaration cl, List<ClassOrInterfaceDeclaration> collector) {
         super.visit(cl, collector);
         collector.add(cl);

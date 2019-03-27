@@ -4,7 +4,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import java.util.List;
 
-public class MethodCollector extends VoidVisitorAdapter<List<MethodDeclaration>> {
+public class MethodBloatChecks extends VoidVisitorAdapter<List<MethodDeclaration>> {
 
     public void visit(MethodDeclaration md, List<MethodDeclaration> collector) {
         super.visit(md, collector);
