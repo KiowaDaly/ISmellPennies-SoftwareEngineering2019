@@ -41,10 +41,11 @@ public class Main {
         VoidVisitor<?> methodNameVisitor = new MethodNamePrinter();
         methodNameVisitor.visit(cu, null);
 
-        List<String> methodNames = new ArrayList<>();
-        VoidVisitor<List<String>> methodNameCollector = new MethodCollector();
+        List<MethodDeclaration> methodNames = new ArrayList<>();
+        VoidVisitor<List<MethodDeclaration>> methodNameCollector = new MethodCollector();
         methodNameCollector.visit(cu, methodNames);
-        methodNames.forEach(n -> System.out.println("Methods Collected: " + n));
+        methodNameCollector.MethodLengths(cu, methodNames);
+//        methodNames.forEach(n -> System.out.println("Methods Collected: " + n));
 
         List<String> ClassNames = new ArrayList<>();
         VoidVisitor<List<String>> ClassNameCollector = new ClassCollector();
