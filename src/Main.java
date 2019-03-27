@@ -31,8 +31,8 @@ public class Main {
 //        //    System.out.println(s + "\n");
 //        }
 //        JavaFileParser ourParser = new JavaFileParser();
-      //  List myclass = ourParser.parseFileToClassObject(new File("C://Users//kiowa//Desktop//classLoader/test.java"));
-      //  System.out.println("List of classed in file: " + myclass.get(0));
+//        List myclass = ourParser.parseFileToClassObject(new File("C://Users//kiowa//Desktop//classLoader/test.java"));
+//        System.out.println("List of classed in file: " + myclass.get(0));
 
 
         //VistorStarted
@@ -41,10 +41,10 @@ public class Main {
         VoidVisitor<?> methodNameVisitor = new MethodNamePrinter();
         methodNameVisitor.visit(cu, null);
 
-        List<String> methodNames = new ArrayList<>();
-        VoidVisitor<List<String>> methodNameCollector = new MethodCollector();
+        List<MethodDeclaration> methodNames = new ArrayList<>();
+        VoidVisitor<List<MethodDeclaration>> methodNameCollector = new MethodCollector();
         methodNameCollector.visit(cu, methodNames);
-        methodNames.forEach(n -> System.out.println("Methods Collected: " + n));
+        methodNames.forEach(n -> System.out.println("Methods Collected: " + n.getBody()));
 
         List<String> ClassNames = new ArrayList<>();
         VoidVisitor<List<String>> ClassNameCollector = new ClassCollector();
