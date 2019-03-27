@@ -7,7 +7,6 @@ import com.github.javaparser.ast.visitor.VoidVisitor;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import parser.JavaFileParser;
 import com.github.javaparser.StaticJavaParser;
-
 import java.util.List;
 
 public class MethodCollector extends VoidVisitorAdapter<List<String>> {

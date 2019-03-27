@@ -1,6 +1,7 @@
 import BloatedCodeCheckers.ClassBloatedCodeChecker;
 import BloatedCodeCheckers.BloatedCodeChecker;
 import BloatedCodeCheckers.MethodBloatedCodeChecker;
+import JavaFileVisitors.MethodCollector;
 import ProjectReader.FileChooser;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
@@ -14,6 +15,7 @@ import com.github.javaparser.StaticJavaParser;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +39,11 @@ public class Main {
         CompilationUnit cu = StaticJavaParser.parse(new File(FILE_PATH));
         VoidVisitor<?> methodNameVisitor = new MethodNamePrinter();
         methodNameVisitor.visit(cu, null);
+
+        List<String> methodNames = new ArrayList<>();
+        VoidVisitor<List<String>> methodNameCollector = new MethodCollector();
+        methodNameCollector.visit(cu, methodNames);
+        methodNames.forEach(n -> System.out.println("Methods Collected: " + n));
 
     }
 
