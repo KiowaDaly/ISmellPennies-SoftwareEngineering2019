@@ -1,6 +1,7 @@
 import BloatedCodeCheckers.ClassBloatedCodeChecker;
 import BloatedCodeCheckers.BloatedCodeChecker;
 import BloatedCodeCheckers.MethodBloatedCodeChecker;
+import JavaFileVisitors.ClassCollector;
 import JavaFileVisitors.MethodCollector;
 import ProjectReader.FileChooser;
 import com.github.javaparser.JavaParser;
@@ -44,6 +45,11 @@ public class Main {
         VoidVisitor<List<String>> methodNameCollector = new MethodCollector();
         methodNameCollector.visit(cu, methodNames);
         methodNames.forEach(n -> System.out.println("Methods Collected: " + n));
+
+        List<String> ClassNames = new ArrayList<>();
+        VoidVisitor<List<String>> ClassNameCollector = new ClassCollector();
+        ClassNameCollector.visit(cu, ClassNames);
+        ClassNames.forEach(n -> System.out.println("Classes in File: " + n));
 
     }
 

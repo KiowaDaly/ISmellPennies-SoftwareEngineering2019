@@ -10,4 +10,7 @@ public class test{
 	private double random(){
 		return 0;
 	}
+	private class test2{
+		//empty class
+	}
 }
