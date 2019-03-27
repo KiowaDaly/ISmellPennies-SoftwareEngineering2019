@@ -16,12 +16,12 @@ public class Main {
 
         CompilationUnit cu = StaticJavaParser.parse(new File(FILE_PATH));
         List<MethodDeclaration> methodNames = new ArrayList<>();
-        VoidVisitor<List<MethodDeclaration>> myMethods = new MethodCollector();
+        MethodCollector myMethods = new MethodCollector();
         System.out.println("\n -----------METHOD LENGTH BLOAT CHECK-----------\n");
-        ((MethodCollector) myMethods).MethodLengths(cu,methodNames);
+        myMethods.MethodLengths(cu,methodNames);
         System.out.println("\n -----------COMMENT BLOAT CHECK-----------\n");
         List<MethodDeclaration> methodName = new ArrayList<>();
-        ((MethodCollector) myMethods).getNumCommentsOfEachMethod(cu,methodName);
+        myMethods.getNumCommentsOfEachMethod(cu,methodName);
         System.out.println("\n -----------OTHER CHECKS-----------\n");
         List<String> ClassNames = new ArrayList<>();
         VoidVisitor<List<String>> ClassNameCollector = new ClassCollector();
