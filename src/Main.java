@@ -57,7 +57,7 @@ public class Main {
 
         public void visit(MethodDeclaration md, Void arg) {
             super.visit(md, arg);
-            System.out.println("Method Name Printed: " + md.getAccessSpecifier().toString());
+            System.out.println("Methods Printed: " + md.getEnd() + md.getBegin() + (md.getDeclarationAsString())+ (md.getEnd().get().line - md.getBegin().get().line - 1) );
         }
     }
 

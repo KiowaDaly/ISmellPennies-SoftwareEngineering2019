@@ -9,4 +9,5 @@ public class ClassCollector extends VoidVisitorAdapter<List<String>> {
         super.visit(cl, collector);
         collector.add(cl.getNameAsString());
     }
+
 }

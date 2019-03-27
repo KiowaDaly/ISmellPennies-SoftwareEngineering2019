@@ -14,5 +14,7 @@ public class MethodCollector extends VoidVisitorAdapter<List<String>> {
     public void visit(MethodDeclaration md, List<String> collector) {
         super.visit(md, collector);
         collector.add(md.getNameAsString());
+
+
     }
 }
