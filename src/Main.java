@@ -37,6 +37,7 @@ public class Main {
         CompilationUnit cu = StaticJavaParser.parse(new File(FILE_PATH));
         VoidVisitor<?> methodNameVisitor = new MethodNamePrinter();
         methodNameVisitor.visit(cu, null);
+
     }
 
     public static class MethodNamePrinter extends VoidVisitorAdapter<Void> {
@@ -46,6 +47,7 @@ public class Main {
             System.out.println("Method Name Printed: " + md.getAccessSpecifier().toString());
         }
     }
+
 
 
 
