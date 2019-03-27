@@ -7,4 +7,7 @@ public class test{
 	protected int getNumber(){
 		return number;
 	}
+	private double random(){
+		return 0;
+	}
 }
