@@ -57,7 +57,7 @@ public class Main {
 
         public void visit(MethodDeclaration md, Void arg) {
             super.visit(md, arg);
-            System.out.println("Methods Printed: " + md.getEnd() + md.getBegin() + (md.getDeclarationAsString())+ (md.getEnd().get().line - md.getBegin().get().line - 1) );
+            System.out.println("Printed Method: " + "\tMethod Name: "  + md.getDeclarationAsString().toString() + "\tLines and Columns: " + md.getEnd() + md.getBegin() + "\tNo. of lines of method body: " + (md.getEnd().get().line - md.getBegin().get().line - 1) );
         }
     }
 
