@@ -19,8 +19,8 @@ public class JavaFileParser {
     public List parseFileToClassObject(File file) throws IOException {
         Class ParsedClass = null;
         CompilationUnit Cu = StaticJavaParser.parse(file);
-        List<Class> myList = new ArrayList<>();
-        Cu.findAll(ClassOrInterfaceDeclaration.class).stream().filter(c->!c.isInterface()&&!c.isAbstract()).forEach(c->{myList.add();});
+        List<Object> myList = new ArrayList<>();
+        Cu.findAll(ClassOrInterfaceDeclaration.class).stream().filter(c->!c.isInterface()&&!c.isAbstract()).forEach(c->{myList.add(c);});
 
         return myList;
    }
