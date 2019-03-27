@@ -27,8 +27,5 @@ public class MethodCollector extends VoidVisitorAdapter<List<MethodDeclaration>>
         collector.forEach(n -> {int numComments = n.getBody().get().getAllContainedComments().size();
                                     System.out.println("Method: "+n.getNameAsString()+" has "+numComments+" Comments!");});
     }
-    public void getNumFields(CompilationUnit md, List<MethodDeclaration> collector){
-        visit(md,collector);
-        collector.forEach(n -> {int numVariables = n.getBody().get().});
-    }
+
 }
