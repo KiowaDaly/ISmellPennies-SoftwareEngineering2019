@@ -2,12 +2,19 @@ import BloatedCodeCheckers.ClassBloatedCodeChecker;
 import BloatedCodeCheckers.BloatedCodeChecker;
 import BloatedCodeCheckers.MethodBloatedCodeChecker;
 import ProjectReader.FileChooser;
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import parser.JavaFileParser;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.List;
+import java.util.Optional;
 
 
 public class Main {
-    public static void main(String[] argc) throws MalformedURLException, ClassNotFoundException {
+    public static void main(String[] argc) throws IOException, ClassNotFoundException {
 
 
 
@@ -16,9 +23,13 @@ public class Main {
         for(String s:folder.selectFolder().list()){
             System.out.println(s+"\n");
         }
-        //THIS FILE IS FOR TESTING PURPOSES - NOT THE REAL MAIN METHOD
+        JavaFileParser ourParser = new JavaFileParser();
+        List myclass =  ourParser.parseFileToClassObject(new File("C://Users//kiowa//Desktop//classLoader/test.java"));
+        System.out.println("List of classed in file: "+ myclass.get(0));
+
+
+       //THIS FILE IS FOR TESTING PURPOSES - NOT THE REAL MAIN METHOD
        // myClassLoader loader = new myClassLoader();
-//        MethodBloatedCodeChecker methodCheck = new MethodBloatedCodeChecker(ClassBloatedCodeChecker.class.getMethods()[1]);
 //        ClassBloatedCodeChecker bloatedCheck = new ClassBloatedCodeChecker(BloatedCodeChecker.class);
 //        System.out.println(bloatedCheck.getClassName() +" has "+ bloatedCheck.getNumberOfMethods() +" user defined methods");
 //        System.out.println(methodCheck.methodHasTooManyParameters());

@@ -11,18 +11,18 @@ public class ClassBloatedCodeChecker extends BloatedCodeChecker {
     }
 
     public int getNumberOfMethods(){
-        //TODO read the number of method declaractions in the class
         return  class_object.getDeclaredMethods().length;
     }
+
     public boolean hasTooManyMethods(){
         return getNumberOfMethods() > METHOD_NUMBER_THRESHOLD;
     }
 
-    public boolean hasTooManyField(){
+    public boolean hasTooManyFields(){
         return class_object.getDeclaredFields().length > FIELD_NUMBER_THRESHOLD;
     }
 
-    public long getLength  (File myFile){
+    public long getLengthOfFile(File myFile){
         return myFile.length();
     }
 
