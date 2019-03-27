@@ -10,11 +10,9 @@ import com.github.javaparser.StaticJavaParser;
 
 import java.util.List;
 
-public class MethodCollector extends VoidVisitorAdapter<List<MethodDeclaration>> {
-    public void visit(MethodDeclaration md, List<MethodDeclaration> collector) {
+public class MethodCollector extends VoidVisitorAdapter<List<String>> {
+    public void visit(MethodDeclaration md, List<String> collector) {
         super.visit(md, collector);
-        collector.add(md);
+        collector.add(md.getNameAsString());
     }
-
-
 }
