@@ -36,13 +36,7 @@ public class Main {
         CompilationUnit cu = StaticJavaParser.parse(new File(FILE_PATH));
     }
 
-    private static class MethodNamePrinter extends VoidVisitorAdapter<Void> {
 
-        public void visit(MethodDeclaration md, Void arg) {
-            super.visit(md, arg);
-            System.out.println("Method Name Printed: " + md.getName());
-        }
-    }
 
 
        //THIS FILE IS FOR TESTING PURPOSES - NOT THE REAL MAIN METHOD
