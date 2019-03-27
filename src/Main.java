@@ -18,7 +18,7 @@ import java.util.Optional;
 
 
 public class Main {
-    private static final String FILE_PATH = "C:/Users/rebec/IdeaProjects/ISmellPennies-SoftwareEngineering2019/src";
+    private static final String FILE_PATH = "src/test.java";
 
     public static void main(String[] argc) throws IOException, ClassNotFoundException, Exception {
 //        FileChooser folder = new FileChooser();
