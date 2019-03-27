@@ -8,7 +8,9 @@ public class test{
 		return number;
 	}
 	private double random(){
+		//This is a comment in random
 		return 0;
+
 	}
 	private class test2{
 		//empty class
