@@ -42,11 +42,18 @@ public class Main {
         methodNameVisitor.visit(cu, null);
 
         List<MethodDeclaration> methodNames = new ArrayList<>();
-        VoidVisitor<List<MethodDeclaration>> methodNameCollector = new MethodCollector();
-        methodNameCollector.visit(cu, methodNames);
-        methodNameCollector.MethodLengths(cu, methodNames);
+//        VoidVisitor<List<MethodDeclaration>> methodNameCollector = new MethodCollector();
+//        methodNameCollector.visit(cu, methodNames);
+//        methodNameCollector.MethodLengths(cu, methodNames);
 //        methodNames.forEach(n -> System.out.println("Methods Collected: " + n));
 
+        VoidVisitor<List<MethodDeclaration>> myMethods = new MethodCollector();
+        System.out.println("\n -----------METHOD LENGTH BLOAT CHECK-----------\n");
+        ((MethodCollector) myMethods).MethodLengths(cu,methodNames);
+        System.out.println("\n -----------COMMENT BLOAT CHECK-----------\n");
+        List<MethodDeclaration> methodName = new ArrayList<>();
+        ((MethodCollector) myMethods).getNumCommentsOfEachMethod(cu,methodName);
+        System.out.println("\n -----------OTHER CHECKS-----------\n");
         List<String> ClassNames = new ArrayList<>();
         VoidVisitor<List<String>> ClassNameCollector = new ClassCollector();
         ClassNameCollector.visit(cu, ClassNames);

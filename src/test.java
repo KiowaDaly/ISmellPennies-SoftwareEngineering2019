@@ -8,8 +8,12 @@ public class test{
 	protected int getNumber(){
 		number++;
 		return number;
+		//comment 1
+		//comment 2
+		//comment 3
 	}
 	private double random(){
+		//1 comment
 		return 0;
 	}
 	private class test2{
