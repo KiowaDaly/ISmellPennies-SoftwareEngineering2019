@@ -22,7 +22,6 @@ public class CompilationUnitVisitor extends VoidVisitorAdapter<List<ClassOrInter
 
     public void visit(ClassOrInterfaceDeclaration cls, List<ClassOrInterfaceDeclaration> collector_class){
         super.visit(cls, collector_class);
-       // System.out.println("Class found: " + md.getName());
         collector_class.add(cls);
     }
 

@@ -38,22 +38,10 @@ public class Main {
 //            ClassBloatChecks ClassNameCollector = new ClassBloatChecks();
 //            ClassNameCollector.GetClassLengths(cu,ClassNames);
 //        }
-            File myfile = new File("src/test.java");
-            CompilationUnit cu = StaticJavaParser.parse(myfile);
-//            List<ClassOrInterfaceDeclaration> list = new ArrayList<>();
-//
-//        GenericVisitorAdapter compilationUnitVisitor = new CompilationUnitVisitor();
-//        ((CompilationUnitVisitor) compilationUnitVisitor).visit(cu, list);
-//        System.out.println("List:" + list.size());
+        File myfile = new File("src/test.java");
+        CompilationUnit cu = StaticJavaParser.parse(myfile);
 
-//
-//        list.forEach(n -> {
-//            System.out.println("\nChecking class: " + n.getNameAsString()+"\n");
-//            System.out.println("\nNumber of lines: "+check.getNumLines(n));
-//            System.out.println("\nNumber of Comments: "+check.getNumComments(n));
-//            System.out.println("\nNumber of fields: "+check.getNumFields(n));
-//            System.out.println("\nNumber of methods: "+check.getNumMethods(n));
-//        });
+
         ClassBloatChecks check_bloat = new ClassBloatChecks();
         List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();
         CompilationUnitVisitor compunitvisitor = new CompilationUnitVisitor();
