@@ -7,10 +7,12 @@ public class MethodBloatChecks implements BloatChecking<Integer,MethodDeclaratio
       The number of lines in the code, it then prints out the method name and the length of it.
     */
 
-    public Integer getNumLines(MethodDeclaration md) { return (md.getEnd().get().line - md.getBegin().get().line - 1); }
+    public Integer getNumLines(MethodDeclaration md) {
+        return (md.getEnd().get().line - md.getBegin().get().line - 1);
+    }
 
     public Integer getNumComments(MethodDeclaration md) {
-        return md.getBody().get().getAllContainedComments().size();
+        return md.getAllContainedComments().size();
     }
 
 
