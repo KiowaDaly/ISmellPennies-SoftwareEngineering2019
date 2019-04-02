@@ -16,7 +16,5 @@ public class test{
 		//1 comment
 		return 0;
 	}
-	private class test2{
-		//empty class
-	}
+
 }
