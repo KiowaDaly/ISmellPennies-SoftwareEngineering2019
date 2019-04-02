@@ -2,6 +2,7 @@
 
 
 import BloatCheckers.ClassBloatChecks;
+import BloatCheckers.MethodBloatChecks;
 import ProjectReader.FileChooser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
@@ -20,39 +21,37 @@ public class Main {
 
     public static void main(String[] argc) throws Exception {
 
-//        FileChooser FileExplorer = new FileChooser();
-//        File ourProject = FileExplorer.selectFolder();
-//        File[] f = ourProject.listFiles((dir, name) -> name.toLowerCase().endsWith(".java"));
-//        for(File fi:f){
-//            CompilationUnit cu = StaticJavaParser.parse(fi);
-//            List<MethodDeclaration> methodNames = new ArrayList<>();
-//            MethodBloatChecks myMethods = new MethodBloatChecks();
-//            System.out.println("\n -----------METHOD LENGTH BLOAT CHECK-----------\n");
-//            myMethods.MethodLengths(cu,methodNames);
-//            System.out.println("\n -----------COMMENT BLOAT CHECK-----------\n");
-//            List<MethodDeclaration> methodName = new ArrayList<>();
-//            myMethods.getNumCommentsOfEachMethod(cu,methodName);
-//
-//            System.out.println("\n -----------CLASS LENGTH CHECKS-----------\n");
-//            List<ClassOrInterfaceDeclaration> ClassNames = new ArrayList<>();
-//            ClassBloatChecks ClassNameCollector = new ClassBloatChecks();
-//            ClassNameCollector.GetClassLengths(cu,ClassNames);
-//        }
-        File myfile = new File("src/test.java");
-        CompilationUnit cu = StaticJavaParser.parse(myfile);
+        FileChooser FileExplorer = new FileChooser();
+        File ourProject = FileExplorer.selectFolder();
+        File[] f = ourProject.listFiles((dir, name) -> name.toLowerCase().endsWith(".java"));
+        for(File fi:f){
+            CompilationUnit cu = StaticJavaParser.parse(fi);
+            ClassBloatChecks check_bloat = new ClassBloatChecks();
+            MethodBloatChecks method_bloat = new MethodBloatChecks();
+            List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();
+            CompilationUnitVisitor compunitvisitor = new CompilationUnitVisitor();
+            compunitvisitor.visit(cu, classes);
+            for(ClassOrInterfaceDeclaration n:classes){
+                System.out.println();
+                System.out.println("====== TESTING CLASS: " + n.getNameAsString().toUpperCase()+" ======");
+                System.out.println("\nNumber of lines: "+ check_bloat.getNumLines(n));
+                System.out.println("\nNumber of Comments: "+ check_bloat.getNumComments(n));
+                System.out.println("\nNumber of fields: "+ check_bloat.getNumFields(n));
+                System.out.println("\nNumber of methods: "+ check_bloat.getNumMethods(n));
+                for (MethodDeclaration m:n.getMethods()) {
+                    System.out.println("\n=================================");
+                    System.out.println("Method: " + m.getNameAsString());
+                    System.out.println("Number of Lines: "+ method_bloat.getNumLines(m));
+                    System.out.println("Number of Comments: "+ method_bloat.getNumComments(m));
+                    System.out.println("Number of parameter: "+ method_bloat.getNumParameters(m));
+                }
+            }
+
+        }
 
 
-        ClassBloatChecks check_bloat = new ClassBloatChecks();
-        List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();
-        CompilationUnitVisitor compunitvisitor = new CompilationUnitVisitor();
-        compunitvisitor.visit(cu, classes);
-        classes.forEach(n -> {
-            System.out.println("Name of class: " + n.getName());
-            System.out.println("\nNumber of lines: "+ check_bloat.getNumLines(n));
-            System.out.println("\nNumber of Comments: "+ check_bloat.getNumComments(n));
-            System.out.println("\nNumber of fields: "+ check_bloat.getNumFields(n));
-            System.out.println("\nNumber of methods: "+ check_bloat.getNumMethods(n));
-        });
+
+
 
 
 

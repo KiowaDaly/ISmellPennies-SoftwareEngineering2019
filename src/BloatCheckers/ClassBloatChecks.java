@@ -1,15 +1,7 @@
 package BloatCheckers;
-
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.visitor.GenericVisitorAdapter;
-import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
-import java.util.List;
 
 public class ClassBloatChecks implements BloatChecking<Integer,ClassOrInterfaceDeclaration> {
-
-
 
     public Integer getNumLines(ClassOrInterfaceDeclaration n) {
         return (n.getEnd().get().line - n.getBegin().get().line - 1);
