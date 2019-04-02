@@ -2,10 +2,6 @@ package BloatCheckers;
 
 
 
-import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.TypeDeclaration;
-import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.metamodel.TypeDeclarationMetaModel;
 
 
 public interface BloatChecking<T,U>{
