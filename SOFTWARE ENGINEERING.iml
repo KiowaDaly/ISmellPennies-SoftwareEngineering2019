@@ -30,5 +30,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="animal-sniffer-annotations-1.17" level="project" />
   </component>
 </module>
