@@ -78,12 +78,11 @@ public class Main {
         HashMap<ClassOrInterfaceDeclaration,HashMap> map = checkBloats.getClassThreats();
         checkBloats.performBloatChecks();
         for (ClassOrInterfaceDeclaration cl : map.keySet()) {
-
             HashMap value = map.get(cl);
-
             Set<BloatedCodeAbuseCheck.ThreatLevel> t =  value.keySet();
             for(BloatedCodeAbuseCheck.ThreatLevel tl:t ){
                 System.out.println("CLASS: "+cl.getNameAsString().toUpperCase()+" has a Bloat threat level of: "+tl.toString());
+
             }
         }
 
