@@ -11,17 +11,13 @@ public class ClassBloatChecks implements BloatChecking<Integer,ClassOrInterfaceD
         return n.getAllContainedComments().size();
     }
 
-    public Integer getNumFields(ClassOrInterfaceDeclaration cl) {
+    public Integer getNumFieldsOrVariables(ClassOrInterfaceDeclaration cl) {
         return cl.getFields().size();
     }
 
     public Integer[] getIDLengths(ClassOrInterfaceDeclaration n) {
         Integer[] array = {};
         return array;
-    }
-
-    public Integer getNumParameters(ClassOrInterfaceDeclaration n) {
-        return 0;
     }
 
     public Integer getNumMethods(ClassOrInterfaceDeclaration n) {

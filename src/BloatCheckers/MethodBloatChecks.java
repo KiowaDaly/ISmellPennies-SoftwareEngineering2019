@@ -1,5 +1,10 @@
 package BloatCheckers;
+import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.VariableDeclarator;
+
+import java.util.List;
+
 @SuppressWarnings("ALL")
 public class MethodBloatChecks implements BloatChecking<Integer,MethodDeclaration> {
 
@@ -16,8 +21,9 @@ public class MethodBloatChecks implements BloatChecking<Integer,MethodDeclaratio
     }
 
 
-    public Integer getNumFields(MethodDeclaration md) {
-        return 0;
+    public Integer getNumFieldsOrVariables(MethodDeclaration md) {
+
+        return md.findAll(VariableDeclarator.class).size();
     }
 
 
@@ -30,9 +36,5 @@ public class MethodBloatChecks implements BloatChecking<Integer,MethodDeclaratio
         return md.getParameters().size();
     }
 
-
-    public Integer getNumMethods(MethodDeclaration md) {
-        return 0;
-    }
 
 }
