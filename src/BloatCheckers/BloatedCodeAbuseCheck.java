@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class BloatedCodeAbuseCheck {
-    private enum ThreatLevel{
+    public enum ThreatLevel{
         NONE,LOW,MEDIUM,HIGH
     }
     private final int METHOD_THRESHOLD = 15;
-    private final double COMMENT_THRESHOLD = 0.5;
+    private final double COMMENT_THRESHOLD = 1;
     private final int CLASS_LENGTH_THRESHOLD = 200;
     private final int VARIABLE_THRESHOLD = 20;
     final int METHOD_LINE_THRESHOLD = 30;
@@ -38,7 +38,7 @@ public class BloatedCodeAbuseCheck {
             int threatValue = 0;
             int classLength = check_bloat.getNumLines(n);
             threatValue += (classLength > CLASS_LENGTH_THRESHOLD)?1:0;
-            threatValue += ((classLength-check_bloat.getNumComments(n))/classLength > COMMENT_THRESHOLD) ? 1:0;
+            threatValue += ((classLength-check_bloat.getNumComments(n))/classLength < COMMENT_THRESHOLD) ? 1:0;
             threatValue += (check_bloat.getNumFieldsOrVariables(n) > VARIABLE_THRESHOLD) ? 1:0;
             threatValue += (check_bloat.getNumMethods(n) > METHOD_THRESHOLD) ? 1:0;
             for (MethodDeclaration m:n.getMethods()) {
