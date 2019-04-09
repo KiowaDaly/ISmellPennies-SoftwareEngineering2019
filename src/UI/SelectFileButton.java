@@ -1,6 +1,6 @@
 package UI;
 
-import ProjectReader.FileChooser;
+import Project_FileAnalyser.FileChooser;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
