@@ -7,17 +7,18 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.SwitchStmt;
+import utility_classes.ThreatLevel;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class SwitchChecker {
 
-    private enum complexityLevel{
-        None, Low, Medium, High
-    }
+   // public enum complexityLevel{
+  //      None, Low, Medium, High
+ //   }
 
-    private complexityLevel complexity; //TODO remove static
+    private ThreatLevel complexity; //TODO remove static
     private int numberOfSwitches;
     private int numberOfComplexSwitches;
     private List<Integer> line; //line.get(0) and line.get(1) are the start and end of the switch line.
@@ -26,7 +27,7 @@ public class SwitchChecker {
     public SwitchChecker(){
         numberOfSwitches = 0;
         numberOfComplexSwitches = 0;
-        complexity = complexityLevel.None;
+        complexity = ThreatLevel.NONE;
     }
 
     private boolean containsSwitch(MethodDeclaration md){ //remove static
@@ -69,26 +70,26 @@ public class SwitchChecker {
         }
         return numSwitches;
     }
-    public String complexityOfClass(ClassOrInterfaceDeclaration cl){
+    public ThreatLevel complexityOfClass(ClassOrInterfaceDeclaration cl){
         int numSwitches = 0;
         List<MethodDeclaration> methods = cl.getMethods();
         //iterate through all the declared methods in the given class 'cl'
         for(MethodDeclaration m: methods){
             if(containsSwitch(m)){
                 Statement switchStmt = getSwitchStatement(m);
-                complexityLevel complex = switchComplexity(switchStmt);
+                ThreatLevel complex = switchComplexity(switchStmt);
                 //if complex is greater to complexity, we reached higher complexity so set it.
                 if(complex.compareTo(complexity)>0){
                     complexity = complex;
                 }
             }
-            if(complexity==complexityLevel.High)
+            if(complexity==ThreatLevel.HIGH)
                 break;
         }
-        return complexity.toString();
+        return complexity;
     }
-    private complexityLevel switchComplexity(Statement stmt){
-        complexityLevel complexity = complexityLevel.None; //(0,1,2,3) (None, low, medium, high)
+    private ThreatLevel switchComplexity(Statement stmt){
+        ThreatLevel complexity; //(0,1,2,3) (None, low, medium, high)
         int linesPerCase = 0;
         for(Node statementChildren: stmt.getChildNodes()){
             //if the current case complexity is higher then what we have, switch complexity to that.
@@ -108,13 +109,13 @@ public class SwitchChecker {
 
         //set complexity according to linesPerCase found.
         if(linesPerCase >= 2){
-            complexity = complexityLevel.Low;
+            complexity = ThreatLevel.LOW;
         }
         else if(linesPerCase >= 5){
-            complexity = complexityLevel.Medium;
+            complexity = ThreatLevel.MEDIUM;
         }
         else{
-            complexity = complexityLevel.High;
+            complexity = ThreatLevel.HIGH;
         }
         return complexity;
     }

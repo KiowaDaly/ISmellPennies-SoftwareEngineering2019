@@ -6,6 +6,7 @@ public class test{
 		this.number = number;
 	}
 	protected int getNumber(){
+		int x = 44;
 		number++;
 		return number;
 		//comment 1
