@@ -45,6 +45,7 @@ public class Main {
     }
     public static void compUnitLoop(File fi) throws FileNotFoundException {
         CompilationUnit cu = StaticJavaParser.parse(fi);
+
         ClassBloatChecks check_bloat = new ClassBloatChecks();
         MethodBloatChecks method_bloat = new MethodBloatChecks();
         SwitchChecker switchAnalysis = new SwitchChecker();
