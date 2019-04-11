@@ -57,13 +57,21 @@ public class SmellDetectorCalls {
         return detections;
     }
 
-    public void printResults(){
+    public String printResults(){
+        String string = "";
         for (ClassOrInterfaceDeclaration cl : detections.keySet()) {
          ClassThreatLevels value = detections.get(cl);
-         System.out.println("\nCLASS:  "+cl.getName());
-         System.out.println("Bloatedness: "+value.getBloatThreatLevel());
-         System.out.println("Complexity: "+value.getOOAbuseThreatLevel());
+
+//            System.out.println("\nCLASS:  "+cl.getName());
+//            System.out.println("\nBloatedness: "+value.getBloatThreatLevel());
+//            System.out.println("\nComplexity: "+value.getOOAbuseThreatLevel());
+
+         string += "\n\nCLASS:  "+cl.getName();
+         string += "\nBloatedness: "+value.getBloatThreatLevel();
+         string += "\nComplexity: "+value.getOOAbuseThreatLevel();
         }
+
+        return string;
     }
 
 
