@@ -28,7 +28,6 @@ public class DataHiding {
         this.clase = clase;
         numberOfFields = clase.getFields().size();;
         numberOfPrivates = getGlobalPrivates();
-
     }
     private int getGlobalPrivates(){
         //returns the number of private fields found.
@@ -41,10 +40,8 @@ public class DataHiding {
                numPrivates++;
            }
        }
-
         return numPrivates;
     }
-
     private boolean isReturningDeclaredObject(MethodDeclaration method){
         boolean invalidReturn = false;
         BlockStmt blockStmt = method.getBody().get();
@@ -75,16 +72,12 @@ public class DataHiding {
                         Statement s = StaticJavaParser.parseStatement("return "+fieldName);
                         if(s.equals(stmt))
                             invalidReturn =  true;
-
                     }
-
                 }
             }
         }
-
         return invalidReturn;
     }
-
 
     private boolean isReturningMutable(){
         /*

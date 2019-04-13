@@ -14,7 +14,7 @@ public class FileChooser {
    //open file explorer
 
     //function that opens the users file explorer to select and return a folder
-    @FXML
+
     public File selectFolder() {
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(chooser.FILES_AND_DIRECTORIES);
