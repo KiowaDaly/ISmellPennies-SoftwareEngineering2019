@@ -83,9 +83,7 @@ public class SmellDetectorCalls {
          System.out.println("\nCLASS:  "+cl.getName());
          System.out.println("Bloatedness: "+value.getBloatThreatLevel());
          System.out.println("Complexity: "+value.getOOAbuseThreatLevel());
-            DataHiding dh = new DataHiding(cl);
-            System.out.println("Data Hiding [returns objecs]: "+dh.isReturnObjects());
-            System.out.println("Data Hiding [encapsulation]: "+dh.isSufficientPrivatisation());
+            
         }
     }
 
