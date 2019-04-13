@@ -1,7 +1,7 @@
 package UI;
 /* THIS FILE IS WHERE WE IMPLEMENT THE FUNCTIONS THAT TIE OUR CODE TO THE UI SCENE
  */
-import Project_FileAnalyser.FileChooser;
+import Project_FileAnalyser.FileHandler;
 import Project_FileAnalyser.SmellDetectorCalls;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import javafx.collections.FXCollections;
@@ -30,7 +30,7 @@ public class MainController {
 
     //function that is called when we click the "choose file" button.
     public void selectFile() throws FileNotFoundException {
-        FileChooser FileExplorer = new FileChooser();
+        FileHandler FileExplorer = new FileHandler();
         File ourProject = FileExplorer.selectFolder();
         String s = FileExplorer.getResults(ourProject);
         //RESULTS.setText("----------> SMELL CHECK RESULTS <----------\n\n" + s);
@@ -47,7 +47,7 @@ public class MainController {
         for(ClassOrInterfaceDeclaration cl: SmellDetectorCalls.getInstance().getDetections().keySet()){
             //since the method getSelectionModel returns a string we have to check for equivalence like this
             if(cl.getNameAsString() == s){
-                RESULTS.setText("Bloat level: " + SmellDetectorCalls.getInstance().getDetections().get(cl).getBloatThreatLevel()+"\n"+
+                RESULTS.setText("Bloat level: " + SmellDetectorCalls.getInstance().getDetections().get(cl).getBloatThreatLevel()+"\nComplexity Level: "+
                         SmellDetectorCalls.getInstance().getDetections().get(cl).getOOAbuseThreatLevel()+"\n" + cl.toString());
             }
         }
@@ -63,7 +63,7 @@ public class MainController {
         List<File> f = event.getDragboard().getFiles();
         File myFile = f.get(0);
         System.out.println(myFile.getName());
-        FileChooser FileExplorer = new FileChooser();
+        FileHandler FileExplorer = new FileHandler();
         String s = FileExplorer.getResults(myFile);
         for(ClassOrInterfaceDeclaration cl: SmellDetectorCalls.getInstance().getDetections().keySet()){
             items.add(cl.getNameAsString());

@@ -1,5 +1,5 @@
 //
-//import Project_FileAnalyser.FileChooser;
+//import Project_FileAnalyser.FileHandler;
 //
 //import java.io.File;
 //
@@ -9,7 +9,7 @@
 //
 //    public static void main(String[] argc) throws Exception {
 //
-//        FileChooser FileExplorer = new FileChooser();
+//        FileHandler FileExplorer = new FileHandler();
 //        File ourProject = FileExplorer.selectFolder();
 //        System.out.println("----------> SMELL CHECK RESULTS <----------");
 //        FileExplorer.loopFolders(ourProject);

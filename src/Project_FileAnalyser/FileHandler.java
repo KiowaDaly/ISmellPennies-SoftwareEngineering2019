@@ -1,25 +1,22 @@
 package Project_FileAnalyser;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
-import javafx.fxml.FXML;
-
-import javax.swing.*;
+import javafx.stage.DirectoryChooser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class FileChooser {
+public class FileHandler {
    //open file explorer
 
     //function that opens the users file explorer to select and return a folder
-    @FXML
+
     public File selectFolder() {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setFileSelectionMode(chooser.FILES_AND_DIRECTORIES);
-        chooser.showOpenDialog(null);
-        return chooser.getSelectedFile();
+        DirectoryChooser Directory = new DirectoryChooser();
+        Directory.setTitle("Select desired source folder");
+        return  Directory.showDialog(null);
     }
 
     public String getResults(File f) throws FileNotFoundException {
