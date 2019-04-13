@@ -83,7 +83,7 @@ public class SmellDetectorCalls {
          System.out.println("\nCLASS:  "+cl.getName());
          System.out.println("Bloatedness: "+value.getBloatThreatLevel());
          System.out.println("Complexity: "+value.getOOAbuseThreatLevel());
-            
+         
         }
     }
 
