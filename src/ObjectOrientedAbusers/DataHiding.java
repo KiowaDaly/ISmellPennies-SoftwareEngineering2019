@@ -90,13 +90,14 @@ public class DataHiding {
                         continue;
                     //check if the field is primitive
                     boolean isPrimitve = f.getElementType().isPrimitiveType();
+                    boolean isPrivateField = f.isPublic();
                     //get the string name of the field (private static int age; returns "age")
                     //And (private static int age = 24; returns "age"
                     String fieldName = getFieldName(f.toString().split(" "));
                     //check if that method is being returned.
                     Statement s = StaticJavaParser.parseStatement("return "+fieldName+";");
                     //check if the return is equal to the fieldDeclaration and is it notPrimitive
-                    if(s.equals(stmt) && !isPrimitve) {
+                    if(s.equals(stmt) && !isPrimitve && isPrivateField) {
                         invalidReturn = true;
                     }
                 }
