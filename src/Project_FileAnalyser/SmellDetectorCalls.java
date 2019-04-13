@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-
+//testing it worked
 public class SmellDetectorCalls {
     private static SmellDetectorCalls INSTANCE = null;
     //store the class and its corresponding threat levels in a hashmap

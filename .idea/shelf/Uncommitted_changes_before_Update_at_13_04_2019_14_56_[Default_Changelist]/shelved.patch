@@ -1,0 +1,31 @@
+Index: src/Project_FileAnalyser/SmellDetectorCalls.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package Project_FileAnalyser;\r\nimport BloatCheckers.BloatedCodeAbuseCheck;\r\nimport ObjectOrientedAbusers.SwitchChecker;\r\nimport com.github.javaparser.ast.CompilationUnit;\r\nimport com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;\r\nimport utility_classes.ClassThreatLevels;\r\nimport utility_classes.CompilationUnitVisitor;\r\nimport utility_classes.ThreatLevel;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.HashMap;\r\nimport java.util.List;\r\nimport java.util.Set;\r\n\r\npublic class SmellDetectorCalls {\r\n    private static SmellDetectorCalls INSTANCE = null;\r\n    //store the class and its corresponding threat levels in a hashmap\r\n    private HashMap<ClassOrInterfaceDeclaration, ClassThreatLevels> detections = new HashMap<>();\r\n    private List<CompilationUnit> units;\r\n\r\n    private SmellDetectorCalls(List<CompilationUnit> units) {\r\n        this.units = units;\r\n    }\r\n\r\n    public static SmellDetectorCalls getInstance(){\r\n        if(INSTANCE == null){\r\n            throw new AssertionError(\"Initialize class first\");\r\n        }\r\n        return INSTANCE;\r\n    }\r\n\r\n    public synchronized static SmellDetectorCalls init(List<CompilationUnit> units){\r\n        if (INSTANCE != null)\r\n        {\r\n            // in my opinion this is optional, but for the purists it ensures\r\n            // that you only ever get the same instance when you call getInstance\r\n            throw new AssertionError(\"You already initialized me\");\r\n        }\r\n\r\n        INSTANCE = new SmellDetectorCalls(units);\r\n        return INSTANCE;\r\n    }\r\n    //function below is where you call on the different classes\r\n    public void AnalyseProject() {\r\n\r\n        //loop through all the different compilation units and create a list of their classes\r\n        for (CompilationUnit cu : units) {\r\n            List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();\r\n            CompilationUnitVisitor compunitvisitor = new CompilationUnitVisitor();\r\n            compunitvisitor.visit(cu, classes);\r\n            //preform the various checks\r\n            BloatedCodeAbuseCheck checkBloats = new BloatedCodeAbuseCheck(classes);\r\n            SwitchChecker switchC = new SwitchChecker();\r\n            checkBloats.performBloatChecks();\r\n            HashMap<ClassOrInterfaceDeclaration, HashMap> map = checkBloats.getClassThreats();\r\n\r\n            /* this for loop is only needed by the bloatAbuse check\r\n            *  it loops through every key in our hashmap \"map\"\r\n            *  it then loops through the inner hashmap that is the value of each key in \"map\"\r\n            *  this is where the blaoted threat level is stored.\r\n            *  we then put the class and its ClassThreatLevels into the detections hashmap\r\n            */\r\n            for (ClassOrInterfaceDeclaration cl : map.keySet()) {\r\n                HashMap value = map.get(cl);\r\n                Set<ThreatLevel> t = value.keySet();\r\n                for (ThreatLevel tl : t) {\r\n                    //place the class name and all its threats in to the hashmap\r\n                    getDetections().put(cl,new ClassThreatLevels(tl,switchC.complexityOfClass(cl)));\r\n                }\r\n            }\r\n        }\r\n    }\r\n//not used yet but will in future.\r\n    public HashMap getAnalysisResults(){\r\n        return getDetections();\r\n    }\r\n\r\n    public String printResults(){\r\n        String string = \"\";\r\n        for (ClassOrInterfaceDeclaration cl : getDetections().keySet()) {\r\n         ClassThreatLevels value = getDetections().get(cl);\r\n\r\n//            System.out.println(\"\\nCLASS:  \"+cl.getName());\r\n//            System.out.println(\"\\nBloatedness: \"+value.getBloatThreatLevel());\r\n//            System.out.println(\"\\nComplexity: \"+value.getOOAbuseThreatLevel());\r\n\r\n         string += \"\\n\\nCLASS:  \"+cl.getName();\r\n         string += \"\\nBloatedness: \"+value.getBloatThreatLevel();\r\n         string += \"\\nComplexity: \"+value.getOOAbuseThreatLevel();\r\n        }\r\n\r\n        return string;\r\n    }\r\n\r\n\r\n    public HashMap<ClassOrInterfaceDeclaration, ClassThreatLevels> getDetections() {\r\n        return detections;\r\n    }\r\n\r\n    public void setDetections(HashMap<ClassOrInterfaceDeclaration, ClassThreatLevels> detections) {\r\n        this.detections = detections;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/Project_FileAnalyser/SmellDetectorCalls.java	(revision 9ec2f3489a5d87510f15dbbae8310f8aa0b6ae54)
++++ src/Project_FileAnalyser/SmellDetectorCalls.java	(date 1555163674780)
+@@ -75,21 +75,11 @@
+         return getDetections();
+     }
+ 
+-    public String printResults(){
+-        String string = "";
+-        for (ClassOrInterfaceDeclaration cl : getDetections().keySet()) {
+-         ClassThreatLevels value = getDetections().get(cl);
+-
+-//            System.out.println("\nCLASS:  "+cl.getName());
+-//            System.out.println("\nBloatedness: "+value.getBloatThreatLevel());
+-//            System.out.println("\nComplexity: "+value.getOOAbuseThreatLevel());
+ 
+          string += "\n\nCLASS:  "+cl.getName();
+          string += "\nBloatedness: "+value.getBloatThreatLevel();
+          string += "\nComplexity: "+value.getOOAbuseThreatLevel();
+         }
+-
+-        return string;
+     }
+ 
+ 

@@ -1,0 +1,63 @@
+Index: src/test.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>public class test{\r\n\tprivate int number;\r\n\r\n\tpublic test(int number){\r\n\t\tthis.number = number;\r\n\t}\r\n\tprotected int getNumber(){\r\n\t\treturn number;\r\n\t}\r\n\tprivate double random(){\r\n\t\treturn 0;\r\n\t}\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/test.java	(revision cf9086b0b12f8596853dc95bc93d8876d703a5e9)
++++ src/test.java	(date 1553720033811)
+@@ -10,4 +10,7 @@
+ 	private double random(){
+ 		return 0;
+ 	}
++	public class test2{
++		//empty class
++	}
+ }
+\ No newline at end of file
+Index: src/JavaFileVisitors/MethodList.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package JavaFileVisitors;\r\n\r\nimport com.github.javaparser.ast.body.MethodDeclaration;\r\nimport com.github.javaparser.ast.visitor.VoidVisitorAdapter;\r\n\r\nimport java.lang.reflect.Method;\r\n\r\npublic class MethodList extends VoidVisitorAdapter<Method> {\r\n    public void visit(MethodDeclaration md, List<Method> arg) {\r\n        super.visit(md, arg);\r\n\r\n        ;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/JavaFileVisitors/MethodList.java	(revision cf9086b0b12f8596853dc95bc93d8876d703a5e9)
++++ src/JavaFileVisitors/MethodList.java	(date 1553719543399)
+@@ -1,12 +1,13 @@
+ package JavaFileVisitors;
+ 
++import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+ import com.github.javaparser.ast.body.MethodDeclaration;
+ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+ 
+ import java.lang.reflect.Method;
+ 
+ public class MethodList extends VoidVisitorAdapter<Method> {
+-    public void visit(MethodDeclaration md, List<Method> arg) {
++    public void visit(ClassOrInterfaceDeclaration , List<Method> arg) {
+         super.visit(md, arg);
+ 
+         ;
+Index: src/JavaFileVisitors/ClassesCollector.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/JavaFileVisitors/ClassesCollector.java	(date 1553720033824)
++++ src/JavaFileVisitors/ClassesCollector.java	(date 1553720033824)
+@@ -0,0 +1,13 @@
++package JavaFileVisitors;
++
++import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
++import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
++
++import java.util.List;
++
++public class ClassesCollector extends VoidVisitorAdapter<List<String>> {
++    public void visit(ClassOrInterfaceDeclaration cl, List<String> collector) {
++        super.visit(cl, collector);
++        collector.add(cl.getNameAsString());
++    }
++}
