@@ -29,7 +29,7 @@ public class MainController {
 
 
     //function that is called when we click the "choose file" button.
-    public void selectFile() throws FileNotFoundException {
+        public void selectFile() throws FileNotFoundException {
         FileHandler FileExplorer = new FileHandler();
         File ourProject = FileExplorer.selectFolder();
         String s = FileExplorer.getResults(ourProject);
