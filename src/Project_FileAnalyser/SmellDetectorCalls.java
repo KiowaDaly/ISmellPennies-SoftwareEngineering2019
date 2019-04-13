@@ -14,16 +14,34 @@ import java.util.List;
 import java.util.Set;
 
 public class SmellDetectorCalls {
-
+    private static SmellDetectorCalls INSTANCE = null;
     //store the class and its corresponding threat levels in a hashmap
     private HashMap<ClassOrInterfaceDeclaration, ClassThreatLevels> detections = new HashMap<>();
     private List<CompilationUnit> units;
 
-    public SmellDetectorCalls(List<CompilationUnit> units) {
+    private SmellDetectorCalls(List<CompilationUnit> units) {
         this.units = units;
     }
 
+    public static SmellDetectorCalls getInstance(){
+        if(INSTANCE == null){
+            throw new AssertionError("Initialize class first");
+        }
+        return INSTANCE;
+    }
 
+    public synchronized static SmellDetectorCalls init(List<CompilationUnit> units){
+        if (INSTANCE != null)
+        {
+            // in my opinion this is optional, but for the purists it ensures
+            // that you only ever get the same instance when you call getInstance
+            throw new AssertionError("You already initialized me");
+        }
+
+        INSTANCE = new SmellDetectorCalls(units);
+        return INSTANCE;
+    }
+    //function below is where you call on the different classes
     public void AnalyseProject() {
 
         //loop through all the different compilation units and create a list of their classes
@@ -48,15 +66,16 @@ public class SmellDetectorCalls {
                 Set<ThreatLevel> t = value.keySet();
                 for (ThreatLevel tl : t) {
                     //place the class name and all its threats in to the hashmap
-                    detections.put(cl,new ClassThreatLevels(tl,switchC.complexityOfClass(cl)));
+                    getDetections().put(cl,new ClassThreatLevels(tl,switchC.complexityOfClass(cl)));
                 }
             }
         }
     }
 //not used yet but will in future.
     public HashMap getAnalysisResults(){
-        return detections;
+        return getDetections();
     }
+
 
     public void printResults(){
         for (ClassOrInterfaceDeclaration cl : detections.keySet()) {
@@ -71,7 +90,11 @@ public class SmellDetectorCalls {
     }
 
 
+    public HashMap<ClassOrInterfaceDeclaration, ClassThreatLevels> getDetections() {
+        return detections;
+    }
 
-
-
+    public void setDetections(HashMap<ClassOrInterfaceDeclaration, ClassThreatLevels> detections) {
+        this.detections = detections;
+    }
 }
