@@ -14,11 +14,7 @@ import java.util.NoSuchElementException;
 
 public class SwitchChecker {
 
-   // public enum complexityLevel{
-  //      None, Low, Medium, High
- //   }
-
-    private ThreatLevel complexity; //TODO remove static
+    private ThreatLevel complexity;
     private int numberOfSwitches;
     private int numberOfComplexSwitches;
     private List<Integer> line; //line.get(0) and line.get(1) are the start and end of the switch line.
