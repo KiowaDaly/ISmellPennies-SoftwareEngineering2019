@@ -24,7 +24,7 @@ public class FileChooser {
 
     public String getResults(File f) throws FileNotFoundException {
         List<CompilationUnit> units = loopFolders(f);
-        SmellDetectorCalls smells = new SmellDetectorCalls(units);
+        SmellDetectorCalls smells = SmellDetectorCalls.init(units);
         smells.AnalyseProject();
         String S = smells.printResults();
         return S;

@@ -36,7 +36,9 @@ public class JavaFXStage extends Application {
 
         // Load the FXML document
         primaryStage.setTitle("I smell Pennies");
-        primaryStage.setScene(new Scene(root,1000,600));
+        Scene scene =  new Scene(root,1000,600);
+        primaryStage.setScene(scene);
+        scene.getStylesheets().add("src/UI/baseScene.css");
         primaryStage.show();
 
     }
