@@ -1,13 +1,21 @@
 package ExcessiveCoupling;
+import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.VariableDeclarationExpr;
+import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator;
+import com.google.errorprone.annotations.Var;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class FeatureEnvy implements ExcessiveCoupling<Integer, ClassOrInterfaceDeclaration> {
 
@@ -37,6 +45,21 @@ public class FeatureEnvy implements ExcessiveCoupling<Integer, ClassOrInterfaceD
             }
         }
         return methodCalls.size();
+    }
+
+    public Integer getNumVsriableCalls(ClassOrInterfaceDeclaration ci){
+         List<FieldAccessExpr> variableCalls = new ArrayList<>();
+         variableCalls.addAll(ci.findAll(FieldAccessExpr.class));
+        for(int i = 0;i<variableCalls.size();i++){
+
+           if(variableCalls.get(i).toString().contains("this.")){
+                //variableCalls.remove(i);
+              variableCalls.remove(i);
+            }
+        }
+
+
+         return variableCalls.size();
     }
 
 

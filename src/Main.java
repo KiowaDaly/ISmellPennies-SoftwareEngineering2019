@@ -25,6 +25,7 @@ public class Main {
         compunitvisitor.visit(cl, classes);
         System.out.println(fe.getNumClassInstances(classes.get(0)));
         System.out.println(fe.getNumMethodCalls(classes.get(0)));
+        System.out.println(fe.getNumVsriableCalls(classes.get(0)));
 
     }
 
