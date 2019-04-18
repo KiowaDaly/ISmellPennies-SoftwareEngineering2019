@@ -1,6 +1,9 @@
+import ExcessiveCoupling.FeatureEnvy;
+import utility_classes.ThreatLevel;
+
 public class test{
 	private int number;
-
+	public test2 t2;
 	public test(int number){
 
 		this.number = number;
@@ -8,6 +11,7 @@ public class test{
 	protected int getNumber(){
 		int x = 44;
 		number++;
+		t2.toString();
 		return number;
 		//comment 1
 		//comment 2
