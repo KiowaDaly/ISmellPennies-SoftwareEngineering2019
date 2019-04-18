@@ -30,6 +30,7 @@ public class BloatedCodeAbuseCheck {
 
     private HashMap CheckClass(ClassOrInterfaceDeclaration n){
             int threatValue = 0;
+            int methodValue = 0;
             int classLength = check_bloat.getNumLines(n);
             int CLASS_LENGTH_THRESHOLD = 200;
             threatValue += (classLength > CLASS_LENGTH_THRESHOLD)?1:0;
@@ -40,6 +41,7 @@ public class BloatedCodeAbuseCheck {
             for (MethodDeclaration m:n.getMethods()) {
                 MethodThreats.put(m,CheckMethod(m));
             }
+
             HashMap<ThreatLevel,Integer> threatPercentageHelper = new HashMap<>();
             int temp = threatValue;
             threatValue = (threatValue > 3) ? 3:threatValue;

@@ -4,6 +4,8 @@ import ObjectOrientedAbusers.DataHiding;
 import ObjectOrientedAbusers.SwitchChecker;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import javassist.compiler.ast.MethodDecl;
 import utility_classes.ClassThreatLevels;
 import utility_classes.CompilationUnitVisitor;
 import utility_classes.ThreatLevel;
@@ -17,6 +19,8 @@ public class SmellDetectorCalls {
     private static SmellDetectorCalls INSTANCE = null;
     //store the class and its corresponding threat levels in a hashmap
     private HashMap<ClassOrInterfaceDeclaration, ClassThreatLevels> detections = new HashMap<>();
+    HashMap<ClassOrInterfaceDeclaration, HashMap> map;
+    HashMap<ClassOrInterfaceDeclaration, HashMap> methodThreats;
     private List<CompilationUnit> units;
 
     private SmellDetectorCalls(List<CompilationUnit> units) {
@@ -53,7 +57,8 @@ public class SmellDetectorCalls {
             BloatedCodeAbuseCheck checkBloats = new BloatedCodeAbuseCheck(classes);
             SwitchChecker switchC = new SwitchChecker();
             checkBloats.performBloatChecks();
-            HashMap<ClassOrInterfaceDeclaration, HashMap> map = checkBloats.getClassThreats();
+            map = checkBloats.getClassThreats();
+            methodThreats = checkBloats.getMethodThreats();
 
             /* this for loop is only needed by the bloatAbuse check
             *  it loops through every key in our hashmap "map"

@@ -19,13 +19,14 @@ public class Main {
 
         System.out.println("----------> number of class declarations <----------");
         FeatureEnvy fe = new FeatureEnvy();
-        CompilationUnit cl = StaticJavaParser.parse(new File("src/test.java"));
+        CompilationUnit cl = StaticJavaParser.parse(new File("src/test2.java"));
         List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();
         CompilationUnitVisitor compunitvisitor = new CompilationUnitVisitor();
         compunitvisitor.visit(cl, classes);
         System.out.println(fe.getNumClassInstances(classes.get(0)));
         System.out.println(fe.getNumMethodCalls(classes.get(0)));
         System.out.println(fe.getNumVsriableCalls(classes.get(0)));
+        System.out.println(fe.isMiddleMan(classes.get(0)));
 
     }
 

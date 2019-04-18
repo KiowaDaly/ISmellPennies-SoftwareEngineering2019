@@ -1,3 +1,5 @@
+package ObjectOrientedAbusers;
+
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 

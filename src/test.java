@@ -9,7 +9,7 @@ public class test{
 
 		this.number = number;
 	}
-	protected int getNumber(){
+	public int getNumber(){
 		int x = 44;
 		number++;
 		random();
@@ -23,6 +23,9 @@ public class test{
 		//comment 1
 		//comment 2
 		//comment 3
+	}
+	public String testing(){
+		return t2.toString();
 	}
 	private double random(){
 		//1 comment
