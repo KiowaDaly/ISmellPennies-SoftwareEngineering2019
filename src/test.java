@@ -11,6 +11,8 @@ public class test{
 	protected int getNumber(){
 		int x = 44;
 		number++;
+		random();
+		isPrime(3);
 		t2.toString();
 		return number;
 		//comment 1
