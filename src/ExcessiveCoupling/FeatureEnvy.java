@@ -10,6 +10,7 @@ import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.symbolsolver.javaparsermodel.declarators.VariableSymbolDeclarator;
 import com.google.errorprone.annotations.Var;
+import utility_classes.ThreatLevel;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -52,32 +53,29 @@ public class FeatureEnvy implements ExcessiveCoupling<Integer, ClassOrInterfaceD
          List<FieldAccessExpr> variableCalls = new ArrayList<>();
          variableCalls.addAll(ci.findAll(FieldAccessExpr.class));
         for(int i = 0;i<variableCalls.size();i++){
-
            if(variableCalls.get(i).toString().contains("this.")){
                 //variableCalls.remove(i);
               variableCalls.remove(i);
             }
         }
-
-
          return variableCalls.size();
     }
 
     public boolean isMiddleMan(ClassOrInterfaceDeclaration ci){
         //CHECK EACH FIELD, IF ALL THE FIELDS ARE CALLING ON OTHER CLASSES VARIABLES AND EACH METHOD IS JUST A SERIES OF EXTERNAL METHOD CALLS
-
         List<MethodDeclaration> middleManMethods = new ArrayList<>() ;
         for(MethodDeclaration md:ci.getMethods()){
             List<MethodCallExpr> methodCallExprs = md.getBody().get().findAll(MethodCallExpr.class);
             int numberLines = md.getEnd().get().line-md.getBegin().get().line-1;
-            if(methodCallExprs.size() == numberLines){
-                 middleManMethods.add(md);
-            }
+            if(methodCallExprs.size() == numberLines) middleManMethods.add(md);
         }
         return (middleManMethods.size()/ci.getMethods().size() > 0.5);
     }
 
 
-
+    public ThreatLevel checkExcessiveCoupling(){
+        //DO CHECKS
+        return ThreatLevel.NONE;
+    }
 
 }
