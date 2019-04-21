@@ -5,3 +5,4 @@ package utility_classes;
 public enum ThreatLevel {
     NONE,LOW,MEDIUM,HIGH
 }
+
