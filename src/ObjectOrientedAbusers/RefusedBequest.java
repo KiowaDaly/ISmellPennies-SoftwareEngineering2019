@@ -1,5 +1,9 @@
+
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
+
+import java.util.Optional;
 
 public class RefusedBequest{
 
@@ -22,6 +26,8 @@ public class RefusedBequest{
     }
     //get the parent of the clase. used for iterateThroughClass
     private ClassOrInterfaceDeclaration getParentOfClass(ClassOrInterfaceDeclaration clase){
+
+        Optional<Node> n =  clase.getParentNode();
 
         return null;
     }
