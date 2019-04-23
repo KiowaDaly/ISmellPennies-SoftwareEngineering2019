@@ -84,20 +84,37 @@ public class FeatureEnvy implements ExcessiveCoupling<Integer, ClassOrInterfaceD
         for (MethodDeclaration md : ci.getMethods()) {
             List<MethodCallExpr> methodCallExprs = md.getBody().get().findAll(MethodCallExpr.class);
             int numberLines = md.getEnd().get().line - md.getBegin().get().line - 1;
-            if ((double)methodCallExprs.size() /((double)numberLines - (double)methodCallExprs.size() ) > 0.5) FeatureEnvyMethods.add(md);
+            if ((double) methodCallExprs.size() / ((double) numberLines - (double) methodCallExprs.size()) > 0.5)
+                FeatureEnvyMethods.add(md);
         }
-        if(FeatureEnvyMethods.size() >= 3) return ThreatLevel.HIGH;
-        if(FeatureEnvyMethods.size() == 2) return ThreatLevel.MEDIUM;
-        if(FeatureEnvyMethods.size() == 1) return ThreatLevel.LOW;
+        if (FeatureEnvyMethods.size() >= 3) return ThreatLevel.HIGH;
+        if (FeatureEnvyMethods.size() == 2) return ThreatLevel.MEDIUM;
+        if (FeatureEnvyMethods.size() == 1) return ThreatLevel.LOW;
 
         //else return no threat
         return ThreatLevel.NONE;
     }
 
+    //EACH CLASS WILL HAVE A FRACTION OF HOW MUCH EXCESSIVE COUPLING IT HAS - I TURN THIS FRACTION INTO A THREAT LEVEL
+    public ThreatLevel checkExcessiveCoupling(ClassOrInterfaceDeclaration ci) {
+        //FOR NOW THIS IS JUST A SUMMATION OF ALL THREATLEVEL POSSIBILITIES FROM FEATURE ENVY AND MIDDLEMAN = 6
+        double totalThreatCount = 4;
 
-    public ThreatLevel checkExcessiveCoupling() {
-        //DO CHECKS
+        double featureEnvyThreatNumber = isFeatureEnvy(ci).ordinal();
+        //double middleManThreatNumber = isMiddleMan(ci).ordinal();
+
+        //ADDTION OF ALL THREAT NUMBERS
+        //addedThreatNumbers = isFeatureEnvy(ci).ordinal() + isMiddleMan(ci).ordinal() ...
+
+        //FINAL FRACTION
+        //double threatLevelFraction = addedThreatNumbers / totalThreatCount;
+        double threatLevelFraction = featureEnvyThreatNumber / totalThreatCount;
+
+        //USING FINAL FRACTION TO DECIDE THREAT LEVEL
+        if(threatLevelFraction > 0.66) return ThreatLevel.HIGH;
+        if(threatLevelFraction > 0.33 && threatLevelFraction <= 0.66) return ThreatLevel.MEDIUM;
+        if(threatLevelFraction <= 0.33 && threatLevelFraction > 0.00) return ThreatLevel.LOW;
+        else System.out.println("Error - Impossible to decide threat level from fraction value");
         return ThreatLevel.NONE;
     }
-
 }
