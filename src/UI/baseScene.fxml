@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.MainController">
@@ -55,16 +56,21 @@
                 </MenuBar>
             </children>
         </Pane>
-        <TextArea fx:id="RESULTS" editable="false" layoutX="463.0" layoutY="58.0" prefHeight="538.0" prefWidth="523.0" promptText="Results Will Be Shown Here" wrapText="true">
-            <font>
-                <Font name="Calibri" size="18.0" />
-            </font></TextArea>
         <ListView fx:id="UnitLists" layoutX="264.0" layoutY="58.0" onMouseClicked="#displaySelectedAnalysis" prefHeight="538.0" prefWidth="200.0" />
         <Label layoutX="308.0" layoutY="37.0" text="Classes Analysed" />
-        <Label layoutX="646.0" layoutY="37.0" stylesheets="@baseScene.css" text="Results of selected class" />
-        <ImageView fitHeight="112.0" fitWidth="31.0" layoutX="-1.0" layoutY="446.0" pickOnBounds="true" preserveRatio="true">
+        <Label fx:id="SmellLabel" alignment="CENTER" layoutX="632.0" layoutY="37.0" prefHeight="21.0" prefWidth="200.0" stylesheets="@baseScene.css" text="Smells" textAlignment="CENTER" AnchorPane.topAnchor="37.0" />
+        <ImageView fitHeight="159.0" fitWidth="233.0" layoutX="54.0" layoutY="414.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../../../Pictures/download.png" />
+                <Image url="@../../../../Pictures/pennies.gif" />
             </image></ImageView>
+      <PieChart fx:id="pieChart" layoutX="645.0" layoutY="217.0" prefHeight="369.0" prefWidth="354.0" title="Smells Detected in Class">
+         <effect>
+            <DropShadow />
+         </effect></PieChart>
+      <ListView fx:id="SmellList" layoutX="639.0" layoutY="58.0" onMouseClicked="#updateProgressBar" prefHeight="159.0" prefWidth="187.0" />
+      <ProgressBar fx:id="ThreatLevel" layoutX="826.0" layoutY="58.0" prefHeight="23.0" prefWidth="181.0" progress="0.0" />
+      <Label alignment="CENTER" layoutX="877.0" layoutY="37.0" text="Threat Level" />
+      <ListView fx:id="MethodList" layoutX="464.0" layoutY="58.0" prefHeight="310.0" prefWidth="181.0" />
+      <Label fx:id="MethodsLabel" alignment="CENTER" layoutX="525.0" layoutY="37.0" text="Methods" />
     </children>
 </AnchorPane>

@@ -1,5 +1,7 @@
 package utility_classes;
 
+import ExcessiveCoupling.ExcessiveCoupling;
+
 import java.util.Set;
 
 //A utility class that stores the values of te different smells detected
@@ -7,13 +9,15 @@ public class ClassThreatLevels {
 
     ThreatLevel bloatThreatLevel;
     ThreatLevel OOAbuseThreatLevel;
-    public ClassThreatLevels(ThreatLevel bloat, ThreatLevel OOAbuse){
+    ThreatLevel ExcessiveCouplingThreatLevel;
+    public ClassThreatLevels(ThreatLevel bloat, ThreatLevel OOAbuse, ThreatLevel ec){
         this.bloatThreatLevel = bloat;
         this.OOAbuseThreatLevel = OOAbuse;
+        this.ExcessiveCouplingThreatLevel = ec;
     }
 
 
-//    ThreatLevel ExcessiveCouplingThreatLevel;
+
 //    ThreatLevel GodObjectThreatLevel;
 //    ThreatLevel WalkingDeadThreatLevel;
 
@@ -34,13 +38,13 @@ public class ClassThreatLevels {
     }
 
     //to be added later with more checks finished.
-//    public ThreatLevel getExcessiveCouplingThreatLevel() {
-//        return ExcessiveCouplingThreatLevel;
-//    }
+    public ThreatLevel getExcessiveCouplingThreatLevel() {
+        return ExcessiveCouplingThreatLevel;
+    }
 //
-//    public void setExcessiveCouplingThreatLevel(ThreatLevel excessiveCouplingThreatLevel) {
-//        ExcessiveCouplingThreatLevel = excessiveCouplingThreatLevel;
-//    }
+    public void setExcessiveCouplingThreatLevel(ThreatLevel excessiveCouplingThreatLevel) {
+        ExcessiveCouplingThreatLevel = excessiveCouplingThreatLevel;
+    }
 //
 //    public ThreatLevel getGodObjectThreatLevel() {
 //        return GodObjectThreatLevel;

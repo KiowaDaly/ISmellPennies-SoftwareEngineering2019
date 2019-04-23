@@ -81,8 +81,12 @@ public class FeatureEnvy implements ExcessiveCoupling<Integer, ClassOrInterfaceD
     //CLASS OBTAINS HIGH MEDIUM OR LOW STATUS FOR HOW MANY METHODS HAVE FEATURE ENVY
     public ThreatLevel isFeatureEnvy(ClassOrInterfaceDeclaration ci) {
         List<MethodDeclaration> FeatureEnvyMethods = new ArrayList<>();
+        List<MethodCallExpr> methodCallExprs = new ArrayList<>();
         for (MethodDeclaration md : ci.getMethods()) {
-            List<MethodCallExpr> methodCallExprs = md.getBody().get().findAll(MethodCallExpr.class);
+            if(md.getBody().isPresent()){
+                methodCallExprs.addAll(md.getBody().get().findAll(MethodCallExpr.class));
+            }
+
             int numberLines = md.getEnd().get().line - md.getBegin().get().line - 1;
             if ((double) methodCallExprs.size() / ((double) numberLines - (double) methodCallExprs.size()) > 0.5)
                 FeatureEnvyMethods.add(md);
@@ -113,8 +117,8 @@ public class FeatureEnvy implements ExcessiveCoupling<Integer, ClassOrInterfaceD
         //USING FINAL FRACTION TO DECIDE THREAT LEVEL
         if(threatLevelFraction > 0.66) return ThreatLevel.HIGH;
         if(threatLevelFraction > 0.33 && threatLevelFraction <= 0.66) return ThreatLevel.MEDIUM;
-        if(threatLevelFraction <= 0.33 && threatLevelFraction > 0.00) return ThreatLevel.LOW;
-        else System.out.println("Error - Impossible to decide threat level from fraction value");
+        if(threatLevelFraction <= 0.33 && threatLevelFraction > 0.00000000000) return ThreatLevel.LOW;
+        else System.out.println(featureEnvyThreatNumber / totalThreatCount);
         return ThreatLevel.NONE;
     }
 }

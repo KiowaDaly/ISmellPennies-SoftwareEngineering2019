@@ -1,5 +1,6 @@
 package Project_FileAnalyser;
 import BloatCheckers.BloatedCodeAbuseCheck;
+import ExcessiveCoupling.FeatureEnvy;
 import ObjectOrientedAbusers.DataHiding;
 import ObjectOrientedAbusers.SwitchChecker;
 import com.github.javaparser.ast.CompilationUnit;
@@ -59,6 +60,7 @@ public class SmellDetectorCalls {
             checkBloats.performBloatChecks();
             map = checkBloats.getClassThreats();
             methodThreats = checkBloats.getMethodThreats();
+            FeatureEnvy fe = new FeatureEnvy();
 
             /* this for loop is only needed by the bloatAbuse check
             *  it loops through every key in our hashmap "map"
@@ -71,7 +73,7 @@ public class SmellDetectorCalls {
                 Set<ThreatLevel> t = value.keySet();
                 for (ThreatLevel tl : t) {
                     //place the class name and all its threats in to the hashmap
-                    getDetections().put(cl,new ClassThreatLevels(tl,switchC.complexityOfClass(cl)));
+                    getDetections().put(cl,new ClassThreatLevels(tl,switchC.complexityOfClass(cl),fe.checkExcessiveCoupling(cl)));
                 }
             }
         }
