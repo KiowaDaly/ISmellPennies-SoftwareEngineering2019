@@ -66,8 +66,11 @@ public class FeatureEnvy implements ExcessiveCoupling<Integer, ClassOrInterfaceD
 
     public boolean isMiddleMan(ClassOrInterfaceDeclaration ci) {
         List<MethodDeclaration> middleManMethods = new ArrayList<>();
+        List<MethodCallExpr> methodCallExprs = new ArrayList<>();
         for (MethodDeclaration md : ci.getMethods()) {
-            List<MethodCallExpr> methodCallExprs = md.getBody().get().findAll(MethodCallExpr.class);
+            if(md.getBody().isPresent()) {
+                 methodCallExprs.addAll(md.getBody().get().findAll(MethodCallExpr.class));
+            }
             int numberLines = md.getEnd().get().line - md.getBegin().get().line - 1;
             if (methodCallExprs.size() == numberLines) middleManMethods.add(md);
         }
