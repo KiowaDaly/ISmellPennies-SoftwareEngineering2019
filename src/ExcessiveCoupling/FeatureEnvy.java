@@ -90,6 +90,7 @@ public class FeatureEnvy implements ExcessiveCoupling<Integer, ClassOrInterfaceD
         if(FeatureEnvyMethods.size() == 2) return ThreatLevel.MEDIUM;
         if(FeatureEnvyMethods.size() == 1) return ThreatLevel.LOW;
 
+        //else return no threat
         return ThreatLevel.NONE;
     }
 
