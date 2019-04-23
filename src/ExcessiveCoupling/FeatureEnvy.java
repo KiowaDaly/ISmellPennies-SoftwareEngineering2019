@@ -20,28 +20,31 @@ import java.util.Optional;
 
 public class FeatureEnvy implements ExcessiveCoupling<Integer, ClassOrInterfaceDeclaration> {
 
-    public Integer getNumClassInstances(ClassOrInterfaceDeclaration ci){
+    //CHECK ALL FIELDS OF A CLASS, IF A FIELD IS A CLASS/INTERFACE CALL THEN WE INCREMENT NUMBER OF CLASS INSTANCES IN A CLASS
+    public Integer getNumClassInstances(ClassOrInterfaceDeclaration ci) {
         List<VariableDeclarator> classInstances = new ArrayList<>();
-        for(FieldDeclaration f:ci.getFields()){
-            for(VariableDeclarator vl:f.getVariables()){
-                   if(vl.getType().isClassOrInterfaceType()){
-                        classInstances.add(vl);
-                   }
+        for (FieldDeclaration f : ci.getFields()) {
+            for (VariableDeclarator vl : f.getVariables()) {
+                if (vl.getType().isClassOrInterfaceType()) {
+                    classInstances.add(vl);
+                }
             }
         }
         return classInstances.size();
     }
-    public Integer getNumMethodCalls(ClassOrInterfaceDeclaration ci){
-        List<MethodCallExpr> methodCalls= new ArrayList<>();
+
+    //CHECK ALL METHOD DECLARATIONS OF A CLASS, IF THE METHOD DEC IS AN EXTERNAL METHOD CALL THEN  INCREMENT NUMBER OF METHOD CALLS
+    public Integer getNumMethodCalls(ClassOrInterfaceDeclaration ci) {
+        List<MethodCallExpr> methodCalls = new ArrayList<>();
         List<MethodDeclaration> methodDeclarations = new ArrayList<>();
-        for(MethodDeclaration m:ci.getMethods()){
+        for (MethodDeclaration m : ci.getMethods()) {
             methodDeclarations.add(m);
             methodCalls.addAll(m.findAll(MethodCallExpr.class));
         }
 
-        for(int i=0; i < methodCalls.size(); i++){
-            for(int j=0;j<methodDeclarations.size(); j++){
-                if(methodCalls.get(i).getName().equals(methodDeclarations.get(j).getName())){
+        for (int i = 0; i < methodCalls.size(); i++) {
+            for (int j = 0; j < methodDeclarations.size(); j++) {
+                if (methodCalls.get(i).getName().equals(methodDeclarations.get(j).getName())) {
                     methodCalls.remove(i);
                 }
             }
@@ -49,31 +52,49 @@ public class FeatureEnvy implements ExcessiveCoupling<Integer, ClassOrInterfaceD
         return methodCalls.size();
     }
 
-    public Integer getNumVsriableCalls(ClassOrInterfaceDeclaration ci){
-         List<FieldAccessExpr> variableCalls = new ArrayList<>();
-         variableCalls.addAll(ci.findAll(FieldAccessExpr.class));
-        for(int i = 0;i<variableCalls.size();i++){
-           if(variableCalls.get(i).toString().contains("this.")){
+    public Integer getNumVsriableCalls(ClassOrInterfaceDeclaration ci) {
+        List<FieldAccessExpr> variableCalls = new ArrayList<>();
+        variableCalls.addAll(ci.findAll(FieldAccessExpr.class));
+        for (int i = 0; i < variableCalls.size(); i++) {
+            if (variableCalls.get(i).toString().contains("this.")) {
                 //variableCalls.remove(i);
-              variableCalls.remove(i);
+                variableCalls.remove(i);
             }
         }
-         return variableCalls.size();
+        return variableCalls.size();
     }
 
-    public boolean isMiddleMan(ClassOrInterfaceDeclaration ci){
-        //CHECK EACH FIELD, IF ALL THE FIELDS ARE CALLING ON OTHER CLASSES VARIABLES AND EACH METHOD IS JUST A SERIES OF EXTERNAL METHOD CALLS
-        List<MethodDeclaration> middleManMethods = new ArrayList<>() ;
-        for(MethodDeclaration md:ci.getMethods()){
+    public boolean isMiddleMan(ClassOrInterfaceDeclaration ci) {
+        List<MethodDeclaration> middleManMethods = new ArrayList<>();
+        for (MethodDeclaration md : ci.getMethods()) {
             List<MethodCallExpr> methodCallExprs = md.getBody().get().findAll(MethodCallExpr.class);
-            int numberLines = md.getEnd().get().line-md.getBegin().get().line-1;
-            if(methodCallExprs.size() == numberLines) middleManMethods.add(md);
+            int numberLines = md.getEnd().get().line - md.getBegin().get().line - 1;
+            if (methodCallExprs.size() == numberLines) middleManMethods.add(md);
         }
-        return (middleManMethods.size()/ci.getMethods().size() > 0.5);
+
+        return ((double) middleManMethods.size() / (double) ci.getMethods().size() > 0.5);
+    }
+
+    //CHECK ALL METHOD DECLARATIONS IN A CLASS, CHECK NUMBER OF METHOD EXPRESSIONS IN EACH METHOD...
+    //...THEN CHECK THE NUMBER OF LINES IN EACH METHOD
+    //... PUT ONE OVER THE OTHER IF THAT IS GREATER THAN 50%, THE METHOD IS GUILTY OF FEATURE ENVY
+    //CLASS OBTAINS HIGH MEDIUM OR LOW STATUS FOR HOW MANY METHODS HAVE FEATURE ENVY
+    public ThreatLevel isFeatureEnvy(ClassOrInterfaceDeclaration ci) {
+        List<MethodDeclaration> FeatureEnvyMethods = new ArrayList<>();
+        for (MethodDeclaration md : ci.getMethods()) {
+            List<MethodCallExpr> methodCallExprs = md.getBody().get().findAll(MethodCallExpr.class);
+            int numberLines = md.getEnd().get().line - md.getBegin().get().line - 1;
+            if ((double)methodCallExprs.size() /((double)numberLines - (double)methodCallExprs.size() ) > 0.5) FeatureEnvyMethods.add(md);
+        }
+        if(FeatureEnvyMethods.size() >= 3) return ThreatLevel.HIGH;
+        if(FeatureEnvyMethods.size() == 2) return ThreatLevel.MEDIUM;
+        if(FeatureEnvyMethods.size() == 1) return ThreatLevel.LOW;
+
+        return ThreatLevel.NONE;
     }
 
 
-    public ThreatLevel checkExcessiveCoupling(){
+    public ThreatLevel checkExcessiveCoupling() {
         //DO CHECKS
         return ThreatLevel.NONE;
     }
