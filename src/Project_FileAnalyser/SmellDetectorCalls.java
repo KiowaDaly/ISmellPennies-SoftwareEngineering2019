@@ -2,6 +2,7 @@ package Project_FileAnalyser;
 import BloatCheckers.BloatedCodeAbuseCheck;
 import ObjectOrientedAbusers.DataHiding;
 import ObjectOrientedAbusers.SwitchChecker;
+import ObjectOrientedAbusers.TemporaryFields;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -89,6 +90,8 @@ public class SmellDetectorCalls {
          string += "\nCLASS:  "+cl.getName();
          string += "Bloatedness: "+value.getBloatThreatLevel();
          string += "Complexity: "+value.getOOAbuseThreatLevel();
+            TemporaryFields tf = new TemporaryFields(cl);
+         System.out.println("Temporary Fields: "+tf.)
         }
         return string;
     }
