@@ -1,6 +1,3 @@
-import ExcessiveCoupling.FeatureEnvy;
-import utility_classes.ThreatLevel;
-
 public class test{
 	public int number;
 	public test2 t2;
