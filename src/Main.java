@@ -1,7 +1,5 @@
-import ExcessiveCoupling.FeatureEnvy;
+import ExcessiveCoupling.ExcessiveCouplingChecks;
 import Lazies_Freeloader_walkingdead.WalkingDeadChecks;
-import Project_FileAnalyser.FileHandler;
-import com.github.javaparser.JavaParser;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
@@ -19,7 +17,7 @@ public class Main {
 
 
         System.out.println("----------> number of class declarations <----------");
-        FeatureEnvy fe = new FeatureEnvy();
+        ExcessiveCouplingChecks fe = new ExcessiveCouplingChecks();
         CompilationUnit cl = StaticJavaParser.parse(new File("src/test.java"));
         List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();
         CompilationUnitVisitor compunitvisitor = new CompilationUnitVisitor();
@@ -28,7 +26,8 @@ public class Main {
 //        System.out.println(fe.getNumMethodCalls(classes.get(0)));
 //        System.out.println(fe.getNumVsriableCalls(classes.get(0)));
       //  System.out.println(fe.isMiddleMan(classes.get(0)));
-        System.out.println("Feature Envy? " + fe.isFeatureEnvy(classes.get(0)));
+
+        System.out.println("Feature Envy? " + fe.checkExcessiveCoupling(classes.get(0)));
         WalkingDeadChecks wd = new WalkingDeadChecks();
         System.out.println(classes.get(0).getNameAsString()+" is data only?: " + wd.isDataOnlyClass(classes.get(0)));
 

@@ -1,9 +1,5 @@
 package utility_classes;
 
-import ExcessiveCoupling.ExcessiveCoupling;
-
-import java.util.Set;
-
 //A utility class that stores the values of te different smells detected
 public class ClassThreatLevels {
 
