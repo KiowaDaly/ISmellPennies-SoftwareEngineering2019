@@ -37,19 +37,21 @@ public class ExcessiveCouplingChecks {
     public Integer getNumMethodCalls(ClassOrInterfaceDeclaration ci) {
         List<MethodCallExpr> methodCalls = new ArrayList<>();
         List<MethodDeclaration> methodDeclarations = new ArrayList<>();
+        List<MethodCallExpr> externalCalls = new ArrayList<>();
         for (MethodDeclaration m : ci.getMethods()) {
             methodDeclarations.add(m);
             methodCalls.addAll(m.findAll(MethodCallExpr.class));
         }
 
+
         for (int i = 0; i < methodCalls.size(); i++) {
             for (int j = 0; j < methodDeclarations.size(); j++) {
-                if (methodCalls.get(i).getName().equals(methodDeclarations.get(j).getName())) {
-                    methodCalls.remove(i);
+                if (!methodCalls.get(i).getName().equals(methodDeclarations.get(j).getName())) {
+                    externalCalls.add(methodCalls.get(i));
                 }
             }
         }
-        return methodCalls.size() / methodDeclarations.size();
+        return externalCalls.size() / methodDeclarations.size();
     }
 
     public Integer getNumVariableCalls(ClassOrInterfaceDeclaration ci) {
@@ -67,6 +69,8 @@ public class ExcessiveCouplingChecks {
                 variableCalls.remove(i);
             }
         }
+        if(fields.size() == 0) return 0;
+
         return variableCalls.size()/fields.size();
     }
 
