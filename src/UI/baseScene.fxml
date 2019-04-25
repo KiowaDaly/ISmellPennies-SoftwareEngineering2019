@@ -58,7 +58,7 @@
         </Pane>
         <ListView fx:id="UnitLists" layoutX="264.0" layoutY="58.0" onMouseClicked="#displaySelectedAnalysis" prefHeight="538.0" prefWidth="200.0" />
         <Label layoutX="308.0" layoutY="37.0" text="Classes Analysed" />
-        <Label fx:id="SmellLabel" alignment="CENTER" layoutX="632.0" layoutY="37.0" prefHeight="21.0" prefWidth="200.0" stylesheets="@baseScene.css" text="Smells" textAlignment="CENTER" AnchorPane.topAnchor="37.0" />
+        <Label fx:id="SmellLabel" alignment="CENTER" layoutX="464.0" layoutY="37.0" prefHeight="21.0" prefWidth="200.0" stylesheets="@baseScene.css" text="Smells" textAlignment="CENTER" AnchorPane.topAnchor="37.0" />
         <ImageView fitHeight="159.0" fitWidth="233.0" layoutX="54.0" layoutY="414.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../../../../Pictures/pennies.gif" />
@@ -67,10 +67,10 @@
          <effect>
             <DropShadow />
          </effect></PieChart>
-      <ListView fx:id="SmellList" layoutX="639.0" layoutY="58.0" onMouseClicked="#updateProgressBar" prefHeight="159.0" prefWidth="187.0" />
-      <ProgressBar fx:id="ThreatLevel" layoutX="826.0" layoutY="58.0" prefHeight="23.0" prefWidth="181.0" progress="0.0" />
-      <Label alignment="CENTER" layoutX="877.0" layoutY="37.0" text="Threat Level" />
-      <ListView fx:id="MethodList" layoutX="464.0" layoutY="58.0" prefHeight="310.0" prefWidth="181.0" />
-      <Label fx:id="MethodsLabel" alignment="CENTER" layoutX="525.0" layoutY="37.0" text="Methods" />
+      <ListView fx:id="SmellList" layoutX="471.0" layoutY="58.0" onMouseClicked="#updateProgressBar" prefHeight="159.0" prefWidth="187.0" />
+      <ProgressBar fx:id="ThreatLevel" layoutX="732.0" layoutY="482.0" prefHeight="23.0" prefWidth="181.0" progress="0.0" />
+      <Label fx:id="ThreatLabel" alignment="CENTER" layoutX="712.0" layoutY="461.0" prefHeight="21.0" prefWidth="221.0" text="Threat Level" />
+      <ListView fx:id="MethodList" layoutX="474.0" layoutY="247.0" prefHeight="310.0" prefWidth="181.0" visible="false" />
+      <Label fx:id="MethodsLabel" alignment="CENTER" layoutX="525.0" layoutY="217.0" text="Methods" visible="false" />
     </children>
 </AnchorPane>

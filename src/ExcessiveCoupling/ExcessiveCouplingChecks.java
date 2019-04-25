@@ -56,6 +56,7 @@ public class ExcessiveCouplingChecks {
 
     public Integer getNumVariableCalls(ClassOrInterfaceDeclaration ci) {
         List<FieldAccessExpr> variableCalls = new ArrayList<>();
+
         List<FieldDeclaration> fields = new ArrayList<>();
         for(FieldDeclaration fd: ci.getFields()){
             fields.add(fd);
