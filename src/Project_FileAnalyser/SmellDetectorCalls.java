@@ -1,6 +1,7 @@
 package Project_FileAnalyser;
 import BloatCheckers.BloatedCodeAbuseCheck;
 import ExcessiveCoupling.ExcessiveCouplingChecks;
+import GodComplexes.GodClassCheck;
 import ObjectOrientedAbusers.SwitchChecker;
 import ObjectOrientedAbusers.TemporaryFields;
 import com.github.javaparser.ast.CompilationUnit;
@@ -59,6 +60,7 @@ public class SmellDetectorCalls {
             map = checkBloats.getClassThreats();
             methodThreats = checkBloats.getMethodThreats();
             ExcessiveCouplingChecks fe = new ExcessiveCouplingChecks();
+            GodClassCheck Gc = new GodClassCheck();
 
             /* this for loop is only needed by the bloatAbuse check
             *  it loops through every key in our hashmap "map"
@@ -71,7 +73,7 @@ public class SmellDetectorCalls {
                 Set<ThreatLevel> t = value.keySet();
                 for (ThreatLevel tl : t) {
                     //place the class name and all its threats in to the hashmap
-                    getDetections().put(cl,new ClassThreatLevels(tl,switchC.complexityOfClass(cl),fe.checkExcessiveCoupling(cl)));
+                    getDetections().put(cl,new ClassThreatLevels(tl,switchC.complexityOfClass(cl),fe.checkExcessiveCoupling(cl),Gc.checkGodClass(cl)));
                 }
             }
         }
@@ -90,7 +92,7 @@ public class SmellDetectorCalls {
          string += "Bloatedness: "+value.getBloatThreatLevel();
          string += "Complexity: "+value.getOOAbuseThreatLevel();
             TemporaryFields tf = new TemporaryFields(cl);
-         System.out.println("Temporary Fields: "+tf.)
+         System.out.println("Temporary Fields: "+tf.toString());
         }
         return string;
     }

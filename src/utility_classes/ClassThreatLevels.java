@@ -3,18 +3,17 @@ package utility_classes;
 //A utility class that stores the values of te different smells detected
 public class ClassThreatLevels {
 
-    ThreatLevel bloatThreatLevel;
-    ThreatLevel OOAbuseThreatLevel;
-    ThreatLevel ExcessiveCouplingThreatLevel;
-    public ClassThreatLevels(ThreatLevel bloat, ThreatLevel OOAbuse, ThreatLevel ec){
+    private ThreatLevel bloatThreatLevel;
+    private ThreatLevel OOAbuseThreatLevel;
+    private ThreatLevel ExcessiveCouplingThreatLevel;
+    private ThreatLevel GodObjectThreatLevel;
+    public ClassThreatLevels(ThreatLevel bloat, ThreatLevel OOAbuse, ThreatLevel ec,ThreatLevel godOb){
         this.bloatThreatLevel = bloat;
         this.OOAbuseThreatLevel = OOAbuse;
         this.ExcessiveCouplingThreatLevel = ec;
+        this.GodObjectThreatLevel = godOb;
     }
 
-
-
-//    ThreatLevel GodObjectThreatLevel;
 //    ThreatLevel WalkingDeadThreatLevel;
 
     public ThreatLevel getBloatThreatLevel() {
@@ -41,14 +40,14 @@ public class ClassThreatLevels {
     public void setExcessiveCouplingThreatLevel(ThreatLevel excessiveCouplingThreatLevel) {
         ExcessiveCouplingThreatLevel = excessiveCouplingThreatLevel;
     }
-//
-//    public ThreatLevel getGodObjectThreatLevel() {
-//        return GodObjectThreatLevel;
-//    }
-//
-//    public void setGodObjectThreatLevel(ThreatLevel godObjectThreatLevel) {
-//        GodObjectThreatLevel = godObjectThreatLevel;
-//    }
+
+    public ThreatLevel getGodObjectThreatLevel() {
+        return GodObjectThreatLevel;
+    }
+
+    public void setGodObjectThreatLevel(ThreatLevel godObjectThreatLevel) {
+        GodObjectThreatLevel = godObjectThreatLevel;
+    }
 //
 //    public ThreatLevel getWalkingDeadThreatLevel() {
 //        return WalkingDeadThreatLevel;

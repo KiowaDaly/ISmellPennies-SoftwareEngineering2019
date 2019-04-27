@@ -19,7 +19,7 @@ public class TemporaryFields {
 
 
     //hash that holds field and number of times it has been used.
-    private HashMap<FieldDeclaration, Integer> fieldList;
+    private HashMap<FieldDeclaration, Integer> fieldList = new HashMap<>();
     private ClassOrInterfaceDeclaration clase;
 
 
@@ -30,9 +30,12 @@ public class TemporaryFields {
 
     private void setUpFieldList(){
         List<FieldDeclaration> fields = clase.getFields();
-        for(FieldDeclaration field: fields){
-            fieldList.put(field, 0);
+        if(fields.size() > 0){
+            for(FieldDeclaration field: fields){
+                fieldList.put(field, 0);
+            }
         }
+
     }
 
 

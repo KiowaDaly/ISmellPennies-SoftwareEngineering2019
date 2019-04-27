@@ -1,6 +1,7 @@
 package GodComplexes;
 
 import com.github.javaparser.*;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import utility_classes.ThreatLevel;
 
 // Analyse: coupling, cohesion, complexity and size.
@@ -8,7 +9,7 @@ import utility_classes.ThreatLevel;
 public class GodClassCheck
 {
   // dummy
-  private ThreatLevel checkGodClass(ClassOrInterfaceDeclaration clin)
+  public ThreatLevel checkGodClass(ClassOrInterfaceDeclaration clin)
   {
     return ThreatLevel.HIGH;
   }

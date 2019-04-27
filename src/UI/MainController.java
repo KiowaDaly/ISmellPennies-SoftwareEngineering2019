@@ -18,7 +18,7 @@ import java.util.List;
 
 public class MainController {
 
-    private String[] SmellStrings = {"Bloat Level","Complexity Level","Excessive Coupling"};
+    private String[] SmellStrings = {"Bloat Level","Complexity Level","Excessive Coupling","God Class Threat Level"};
 
     public TextArea RESULTS;
     public ListView<String> UnitLists;
@@ -38,6 +38,7 @@ public class MainController {
     private double bloat;
     private double complexity;
     private double Ec;
+    private double Gc;
 
 
 
@@ -68,14 +69,18 @@ public class MainController {
 
                 disableMethodList();
                 bloat = (double) SmellDetectorCalls.getInstance().getDetections().get(cl).getBloatThreatLevel().ordinal();
-                list.add(new PieChart.Data("Bloat Level",bloat));
+                list.add(new PieChart.Data(SmellStrings[0],bloat));
 
                 complexity = (double) SmellDetectorCalls.getInstance().getDetections().get(cl).getOOAbuseThreatLevel().ordinal();
-                list.add(new PieChart.Data("Complexity Level",complexity));
+                list.add(new PieChart.Data(SmellStrings[1],complexity));
 
                 Ec = (double) SmellDetectorCalls.getInstance().getDetections().get(cl).getExcessiveCouplingThreatLevel().ordinal();
-                list.add(new PieChart.Data("Excessive Coupling",Ec));
-                smellItems.addAll(SmellStrings[0],SmellStrings[1],SmellStrings[2]);
+                list.add(new PieChart.Data(SmellStrings[2],Ec));
+
+                Gc = (double) SmellDetectorCalls.getInstance().getDetections().get(cl).getGodObjectThreatLevel().ordinal();
+                list.add(new PieChart.Data(SmellStrings[3],Gc));
+
+                smellItems.addAll(SmellStrings[0],SmellStrings[1],SmellStrings[2],SmellStrings[3]);
                 updateMethodList(cl);
             }
         }
@@ -113,6 +118,11 @@ public class MainController {
                         ThreatLevel.setProgress(Ec/4);
                         disableMethodList();
                         ThreatLabel.setText(cl.getNameAsString()+"::"+SmellStrings[2]);
+                    }
+                    if(s.equals(SmellStrings[3])){
+                        ThreatLevel.setProgress(Gc/4);
+                        disableMethodList();
+                        ThreatLabel.setText(cl.getNameAsString()+"::"+SmellStrings[3]);
                     }
                 }
             }
