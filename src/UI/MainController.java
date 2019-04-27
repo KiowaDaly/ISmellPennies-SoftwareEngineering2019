@@ -18,7 +18,7 @@ import java.util.List;
 
 public class MainController {
 
-    private String[] SmellStrings = {"Bloat Level","Complexity Level","Excessive Coupling","God Class Threat Level"};
+    private String[] SmellStrings = {"Bloat Level","Complexity Level","Excessive Coupling","God Class Threat Level", "The Walking Dead", "Overall Smelliness"};
 
     public TextArea RESULTS;
     public ListView<String> UnitLists;
@@ -32,14 +32,17 @@ public class MainController {
     public MenuItem Help;
     public PieChart pieChart;
     public ProgressBar ThreatLevel;
+    public TextArea FINALRESULTS;
+
     private ObservableList<String> items = FXCollections.observableArrayList();
     private ObservableList<String> smellItems = FXCollections.observableArrayList();
+
 
     private double bloat;
     private double complexity;
     private double Ec;
     private double Gc;
-
+    private double Wd = 0;
 
 
 
@@ -55,6 +58,17 @@ public class MainController {
 
         }
         UnitLists.setItems(items);
+    }
+
+    public void displayFinalResults(){
+        String finalRes = "";
+        finalRes += "We have scanned your project and have found " + " files and " + " lines of code";
+        finalRes += "We have detected that " + "% of your project smells of Bloat";
+        finalRes += "We have also detected that " + "% of your project contains Object Orientated Abuse";
+        finalRes += "Your project also displayed " + "% worth of God classes";
+        finalRes += "Finally, we scanned your project and found that " + "% of it may suffer from Walking Dead smells";
+        FINALRESULTS.setText(finalRes);
+
     }
 
     //A function that reads the selected item on our Item list and displays the corresponding classes details
@@ -80,8 +94,12 @@ public class MainController {
                 Gc = (double) SmellDetectorCalls.getInstance().getDetections().get(cl).getGodObjectThreatLevel().ordinal();
                 list.add(new PieChart.Data(SmellStrings[3],Gc));
 
-                smellItems.addAll(SmellStrings[0],SmellStrings[1],SmellStrings[2],SmellStrings[3]);
+               // Wd = (double) SmellDetectorCalls.getInstance().ge
+
+                //smellItems.addAll(SmellStrings[0],SmellStrings[1],SmellStrings[2],SmellStrings[3], SmellStrings[4], );
+                smellItems.addAll(SmellStrings);
                 updateMethodList(cl);
+                resetProgressBar(cl);
             }
         }
 
@@ -125,10 +143,24 @@ public class MainController {
                         disableMethodList();
                         ThreatLabel.setText(cl.getNameAsString()+"::"+SmellStrings[3]);
                     }
+//                    if(s.equals(SmellStrings[4])){
+//
+//                    }
+                    if(s.equals(SmellStrings[5])){
+
+                        resetProgressBar(cl);
+
+                    }
                 }
             }
 
    }
+   public void resetProgressBar(ClassOrInterfaceDeclaration cl){
+       ThreatLevel.setProgress((bloat/4 + complexity/4 + Gc/4 + Ec/4 + Wd/4)/5);
+       disableMethodList();
+       ThreatLabel.setText(cl.getNameAsString() + "::" + SmellStrings[5]);
+   }
+
 
     /*The next two methods deal with the drag and drop section*/
     public void getDroppedFile(DragEvent event) {
