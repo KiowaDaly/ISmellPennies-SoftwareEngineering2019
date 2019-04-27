@@ -1,17 +1,18 @@
 package Lazies_Freeloader_walkingdead;
-
-import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.expr.Expression;
+
 import com.github.javaparser.ast.expr.MethodCallExpr;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+
 import java.util.List;
 
 import utility_classes.ThreatLevel;
+
 
 
 public class WalkingDeadChecks {
@@ -62,15 +63,64 @@ public class WalkingDeadChecks {
         //else return no threat
         return ThreatLevel.NONE;
     }
-    //to do
-    public boolean isLazyCode(ClassOrInterfaceDeclaration c1){
-        return false;
+
+    public ThreatLevel getDuplicationLevel(ClassOrInterfaceDeclaration cl){
+        int level = 0;
+        double similarity = 0;
+        for(int i = 0;i<cl.getMethods().size()-1;i++){
+            for(int j=0;j<cl.getMethods().size()-1;j++){
+                if(!cl.getMethods().get(i).getNameAsString().equals(cl.getMethods().get(j).getNameAsString())){
+                    similarity = CalculateSimilarity(cl.getMethods().get(i), cl.getMethods().get(j));
+                }
+
+                if(similarity>0.7) level++;
+            }
+        }
+        return ThreatLevel.values()[level];
     }
 
-    public boolean isDuplicateCode(ClassOrInterfaceDeclaration c1){
-
-        return false;
+    private double CalculateSimilarity(MethodDeclaration method1,MethodDeclaration method2){
+        DecimalFormat df = new DecimalFormat(("#.##"));
+        String method1Body = method1.getBody().toString();
+        String method2Body = method2.getBody().toString();
+        String longer = method1Body, shorter = method2Body;
+        if (method1Body.length() < method2Body.length()) { // longer should always have greater length
+            longer = method2Body; shorter = method1Body
+            ;
+        }
+        int longerLength = longer.length();
+        if (longerLength == 0) { return 1.0; /* both strings are zero length */ }
+       // out.println(method1.getNameAsString()+" has a similarity level of: "+df.format(((longerLength - editDistance(longer, shorter)) / (double) longerLength)*100)+"% with "+method2.getNameAsString());
+        return (longerLength - editDistance(longer, shorter)) / (double) longerLength;
     }
+
+    private static int editDistance(String s1, String s2) {
+        s1 = s1.toLowerCase();
+        s2 = s2.toLowerCase();
+
+        int[] costs = new int[s2.length() + 1];
+        for (int i = 0; i <= s1.length(); i++) {
+            int lastValue = i;
+            for (int j = 0; j <= s2.length(); j++) {
+                if (i == 0)
+                    costs[j] = j;
+                else {
+                    if (j > 0) {
+                        int newValue = costs[j - 1];
+                        if (s1.charAt(i - 1) != s2.charAt(j - 1))
+                            newValue = Math.min(Math.min(newValue, lastValue),
+                                    costs[j]) + 1;
+                        costs[j - 1] = lastValue;
+                        lastValue = newValue;
+                    }
+                }
+            }
+            if (i > 0)
+                costs[s2.length()] = lastValue;
+        }
+        return costs[s2.length()];
+    }
+
 
 
 }

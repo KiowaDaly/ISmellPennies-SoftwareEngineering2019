@@ -30,6 +30,10 @@ public class Main {
         System.out.println("Feature Envy? " + fe.getNumVariableCalls(classes.get(0)));
         WalkingDeadChecks wd = new WalkingDeadChecks();
         System.out.println(classes.get(0).getNameAsString()+" is data only?: " + wd.isDataOnlyClass(classes.get(0)));
+        for(ClassOrInterfaceDeclaration cx:classes){
+            System.out.println("Threat level of duplication in "+cx.getNameAsString()+": " + wd.getDuplicationLevel(cx));
+            }
+
 
     }
 

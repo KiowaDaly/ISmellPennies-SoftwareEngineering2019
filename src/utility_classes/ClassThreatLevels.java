@@ -7,6 +7,7 @@ public class ClassThreatLevels {
     private ThreatLevel OOAbuseThreatLevel;
     private ThreatLevel ExcessiveCouplingThreatLevel;
     private ThreatLevel GodObjectThreatLevel;
+    //    ThreatLevel WalkingDeadThreatLevel;
     public ClassThreatLevels(ThreatLevel bloat, ThreatLevel OOAbuse, ThreatLevel ec,ThreatLevel godOb){
         this.bloatThreatLevel = bloat;
         this.OOAbuseThreatLevel = OOAbuse;
@@ -14,7 +15,7 @@ public class ClassThreatLevels {
         this.GodObjectThreatLevel = godOb;
     }
 
-//    ThreatLevel WalkingDeadThreatLevel;
+
 
     public ThreatLevel getBloatThreatLevel() {
         return bloatThreatLevel;
