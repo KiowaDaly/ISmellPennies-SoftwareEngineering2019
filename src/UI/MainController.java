@@ -84,6 +84,7 @@ public class MainController {
                 updateMethodList(cl);
             }
         }
+
         SmellList.setItems(smellItems);
         pieChart.setData(list);
     }
