@@ -12,7 +12,7 @@ public class FileHandler {
    //open file explorer
 
     //function that opens the users file explorer to select and return a folder
-
+    int counter;
     public File selectFolder() {
         DirectoryChooser Directory = new DirectoryChooser();
         Directory.setTitle("Select desired source folder");
@@ -23,6 +23,7 @@ public class FileHandler {
         List<CompilationUnit> units = loopFolders(f);
         SmellDetectorCalls smells = SmellDetectorCalls.init(units);
         smells.AnalyseProject();
+        smells.setNumFiles(counter);
         String S = smells.printResults();
         return S;
     }
@@ -41,6 +42,7 @@ public class FileHandler {
 
                 if(fi.getName().toLowerCase().endsWith(".java")){
                     units.add(StaticJavaParser.parse(fi));
+                    counter++;
                 }
 
             }

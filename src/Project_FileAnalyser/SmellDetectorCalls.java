@@ -22,6 +22,7 @@ public class SmellDetectorCalls {
     HashMap<ClassOrInterfaceDeclaration, HashMap> map;
     HashMap<ClassOrInterfaceDeclaration, HashMap> methodThreats;
     private List<CompilationUnit> units;
+    int NumFiles;
 
     private SmellDetectorCalls(List<CompilationUnit> units) {
         this.units = units;
@@ -83,6 +84,12 @@ public class SmellDetectorCalls {
         return getDetections();
     }
 
+    public void setNumFiles(int numFiles) {
+        this.NumFiles = numFiles;
+    }
+    public int getNumFiles(){
+        return NumFiles;
+    }
 
     public String printResults(){
         String string = "";
@@ -97,6 +104,29 @@ public class SmellDetectorCalls {
         return string;
     }
 
+    public Double[] getOverallThreatLevels(){
+        int bloatedness = 0;
+        int complexity = 0;
+        int Ec = 0;
+        int Gc = 0;
+        int Wd = 0;
+        for(ClassOrInterfaceDeclaration cl:getDetections().keySet()){
+            bloatedness+=getDetections().get(cl).getBloatThreatLevel().ordinal();
+            complexity +=getDetections().get(cl).getOOAbuseThreatLevel().ordinal();
+            Ec += getDetections().get(cl).getExcessiveCouplingThreatLevel().ordinal();
+            Gc += getDetections().get(cl).getGodObjectThreatLevel().ordinal();
+        }
+        Double bloat = bloatedness/(double)getDetections().keySet().size();
+        Double c = complexity/(double)getDetections().keySet().size();
+        Double e = Ec/(double)getDetections().keySet().size();
+        Double g = Gc/(double)getDetections().keySet().size();
+        Double w = Wd/(double)getDetections().keySet().size();
+
+
+        Double[] total = {bloat*100,c*100,e*100,g*100,w*100};
+
+        return total;
+    }
 
     public HashMap<ClassOrInterfaceDeclaration, ClassThreatLevels> getDetections() {
         return detections;

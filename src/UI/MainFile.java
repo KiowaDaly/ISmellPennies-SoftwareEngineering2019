@@ -22,7 +22,7 @@ public class MainFile extends Application {
 
         // Load the FXML document
         primaryStage.setTitle("I smell Pennies");
-        Scene scene =  new Scene(root,1000,600);
+        Scene scene =  new Scene(root,1300,800);
         primaryStage.setScene(scene);
         scene.getStylesheets().add("src/UI/baseScene.css");
         primaryStage.show();

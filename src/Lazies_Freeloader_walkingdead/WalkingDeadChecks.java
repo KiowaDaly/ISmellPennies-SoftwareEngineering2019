@@ -68,6 +68,7 @@ public class WalkingDeadChecks {
     }
 
     public boolean isDuplicateCode(ClassOrInterfaceDeclaration c1){
+
         return false;
     }
 

@@ -7,11 +7,14 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.PieChart;
+import javafx.collections.transformation.SortedList;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
+import utility_classes.ThreatLevel;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -19,7 +22,7 @@ import java.util.List;
 public class MainController {
 
     private String[] SmellStrings = {"Bloat Level","Complexity Level","Excessive Coupling","God Class Threat Level", "The Walking Dead", "Overall Smelliness"};
-
+    private String[] suggestedFixes = {"Bloat: Consider breaking the class or method down into subclasses and separate methods"};
     public TextArea RESULTS;
     public ListView<String> UnitLists;
     public ListView<String> SmellList;
@@ -27,12 +30,15 @@ public class MainController {
     public Pane DropPane;
     public Label SmellLabel;
     public Label MethodsLabel;
+    public AreaChart AreaChart;
     public Label ThreatLabel;
     public MenuBar Menu;
     public MenuItem Help;
     public PieChart pieChart;
     public ProgressBar ThreatLevel;
     public TextArea FINALRESULTS;
+    public BarChart barChart;
+    private int numberOfLines;
 
     private ObservableList<String> items = FXCollections.observableArrayList();
     private ObservableList<String> smellItems = FXCollections.observableArrayList();
@@ -55,28 +61,34 @@ public class MainController {
         //RESULTS.setText("----------> SMELL CHECK RESULTS <----------\n\n" + s);
         for(ClassOrInterfaceDeclaration cl: SmellDetectorCalls.getInstance().getDetections().keySet()){
             items.add(cl.getNameAsString());
-
+            numberOfLines += (cl.getEnd().get().line - cl.getBegin().get().line - 1);
         }
-        UnitLists.setItems(items);
+
+        UnitLists.setItems(items.sorted());
+            displayFinalResults();
+            smellItems.addAll(SmellStrings);
+            SmellList.setItems(smellItems.sorted());
     }
 
     public void displayFinalResults(){
         String finalRes = "";
-        finalRes += "We have scanned your project and have found " + " files and " + " lines of code";
-        finalRes += "We have detected that " + "% of your project smells of Bloat";
-        finalRes += "We have also detected that " + "% of your project contains Object Orientated Abuse";
-        finalRes += "Your project also displayed " + "% worth of God classes";
-        finalRes += "Finally, we scanned your project and found that " + "% of it may suffer from Walking Dead smells";
+        finalRes += "We have scanned your project and have found " +SmellDetectorCalls.getInstance().getNumFiles()+ " files and " +numberOfLines+ " lines of code\n";
+        finalRes += "We have detected that " +SmellDetectorCalls.getInstance().getOverallThreatLevels()[0]+ "% of your project smells of Bloat\n";
+        finalRes += "We have also detected that " +SmellDetectorCalls.getInstance().getOverallThreatLevels()[1]+ "% of your project contains Object Orientated Abuse\n";
+        finalRes += "Your project also displayed " +SmellDetectorCalls.getInstance().getOverallThreatLevels()[3]+ "% worth of God classes\n";
+        finalRes += "Finally, we scanned your project and found that " +SmellDetectorCalls.getInstance().getOverallThreatLevels()[4]+ "% of it may suffer from Walking Dead smells\n";
         FINALRESULTS.setText(finalRes);
 
     }
 
     //A function that reads the selected item on our Item list and displays the corresponding classes details
     public void displaySelectedAnalysis(){
+
         ObservableList<PieChart.Data> list = FXCollections.observableArrayList();
         String s = UnitLists.getSelectionModel().getSelectedItem();
         SmellLabel.setText(s);
-        SmellList.getItems().clear();
+        barChart.getData().clear();
+
         for(ClassOrInterfaceDeclaration cl: SmellDetectorCalls.getInstance().getDetections().keySet()){
             //since the method getSelectionModel returns a string we have to check for equivalence like this
             if(cl.getNameAsString().equals(s)){
@@ -97,13 +109,14 @@ public class MainController {
                // Wd = (double) SmellDetectorCalls.getInstance().ge
 
                 //smellItems.addAll(SmellStrings[0],SmellStrings[1],SmellStrings[2],SmellStrings[3], SmellStrings[4], );
-                smellItems.addAll(SmellStrings);
+                //smellItems.addAll(SmellStrings);
                 updateMethodList(cl);
                 resetProgressBar(cl);
+                populateBarChart(cl);
             }
         }
-
-        SmellList.setItems(smellItems);
+        SortedList<String> sortedList = new SortedList(smellItems);
+        SmellList.setItems(sortedList);
         pieChart.setData(list);
     }
     private void disableMethodList(){
@@ -125,6 +138,7 @@ public class MainController {
                         ThreatLevel.setProgress(bloat/4);
                         MethodList.setVisible(true);
                         MethodsLabel.setVisible(true);
+                        MethodsLabel.setText(cl.getNameAsString()+"'s Methods");
                         ThreatLabel.setText(cl.getNameAsString()+"::"+SmellStrings[0]);
                     }
                     if(s.equals(SmellStrings[1])){
@@ -155,10 +169,25 @@ public class MainController {
             }
 
    }
+   private void populateBarChart(ClassOrInterfaceDeclaration cl){
+            new CategoryAxis().setLabel("Smells Detected");
+            new NumberAxis().setLabel("% of smells Detected");
+            XYChart.Series series = new XYChart.Series<String,ThreatLevel>();
+            series.setName(cl.getNameAsString()+"::Smells");
+            double total = bloat+complexity+Ec+Gc;
+            series.getData().add(new XYChart.Data<>(SmellStrings[0],(bloat/total)*100));
+            series.getData().add(new XYChart.Data(SmellStrings[1],(complexity/total)*100));
+            series.getData().add(new XYChart.Data(SmellStrings[2],(Ec/total)*100));
+            series.getData().add(new XYChart.Data(SmellStrings[3],(Gc/total)*100));
+            barChart.getData().add(series);
+        }
    public void resetProgressBar(ClassOrInterfaceDeclaration cl){
+       ObservableList<AreaChart.Data> list = FXCollections.observableArrayList();
        ThreatLevel.setProgress((bloat/4 + complexity/4 + Gc/4 + Ec/4 + Wd/4)/5);
+
        disableMethodList();
        ThreatLabel.setText(cl.getNameAsString() + "::" + SmellStrings[5]);
+
    }
 
 
@@ -179,9 +208,14 @@ public class MainController {
             items.add(cl.getNameAsString());
         }
         UnitLists.setItems(items);
-
+        displayFinalResults();
     }
 
+    public void togglePieChart(){
+        pieChart.setVisible(!pieChart.isVisible());
+        barChart.setVisible(!barChart.isVisible());
+
+    }
 
 
 

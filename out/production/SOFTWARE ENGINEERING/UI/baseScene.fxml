@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -8,6 +12,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,7 +20,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.MainController">
+<AnchorPane prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.MainController">
     <children>
         <Pane layoutX="3.0" layoutY="14.0" prefHeight="466.0" prefWidth="261.0">
             <children>
@@ -54,17 +59,37 @@
                 </MenuBar>
             </children>
         </Pane>
-        <ListView fx:id="UnitLists" layoutX="264.0" layoutY="58.0" onMouseClicked="#displaySelectedAnalysis" prefHeight="538.0" prefWidth="200.0" />
+        <ListView fx:id="UnitLists" layoutX="264.0" layoutY="58.0" onMouseClicked="#displaySelectedAnalysis" prefHeight="732.0" prefWidth="200.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ListView>
         <Label layoutX="308.0" layoutY="37.0" text="Classes Analysed" />
         <Label fx:id="SmellLabel" alignment="CENTER" layoutX="464.0" layoutY="37.0" prefHeight="21.0" prefWidth="200.0" stylesheets="@baseScene.css" text="Smells" textAlignment="CENTER" AnchorPane.topAnchor="37.0" />
-      <PieChart fx:id="pieChart" layoutX="645.0" layoutY="217.0" prefHeight="369.0" prefWidth="354.0" title="Smells Detected in Class">
+      <PieChart fx:id="pieChart" layoutX="1000.0" layoutY="264.0" prefHeight="531.0" prefWidth="292.0" title="Smells Detected in Class" visible="false" AnchorPane.topAnchor="264.0">
          <effect>
             <DropShadow />
          </effect></PieChart>
-      <ListView fx:id="SmellList" layoutX="471.0" layoutY="58.0" onMouseClicked="#updateProgressBar" prefHeight="159.0" prefWidth="187.0" />
-      <ProgressBar fx:id="ThreatLevel" layoutX="732.0" layoutY="482.0" prefHeight="23.0" prefWidth="181.0" progress="0.0" />
-      <Label fx:id="ThreatLabel" alignment="CENTER" layoutX="672.0" layoutY="461.0" prefHeight="21.0" prefWidth="292.0" text="Threat Level" />
-      <ListView fx:id="MethodList" layoutX="474.0" layoutY="247.0" prefHeight="310.0" prefWidth="181.0" visible="false" />
-      <Label fx:id="MethodsLabel" alignment="CENTER" layoutX="525.0" layoutY="217.0" text="Methods" visible="false" />
+      <ListView fx:id="SmellList" layoutX="474.0" layoutY="58.0" onMouseClicked="#updateProgressBar" prefHeight="224.0" prefWidth="187.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ListView>
+      <ProgressBar fx:id="ThreatLevel" layoutX="702.0" layoutY="247.0" prefHeight="23.0" prefWidth="233.0" progress="0.0" />
+      <Label fx:id="ThreatLabel" alignment="CENTER" layoutX="670.0" layoutY="228.0" prefHeight="21.0" prefWidth="292.0" text="Threat Level      " />
+      <ListView fx:id="MethodList" layoutX="474.0" layoutY="321.0" prefHeight="466.0" prefWidth="187.0" visible="false">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></ListView>
+      <Label fx:id="MethodsLabel" alignment="CENTER" layoutX="538.0" layoutY="298.0" prefHeight="23.0" prefWidth="59.0" text="Methods" visible="false" />
+      <TextArea fx:id="FINALRESULTS" editable="false" layoutX="667.0" layoutY="57.0" prefHeight="159.0" prefWidth="627.0" />
+      <BarChart fx:id="barChart" layoutX="952.0" layoutY="268.0" prefHeight="531.0" prefWidth="348.0" title="Smells Deteted">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </BarChart>
+      <Button layoutX="1033.0" layoutY="233.0" mnemonicParsing="false" onMousePressed="#togglePieChart" prefHeight="31.0" prefWidth="233.0" text="Switch Chart Layout" />
+      <TextArea editable="false" layoutX="672.0" layoutY="280.0" prefHeight="496.0" prefWidth="292.0" />
     </children>
 </AnchorPane>
