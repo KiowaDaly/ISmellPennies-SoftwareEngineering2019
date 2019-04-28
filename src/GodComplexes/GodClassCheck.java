@@ -97,7 +97,6 @@ public class GodClassCheck
   {
     Map<String, List<MethodDeclaration>> methodFieldAccesses = new HashMap<>();
     List<FieldDeclaration> fields = new ArrayList<>();
-    List<String> localVariables = new ArrayList<>();
 
     fields.addAll(clin.findAll(FieldDeclaration.class)); // store class fields
 
@@ -112,6 +111,7 @@ public class GodClassCheck
             AssignExpr varMatch = assign;
             if (mdec.findFirst(VariableDeclarationExpr.class).isPresent()) // method has local variables
             {
+              List<String> localVariables = new ArrayList<>();
               for (VariableDeclarationExpr locVar :mdec.findAll(VariableDeclarationExpr.class))
                 localVariables.add(locVar.getVariables().get(0).getName().toString()); // local variable names
 
@@ -120,8 +120,9 @@ public class GodClassCheck
                else
                  break;
             }
-            methodFieldAccesses.computeIfAbsent(varMatch.getTarget().toString(), k -> new ArrayList<>()).add(mdec); // add related methods to field key
-          }
+            List<MethodDeclaration> relatedMethods = methodFieldAccesses.get(varMatch.getTarget().toString());
+            if (relatedMethods == null || !relatedMethods.contains(mdec)) // count only 1 call per method per field
+              methodFieldAccesses.computeIfAbsent(varMatch.getTarget().toString(), k -> new ArrayList<>()).add(mdec); // add related methods to field key
         }
       }
     }
