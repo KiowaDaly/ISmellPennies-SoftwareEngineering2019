@@ -2,6 +2,9 @@ package Project_FileAnalyser;
 import BloatCheckers.BloatedCodeAbuseCheck;
 import ExcessiveCoupling.ExcessiveCouplingChecks;
 import GodComplexes.GodClassCheck;
+import ObjectOrientedAbusers.RefusedBequest;
+import ObjectOrientedAbusers.RefusedBequestHelpers.Beta;
+import ObjectOrientedAbusers.RefusedBequestHelpers.BetaFactory;
 import ObjectOrientedAbusers.SwitchChecker;
 import ObjectOrientedAbusers.TemporaryFields;
 import com.github.javaparser.ast.CompilationUnit;
@@ -48,7 +51,8 @@ public class SmellDetectorCalls {
     }
     //function below is where you call on the different classes
     public void AnalyseProject() {
-
+        RefusedBequest rb = new RefusedBequest();
+        rb.createClasses(units);
         //loop through all the different compilation units and create a list of their classes
         for (CompilationUnit cu : units) {
             List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();
@@ -63,22 +67,33 @@ public class SmellDetectorCalls {
             ExcessiveCouplingChecks fe = new ExcessiveCouplingChecks();
             GodClassCheck Gc = new GodClassCheck();
 
+
+
+            System.out.println("Start: "+classes.size());
+
             /* this for loop is only needed by the bloatAbuse check
             *  it loops through every key in our hashmap "map"
             *  it then loops through the inner hashmap that is the value of each key in "map"
             *  this is where the blaoted threat level is stored.
             *  we then put the class and its ClassThreatLevels into the detections hashmap
             */
+
             for (ClassOrInterfaceDeclaration cl : map.keySet()) {
                 HashMap value = map.get(cl);
                 Set<ThreatLevel> t = value.keySet();
+
+                System.out.println("Complexity of: "+cl.getName()+" is "+rb.refuseBequestLevels(cl));
                 for (ThreatLevel tl : t) {
                     //place the class name and all its threats in to the hashmap
                     getDetections().put(cl,new ClassThreatLevels(tl,switchC.complexityOfClass(cl),fe.checkExcessiveCoupling(cl),Gc.checkGodClass(cl)));
                 }
             }
+            System.out.println("END");
         }
     }
+
+
+
 //not used yet but will in future.
     public HashMap getAnalysisResults(){
         return getDetections();
@@ -98,8 +113,7 @@ public class SmellDetectorCalls {
          string += "\nCLASS:  "+cl.getName();
          string += "Bloatedness: "+value.getBloatThreatLevel();
          string += "Complexity: "+value.getOOAbuseThreatLevel();
-            TemporaryFields tf = new TemporaryFields(cl);
-         System.out.println("Temporary Fields: "+tf.toString());
+
         }
         return string;
     }
