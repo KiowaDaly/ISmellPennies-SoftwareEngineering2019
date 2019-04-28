@@ -1,9 +1,7 @@
 package Lazies_Freeloader_walkingdead;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.body.*;
 
+import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 
 import java.text.DecimalFormat;
@@ -11,27 +9,63 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import com.github.javaparser.ast.expr.SimpleName;
+import com.github.javaparser.ast.expr.ThisExpr;
+import com.github.javaparser.ast.stmt.ReturnStmt;
 import utility_classes.ThreatLevel;
 
-
+//delete some comments later
 
 public class WalkingDeadChecks {
 
     public boolean isDataOnlyClass(ClassOrInterfaceDeclaration cl) {
+
         List<MethodDeclaration> nonDataMethods = new ArrayList<>();
+
         for (FieldDeclaration f : cl.getFields()) {
             for (MethodDeclaration md : cl.getMethods()) {
                 for (VariableDeclarator v : f.getVariables()) {
-                    if ((md.getNameAsString().toLowerCase().contains(("get"))
-                            || (md.getNameAsString().toLowerCase().contains("set")))) {
-                        continue;
-                    } else nonDataMethods.add(md);
+
+                    String retType = md.findAll(ReturnStmt.class).toString();
+                    String fieldName = v.getName().toString();
+
+                        //getter
+                        if(retType.contains(fieldName)){
+                            continue;
+                        }
+
+                        //check method has no call
+                        if(md.findAll(MethodCallExpr.class).isEmpty()){ continue;}
+
+                        //setters
+                        for (Parameter p : md.getParameters()){
+                            String setterBody = md.getBody().toString(); //body of the method
+                            String setterMethod = "this."+fieldName + " = " + p.getName(); //this.fieldname = parameter
+
+                            //continue if it is a setter method
+                            if(setterBody.contains(setterMethod)){continue;}
+                            continue;
+
+                        }
+
+                        //check if method has call, but is returning a statement.
+                        if(!md.findAll(MethodCallExpr.class).isEmpty()){
+                            if(!md.findAll(ReturnStmt.class).isEmpty()){
+                                continue;
+                            } else
+                                nonDataMethods.add(md);
+                        }
+                     else
+                         //if its a method that doesnt return a data
+                        nonDataMethods.add(md);
+                        //to see which methods are not data
+                       // System.out.println("NON DATA Method name: " + md.getName());
+
                 }
             }
         }
 
-        return nonDataMethods.size() == 0;
-
+        return nonDataMethods.isEmpty();
     }
 
     //check how many times its called in the javaparser
@@ -39,22 +73,29 @@ public class WalkingDeadChecks {
         //dead METHODS
         //if mthod call is 0, print method name and its count and make it a threat
         List<MethodCallExpr> methodCalls = new ArrayList<>();
-
-
+        List<MethodCallExpr> externalCalls = new ArrayList<>();
+        List<MethodDeclaration> methodDeclarations = new ArrayList<>();
 
         int uncalled = 0;
         for (MethodDeclaration md : cl.getMethods()) {
             //adds all the called methods in the list
+            methodDeclarations.add(md);
             methodCalls.addAll(md.findAll(MethodCallExpr.class));
         }
+
+
+    //    System.out.println("DEADDDDD Method declarations: " + methodCalls);
 
         for (MethodDeclaration md : cl.getMethods()) {
             //if it the method is not contained in the list, and is also not called 'main'
             if(!methodCalls.toString().contains(md.getNameAsString()) && !md.getNameAsString().equals("main")){
-                //  System.out.println("it contains dead code. that is '" + md.getNameAsString() + "'");
+                 System.out.println("it contains dead code. that is '" + md.getNameAsString() + "'");
                 uncalled++;
             }
+
         }
+        //testing
+        System.out.println("uncalled" + uncalled);
 
         if (uncalled >= 3) return ThreatLevel.HIGH;
         if (uncalled == 2) return ThreatLevel.MEDIUM;
@@ -121,6 +162,62 @@ public class WalkingDeadChecks {
         return costs[s2.length()];
     }
 
+
+    //TO DO
+    public boolean isLazyCode(ClassOrInterfaceDeclaration cl){
+        //need to find class that doesnt do much,
+        //may contain only data and less than 2 methods calls
+        //examples would be being data only classes.
+        //if it uses too much external calls, more than it self
+        //methods are lacking
+        //COUNT EMPTY METHODS
+        List<SimpleName> declaredMethods = new ArrayList<>();
+        List<MethodCallExpr> allMethodCalls = new ArrayList<>();
+        List<SimpleName> externalMethodCalls = new ArrayList<>();
+
+        int emptyMethods = 0;
+        for (MethodDeclaration md : cl.getMethods()){
+            declaredMethods.add(md.getName());
+
+            if(!md.findAll(ReturnStmt.class).isEmpty()){
+                continue;
+            } else
+            emptyMethods++;
+        }
+        System.out.println("Lazy Declared calls calls" +declaredMethods + " counter: " +emptyMethods);
+//if(md.findAll(MethodCallExpr.class).isEmpty()){ continue;}
+            allMethodCalls.addAll(cl.findAll(MethodCallExpr.class));
+            for (MethodCallExpr mcall : allMethodCalls) {
+
+            if (!declaredMethods.contains(mcall.getName()) && !externalMethodCalls.contains(mcall.getName()))
+                externalMethodCalls.add(mcall.getName()); // method is not declared within the class and counted once
+            }
+
+        for (MethodDeclaration md : cl.getMethods()) {
+            //if it the method is not contained in the list, and is also not called 'main'
+            if(!allMethodCalls.toString().contains(md.getNameAsString())){
+                 System.out.println("it contains dead code. that is '" + md.getNameAsString() + "'");
+                //uncalled++;
+            }
+
+        }
+
+
+        System.out.println("Lazy External calls" +externalMethodCalls);
+
+        System.out.println(externalMethodCalls.size());
+
+        externalMethodCalls.size();
+
+        return false;
+    }
+
+
+    //TO DO
+    public boolean SpeculativeGeneralityChecker(ClassOrInterfaceDeclaration cl){
+        //test cases, if code is not called, may recheck
+        return false;
+    }
 
 
 }

@@ -18,7 +18,7 @@ public class Main {
 
         System.out.println("----------> number of class declarations <----------");
         ExcessiveCouplingChecks fe = new ExcessiveCouplingChecks();
-        CompilationUnit cl = StaticJavaParser.parse(new File("src/test.java"));
+        CompilationUnit cl = StaticJavaParser.parse(new File("src/testdead.java"));
         List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();
         CompilationUnitVisitor compunitvisitor = new CompilationUnitVisitor();
         compunitvisitor.visit(cl, classes);
@@ -27,12 +27,18 @@ public class Main {
 //        System.out.println(fe.getNumVsriableCalls(classes.get(0)));
       //  System.out.println(fe.isMiddleMan(classes.get(0)));
 
+
+
+
         System.out.println("Feature Envy? " + fe.getNumVariableCalls(classes.get(0)));
         WalkingDeadChecks wd = new WalkingDeadChecks();
-        System.out.println(classes.get(0).getNameAsString()+" is data only?: " + wd.isDataOnlyClass(classes.get(0)));
         for(ClassOrInterfaceDeclaration cx:classes){
-            System.out.println("Threat level of duplication in "+cx.getNameAsString()+": " + wd.getDuplicationLevel(cx));
+       //     System.out.println("Threat level of duplication in "+cx.getNameAsString()+": " + wd.getDuplicationLevel(cx));
             }
+
+        System.out.println(classes.get(0).getNameAsString()+" is data only?: " + wd.isDataOnlyClass(classes.get(0)));
+        System.out.println(classes.get(0).getNameAsString()+" Deadcode threat level: : " + wd.isDeadCode(classes.get(0)));
+        System.out.println(classes.get(0).getNameAsString()+" Lazy:  " + wd.isLazyCode(classes.get(0)));
 
 
     }
