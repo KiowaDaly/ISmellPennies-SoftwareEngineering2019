@@ -62,7 +62,6 @@ public class SmellDetectorCalls {
             map = checkBloats.getClassThreats();
             methodThreats = checkBloats.getMethodThreats();
             ExcessiveCouplingChecks fe = new ExcessiveCouplingChecks();
-            GodClassCheck Gc = new GodClassCheck();
             WalkingDeadChecks wD = new WalkingDeadChecks();
 
             /* this for loop is only needed by the bloatAbuse check
@@ -74,9 +73,10 @@ public class SmellDetectorCalls {
             for (ClassOrInterfaceDeclaration cl : map.keySet()) {
                 HashMap value = map.get(cl);
                 Set<ThreatLevel> t = value.keySet();
+                GodClassCheck Gc = new GodClassCheck(cl);
                 for (ThreatLevel tl : t) {
                     //place the class name and all its threats in to the hashmap
-                    getDetections().put(cl,new ClassThreatLevels(tl,switchC.complexityOfClass(cl),fe.checkExcessiveCoupling(cl),Gc.checkGodClass(cl),wD.overallWalkingDead(cl)));
+                    getDetections().put(cl,new ClassThreatLevels(tl,switchC.complexityOfClass(cl),fe.checkExcessiveCoupling(cl),Gc.checkGodClass(),wD.overallWalkingDead(cl)));
                 }
             }
         }
