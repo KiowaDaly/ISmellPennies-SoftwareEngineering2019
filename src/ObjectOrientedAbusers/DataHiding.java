@@ -143,7 +143,6 @@ public class DataHiding {
     private boolean isSufficientPrivatisation(){
         return (numberOfPrivates == numberOfFields);
     }
-
     public ThreatLevel DataHidingComplexity(){
         ThreatLevel complexityLevel = ThreatLevel.NONE;
 

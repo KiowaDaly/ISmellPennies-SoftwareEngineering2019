@@ -65,4 +65,31 @@ public class TemporaryFields {
             }
         }
     }
+
+
+    public ThreatLevel TemporaryFieldComplexity(){
+        ThreatLevel complexityLevel = ThreatLevel.NONE;
+        int totalFields = fieldList.size();
+        double top = 0;
+        for(FieldDeclaration fd: fieldList.keySet()){
+            top += (double) (fieldList.get(fd))/clase.getMethods().size();
+        }
+        double val = (double)(top/totalFields);
+
+        if(val<0.0){
+            complexityLevel = ThreatLevel.NONE;
+        }
+        else if(val<0.3){
+            complexityLevel = ThreatLevel.LOW;
+        }
+        else if(val<0.60){
+            complexityLevel = ThreatLevel.MEDIUM;
+        }
+        else{
+            complexityLevel = ThreatLevel.HIGH;
+        }
+
+        return complexityLevel;
+    }
+
 }

@@ -3,6 +3,7 @@ import BloatCheckers.BloatedCodeAbuseCheck;
 import ExcessiveCoupling.ExcessiveCouplingChecks;
 import GodComplexes.GodClassCheck;
 import Lazies_Freeloader_walkingdead.WalkingDeadChecks;
+import ObjectOrientedAbusers.RefusedBequest;
 import ObjectOrientedAbusers.SwitchChecker;
 import ObjectOrientedAbusers.TemporaryFields;
 import com.github.javaparser.ast.CompilationUnit;
@@ -49,8 +50,10 @@ public class SmellDetectorCalls {
     }
     //function below is where you call on the different classes
     public void AnalyseProject(List<CompilationUnit> list) {
+        RefusedBequest rb = new RefusedBequest();
         units = list;
         detections.clear();
+        rb.createClasses(units);
         //loop through all the different compilation units and create a list of their classes
         for (CompilationUnit cu : units) {
             List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();
@@ -75,6 +78,7 @@ public class SmellDetectorCalls {
                 HashMap value = map.get(cl);
                 Set<ThreatLevel> t = value.keySet();
                 GodClassCheck Gc = new GodClassCheck(cl);
+                ThreatLevel rbComplexity = rb.refuseBequestLevels(cl);
                 for (ThreatLevel tl : t) {
                     //place the class name and all its threats in to the hashmap
                     getDetections().put(cl,new ClassThreatLevels(tl,switchC.complexityOfClass(cl),fe.checkExcessiveCoupling(cl),Gc.checkGodClass(),wD.overallWalkingDead(cl)));
@@ -120,11 +124,11 @@ public class SmellDetectorCalls {
             Gc += getDetections().get(cl).getGodObjectThreatLevel().ordinal();
             Wd += getDetections().get(cl).getWalkingDeadThreatLevel().ordinal();
         }
-        Double bloat = bloatedness/((double)getDetections().keySet().size()*4);
-        Double c = complexity/((double)getDetections().keySet().size()*4);
-        Double e = Ec/((double)getDetections().keySet().size()*4);
-        Double g = Gc/((double)getDetections().keySet().size()*4);
-        Double w = Wd/((double)getDetections().keySet().size()*4);
+        Double bloat = (double) Math.round(bloatedness/((double)getDetections().keySet().size()*4));
+        Double c = (double) Math.round(complexity/((double)getDetections().keySet().size()*4));
+        Double e = (double) Math.round(Ec/((double)getDetections().keySet().size()*4));
+        Double g = (double) Math.round(Gc/((double)getDetections().keySet().size()*4));
+        Double w = (double) Math.round(Wd/((double)getDetections().keySet().size()*4));
 
 
         Double[] total = {bloat*100,c*100,e*100,g*100,w*100};

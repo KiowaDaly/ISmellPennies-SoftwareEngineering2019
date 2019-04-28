@@ -181,7 +181,7 @@ public class RefusedBequest{
 
     private void beginAnalysis(){
         for(Beta beta: betaMapping.values()){
-            for(ClassOrInterfaceDeclaration cl: classes){
+            for(ClassOrInterfaceDeclaration cl: classes){                System.out.println("Class Name: "+beta.getAlpha().getName());
                 boolean isBetaEqualClass = cl.getName().toString().equals(beta.getBeta().getName().toString());
                 boolean isClassAlphaOfBeta = cl.getName().toString().equals(beta.getAlpha().getName().toString());
                 if(!isBetaEqualClass && !isClassAlphaOfBeta){
