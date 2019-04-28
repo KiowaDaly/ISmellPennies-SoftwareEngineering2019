@@ -37,7 +37,7 @@ public class testDataonly {
     }
 
     public void emptyMethod(){
-      System.out.println("HAHA NOT A DATA CLASS");
+     // System.out.println("HAHA NOT A DATA CLASS");
     }
 
     public String someString(){

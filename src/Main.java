@@ -18,7 +18,7 @@ public class Main {
 
         System.out.println("----------> number of class declarations <----------");
         ExcessiveCouplingChecks fe = new ExcessiveCouplingChecks();
-        CompilationUnit cl = StaticJavaParser.parse(new File("src/testdead.java"));
+        CompilationUnit cl = StaticJavaParser.parse(new File("src/testDataonly.java"));
         List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();
         CompilationUnitVisitor compunitvisitor = new CompilationUnitVisitor();
         compunitvisitor.visit(cl, classes);
@@ -37,8 +37,8 @@ public class Main {
             }
 
         System.out.println(classes.get(0).getNameAsString()+" is data only?: " + wd.isDataOnlyClass(classes.get(0)));
-        System.out.println(classes.get(0).getNameAsString()+" Deadcode threat level: : " + wd.isDeadCode(classes.get(0)));
-        System.out.println(classes.get(0).getNameAsString()+" Lazy:  " + wd.isLazyCode(classes.get(0)));
+        System.out.println(classes.get(0).getNameAsString()+" Speculative Generality threat level: : " + wd.SpeculativeGeneralityChecker(classes.get(0)));
+        System.out.println(classes.get(0).getNameAsString()+" Lazy:  " + wd.LazyCodeCheck(classes.get(0)));
 
 
     }

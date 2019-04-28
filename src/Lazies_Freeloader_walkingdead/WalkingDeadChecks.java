@@ -68,42 +68,6 @@ public class WalkingDeadChecks {
         return nonDataMethods.isEmpty();
     }
 
-    //check how many times its called in the javaparser
-    public ThreatLevel isDeadCode(ClassOrInterfaceDeclaration cl){
-        //dead METHODS
-        //if mthod call is 0, print method name and its count and make it a threat
-        List<MethodCallExpr> methodCalls = new ArrayList<>();
-        List<MethodCallExpr> externalCalls = new ArrayList<>();
-        List<MethodDeclaration> methodDeclarations = new ArrayList<>();
-
-        int uncalled = 0;
-        for (MethodDeclaration md : cl.getMethods()) {
-            //adds all the called methods in the list
-            methodDeclarations.add(md);
-            methodCalls.addAll(md.findAll(MethodCallExpr.class));
-        }
-
-
-    //    System.out.println("DEADDDDD Method declarations: " + methodCalls);
-
-        for (MethodDeclaration md : cl.getMethods()) {
-            //if it the method is not contained in the list, and is also not called 'main'
-            if(!methodCalls.toString().contains(md.getNameAsString()) && !md.getNameAsString().equals("main")){
-                 System.out.println("it contains dead code. that is '" + md.getNameAsString() + "'");
-                uncalled++;
-            }
-
-        }
-        //testing
-        System.out.println("uncalled" + uncalled);
-
-        if (uncalled >= 3) return ThreatLevel.HIGH;
-        if (uncalled == 2) return ThreatLevel.MEDIUM;
-        if (uncalled == 1) return ThreatLevel.LOW;
-        if (methodCalls.isEmpty()) return ThreatLevel.HIGH;
-        //else return no threat
-        return ThreatLevel.NONE;
-    }
 
     public ThreatLevel getDuplicationLevel(ClassOrInterfaceDeclaration cl){
         int level = 0;
@@ -164,59 +128,95 @@ public class WalkingDeadChecks {
 
 
     //TO DO
-    public boolean isLazyCode(ClassOrInterfaceDeclaration cl){
+    public ThreatLevel LazyCodeCheck(ClassOrInterfaceDeclaration cl){
         //need to find class that doesnt do much,
         //may contain only data and less than 2 methods calls
         //examples would be being data only classes.
         //if it uses too much external calls, more than it self
         //methods are lacking
-        //COUNT EMPTY METHODS
         List<SimpleName> declaredMethods = new ArrayList<>();
         List<MethodCallExpr> allMethodCalls = new ArrayList<>();
-        List<SimpleName> externalMethodCalls = new ArrayList<>();
 
-        int emptyMethods = 0;
+        int lazyStrike = 0;
+
+        //all methods
+        allMethodCalls.addAll(cl.findAll(MethodCallExpr.class));
+
+        //declared methods
         for (MethodDeclaration md : cl.getMethods()){
             declaredMethods.add(md.getName());
-
-            if(!md.findAll(ReturnStmt.class).isEmpty()){
-                continue;
-            } else
-            emptyMethods++;
         }
-        System.out.println("Lazy Declared calls calls" +declaredMethods + " counter: " +emptyMethods);
-//if(md.findAll(MethodCallExpr.class).isEmpty()){ continue;}
-            allMethodCalls.addAll(cl.findAll(MethodCallExpr.class));
-            for (MethodCallExpr mcall : allMethodCalls) {
 
-            if (!declaredMethods.contains(mcall.getName()) && !externalMethodCalls.contains(mcall.getName()))
-                externalMethodCalls.add(mcall.getName()); // method is not declared within the class and counted once
-            }
+        //if there are less than 3 declared methods.
+        if(declaredMethods.size() <= 3){
+            lazyStrike = lazyStrike + 2;   //2 strikes,
+        }
+
+        if(isDataOnlyClass(cl)){            //if it is a data class
+            lazyStrike ++;   //1 strikes,
+        }
+
+/*
+        System.out.println("Lazy All Methods " +allMethodCalls );
+        System.out.println("Lazy Declared methods " +declaredMethods );
+        System.out.println("Lazy External methods" +externalMethodCalls);
+        System.out.println("size " + externalMethodCalls.size());
+        System.out.println(allMethodCalls);
+*/
+        if (lazyStrike == 3) return ThreatLevel.HIGH;
+        if (lazyStrike == 2) return ThreatLevel.MEDIUM;
+        if (lazyStrike == 1) return ThreatLevel.LOW;
+
+        //else return no threat
+        return ThreatLevel.NONE;
+    }
+
+    //check howmany times a declared method is used
+    public ThreatLevel SpeculativeGeneralityChecker(ClassOrInterfaceDeclaration cl){
+        //test cases, if code is not called, may recheck
+        //dead METHODS
+        //if mthod call is 0, print method name and its count and make it a threat
+        List<MethodCallExpr> methodCalls = new ArrayList<>();
+        List<MethodCallExpr> externalCalls = new ArrayList<>();
+        List<MethodDeclaration> methodDeclarations = new ArrayList<>();
+        List<SimpleName> unusedMethods = new ArrayList<>();
+
+        int uncalled = 0;
+            //adds all the called methods in the list
+            methodCalls.addAll(cl.findAll(MethodCallExpr.class));
+
+        //    System.out.println("DEADDDDD Method declarations: " + methodCalls);
 
         for (MethodDeclaration md : cl.getMethods()) {
             //if it the method is not contained in the list, and is also not called 'main'
-            if(!allMethodCalls.toString().contains(md.getNameAsString())){
-                 System.out.println("it contains dead code. that is '" + md.getNameAsString() + "'");
-                //uncalled++;
+            if(!methodCalls.toString().contains(md.getNameAsString()) && !md.getNameAsString().equals("main")){
+                unusedMethods.add(md.getName());
+                uncalled++;
             }
 
         }
-
-
-        System.out.println("Lazy External calls" +externalMethodCalls);
-
-        System.out.println(externalMethodCalls.size());
-
-        externalMethodCalls.size();
-
-        return false;
+/*        //testing
+        System.out.println("uncalled" + uncalled);
+        System.out.println("methodCalls: " + methodCalls + "'");
+        System.out.println("unused: " + unusedMethods+ "'");
+*/
+        if (uncalled >= 3) return ThreatLevel.HIGH;
+        if (uncalled == 2) return ThreatLevel.MEDIUM;
+        if (uncalled == 1) return ThreatLevel.LOW;
+        if (methodCalls.isEmpty()) return ThreatLevel.HIGH;
+        //else return no threat
+        return ThreatLevel.NONE;
     }
 
 
-    //TO DO
-    public boolean SpeculativeGeneralityChecker(ClassOrInterfaceDeclaration cl){
-        //test cases, if code is not called, may recheck
-        return false;
+    //to do
+    public ThreatLevel DeadCodeChecker(ClassOrInterfaceDeclaration cl){
+        //dead code that cannot be reached
+        //find un used variables or
+
+
+        //else return no threat
+        return ThreatLevel.NONE;
     }
 
 
