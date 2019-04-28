@@ -236,7 +236,6 @@ public class WalkingDeadChecks {
             dataOnlyThreat = ThreatLevel.NONE;
         }
 
-
         counter += SpeculativeGeneralityChecker(cl).ordinal();
         counter += dataOnlyThreat.ordinal();
         counter += LazyCodeCheck(cl).ordinal();
