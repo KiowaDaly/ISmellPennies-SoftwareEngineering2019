@@ -1,5 +1,6 @@
 import ExcessiveCoupling.ExcessiveCouplingChecks;
 import Lazies_Freeloader_walkingdead.WalkingDeadChecks;
+import Project_FileAnalyser.SmellDetectorCalls;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
@@ -17,7 +18,7 @@ public class Main {
 
 
         System.out.println("----------> number of class declarations <----------");
-        ExcessiveCouplingChecks fe = new ExcessiveCouplingChecks();
+        SmellDetectorCalls sdc = new SmellDetectorCalls();
         CompilationUnit cl = StaticJavaParser.parse(new File("src/testDataonly.java"));
         List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();
         CompilationUnitVisitor compunitvisitor = new CompilationUnitVisitor();
@@ -30,7 +31,7 @@ public class Main {
 
 
 
-        System.out.println("Feature Envy? " + fe.getNumVariableCalls(classes.get(0)));
+        System.out.println("Feature Envy? " + sdc.getOverallThreatLevels());
         WalkingDeadChecks wd = new WalkingDeadChecks();
         for(ClassOrInterfaceDeclaration cx:classes){
            System.out.println("Threat level of duplication in "+cx.getNameAsString()+": " + wd.getDuplicationLevel(cx));

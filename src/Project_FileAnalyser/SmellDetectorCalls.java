@@ -2,9 +2,6 @@ package Project_FileAnalyser;
 import BloatCheckers.BloatedCodeAbuseCheck;
 import ExcessiveCoupling.ExcessiveCouplingChecks;
 import GodComplexes.GodClassCheck;
-import ObjectOrientedAbusers.RefusedBequest;
-import ObjectOrientedAbusers.RefusedBequestHelpers.Beta;
-import ObjectOrientedAbusers.RefusedBequestHelpers.BetaFactory;
 import Lazies_Freeloader_walkingdead.WalkingDeadChecks;
 import ObjectOrientedAbusers.SwitchChecker;
 import ObjectOrientedAbusers.TemporaryFields;
@@ -28,7 +25,7 @@ public class SmellDetectorCalls {
     private List<CompilationUnit> units;
     int NumFiles;
 
-    private SmellDetectorCalls() {
+    public SmellDetectorCalls() {
 
     }
 
@@ -52,8 +49,6 @@ public class SmellDetectorCalls {
     }
     //function below is where you call on the different classes
     public void AnalyseProject(List<CompilationUnit> list) {
-        RefusedBequest rb = new RefusedBequest();
-        rb.createClasses(units);
         units = list;
         detections.clear();
         //loop through all the different compilation units and create a list of their classes
@@ -70,20 +65,15 @@ public class SmellDetectorCalls {
             ExcessiveCouplingChecks fe = new ExcessiveCouplingChecks();
             WalkingDeadChecks wD = new WalkingDeadChecks();
 
-
-
             /* this for loop is only needed by the bloatAbuse check
             *  it loops through every key in our hashmap "map"
             *  it then loops through the inner hashmap that is the value of each key in "map"
             *  this is where the blaoted threat level is stored.
             *  we then put the class and its ClassThreatLevels into the detections hashmap
             */
-
             for (ClassOrInterfaceDeclaration cl : map.keySet()) {
                 HashMap value = map.get(cl);
                 Set<ThreatLevel> t = value.keySet();
-
-                System.out.println("Complexity of: "+cl.getName()+" is "+rb.refuseBequestLevels(cl));
                 GodClassCheck Gc = new GodClassCheck(cl);
                 for (ThreatLevel tl : t) {
                     //place the class name and all its threats in to the hashmap
@@ -92,9 +82,6 @@ public class SmellDetectorCalls {
             }
         }
     }
-
-
-
 //not used yet but will in future.
     public HashMap getAnalysisResults(){
         return getDetections();
@@ -114,7 +101,8 @@ public class SmellDetectorCalls {
          string += "\nCLASS:  "+cl.getName();
          string += "Bloatedness: "+value.getBloatThreatLevel();
          string += "Complexity: "+value.getOOAbuseThreatLevel();
-
+            TemporaryFields tf = new TemporaryFields(cl);
+         System.out.println("Temporary Fields: "+tf.toString());
         }
         return string;
     }
@@ -132,11 +120,11 @@ public class SmellDetectorCalls {
             Gc += getDetections().get(cl).getGodObjectThreatLevel().ordinal();
             Wd += getDetections().get(cl).getWalkingDeadThreatLevel().ordinal();
         }
-        Double bloat = bloatedness/(double)getDetections().keySet().size();
-        Double c = complexity/(double)getDetections().keySet().size();
-        Double e = Ec/(double)getDetections().keySet().size();
-        Double g = Gc/(double)getDetections().keySet().size();
-        Double w = Wd/(double)getDetections().keySet().size();
+        Double bloat = bloatedness/((double)getDetections().keySet().size()*4);
+        Double c = complexity/((double)getDetections().keySet().size()*4);
+        Double e = Ec/((double)getDetections().keySet().size()*4);
+        Double g = Gc/((double)getDetections().keySet().size()*4);
+        Double w = Wd/((double)getDetections().keySet().size()*4);
 
 
         Double[] total = {bloat*100,c*100,e*100,g*100,w*100};
