@@ -81,6 +81,9 @@ public class MainController {
         FINALRESULTS.setText(finalRes);
 
     }
+    public void displayLinks(){
+            String links = "";
+    }
 
     //A function that reads the selected item on our Item list and displays the corresponding classes details
     public void displaySelectedAnalysis(){

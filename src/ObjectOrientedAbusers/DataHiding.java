@@ -10,6 +10,7 @@ import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.visitor.GenericVisitor;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 import javassist.compiler.ast.FieldDecl;
+import utility_classes.ThreatLevel;
 
 
 import java.lang.reflect.Field;
@@ -31,15 +32,15 @@ public class DataHiding {
     }
     private int getGlobalPrivates(){
         //returns the number of private fields found.
-       int numPrivates = 0;
-       List<FieldDeclaration> fieldList =  clase.getFields();
-       for(FieldDeclaration f: fieldList){
-           //check if a field is private
-           if(f.isPrivate()){
-               //increment number of found
-               numPrivates++;
-           }
-       }
+        int numPrivates = 0;
+        List<FieldDeclaration> fieldList =  clase.getFields();
+        for(FieldDeclaration f: fieldList){
+            //check if a field is private
+            if(f.isPrivate()){
+                //increment number of found
+                numPrivates++;
+            }
+        }
         return numPrivates;
     }
 
@@ -134,12 +135,33 @@ public class DataHiding {
         return numberOfPrivates;
     }
 
-    public boolean isReturnObjects(){
+    private boolean isReturnObjects(){
         return isReturningMutable();
     }
 
 
-    public boolean isSufficientPrivatisation(){
+    private boolean isSufficientPrivatisation(){
         return (numberOfPrivates == numberOfFields);
+    }
+
+    public ThreatLevel DataHidingComplexity(){
+        ThreatLevel complexityLevel = ThreatLevel.NONE;
+
+        double val = (double) numberOfPrivates/numberOfFields;
+        if(val<0.1){
+            complexityLevel = ThreatLevel.HIGH;
+        }
+        else if(val<0.6){
+            complexityLevel = ThreatLevel.MEDIUM;
+        }
+        else if(val<0.8){
+            complexityLevel = ThreatLevel.LOW;
+        }
+
+        if(isReturnObjects())
+            complexityLevel.next();
+
+        return complexityLevel;
+
     }
 }
