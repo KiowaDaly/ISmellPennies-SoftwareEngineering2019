@@ -77,7 +77,7 @@ public class MainController {
         finalRes += "We have also detected that " +SmellDetectorCalls.getInstance().getOverallThreatLevels()[1]+ "% of your project contains Object Orientated Abuse\n";
         finalRes += "Your showed signs of Excessive Coupling " +SmellDetectorCalls.getInstance().getOverallThreatLevels()[2]+ "%'s worth! \n";
         finalRes += "Your project also displayed " +SmellDetectorCalls.getInstance().getOverallThreatLevels()[3]+ "% worth of God classes\n";
-        finalRes += "Finally, we scanned your project and found that " +SmellDetectorCalls.getInstance().getOverallThreatLevels()[5]+ "% of it may suffer from Walking Dead smells\n";
+        finalRes += "Finally, we scanned your project and found that " +SmellDetectorCalls.getInstance().getOverallThreatLevels()[4]+ "% of it may suffer from Walking Dead smells\n";
         FINALRESULTS.setText(finalRes);
 
     }
