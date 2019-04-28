@@ -26,7 +26,6 @@ public class GodClassCheck
   private final Double WMC_LOW_THRES = 4.48;
   private final Double WMC_AV_THRES = 14.0;
   private final Double WMC_HIGH_THRES = 31.2;
-  //private final Double WMC_V_HIGH_THRES = 105.3;
 
   private List<MethodDeclaration> declaredMethods = new ArrayList<>();
   private List<MethodCallExpr> allMethodCalls = new ArrayList<>();
@@ -99,7 +98,6 @@ public class GodClassCheck
     List<FieldDeclaration> fields = new ArrayList<>();
 
     fields.addAll(clin.findAll(FieldDeclaration.class)); // store class fields
-
     for (MethodDeclaration mdec : declaredMethods) // iterate methods
     {
       for (AssignExpr assign : mdec.findAll(AssignExpr.class)) // iterate assignments within method
@@ -115,14 +113,15 @@ public class GodClassCheck
               for (VariableDeclarationExpr locVar :mdec.findAll(VariableDeclarationExpr.class))
                 localVariables.add(locVar.getVariables().get(0).getName().toString()); // local variable names
 
-               if (!localVariables.contains(assign.getTarget().toString())) // local variable does not overwrite class field
-                 varMatch = assign;
-               else
-                 break;
+              if (!localVariables.contains(assign.getTarget().toString())) // local variable does not overwrite class field
+                varMatch = assign;
+              else
+                break;
             }
             List<MethodDeclaration> relatedMethods = methodFieldAccesses.get(varMatch.getTarget().toString());
             if (relatedMethods == null || !relatedMethods.contains(mdec)) // count only 1 call per method per field
               methodFieldAccesses.computeIfAbsent(varMatch.getTarget().toString(), k -> new ArrayList<>()).add(mdec); // add related methods to field key
+          }
         }
       }
     }
@@ -133,9 +132,11 @@ public class GodClassCheck
   public Double getTCC()
   {
     Map<String, List<MethodDeclaration>> methodFieldAccesses = getMethodVarPairs();
-    //System.out.println(methodFieldAccesses.entrySet().toString());
-
-    return 1.0;
+    int methodPairs = numberOfMethods * (numberOfMethods-1)/2;
+    int relatedMethodPairs = 0;
+    for (List<MethodDeclaration> l : methodFieldAccesses.values())
+      relatedMethodPairs+= l.size()*(l.size()-1)/2;
+    return (double)relatedMethodPairs/methodPairs;
   }
 
 
@@ -144,12 +145,12 @@ public class GodClassCheck
     int atfd = getATFD();
     double wmc = getWMC();
     double tcc = getTCC();
-    if ((atfd > ATFD_THRES) && (wmc > WMC_HIGH_THRES) && (tcc > TCC_THRES))
-      return ThreatLevel.HIGH;
-    if ((atfd > ATFD_THRES) && (wmc > WMC_AV_THRES) && (tcc > TCC_THRES))
-      return ThreatLevel.MEDIUM;
-    if ((atfd > ATFD_THRES) && (wmc > WMC_LOW_THRES) && (tcc > TCC_THRES))
-      return ThreatLevel.LOW;
+    // if ((atfd > ATFD_THRES) && (wmc > WMC_HIGH_THRES) && (tcc > TCC_THRES))
+    //   return ThreatLevel.HIGH;
+    // if ((atfd > ATFD_THRES) && (wmc > WMC_AV_THRES) && (tcc > TCC_THRES))
+    //   return ThreatLevel.MEDIUM;
+    // if ((atfd > ATFD_THRES) && (wmc > WMC_LOW_THRES) && (tcc > TCC_THRES))
+    //   return ThreatLevel.LOW;
 
     return ThreatLevel.NONE;
   }
