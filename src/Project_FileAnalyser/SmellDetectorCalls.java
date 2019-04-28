@@ -2,6 +2,7 @@ package Project_FileAnalyser;
 import BloatCheckers.BloatedCodeAbuseCheck;
 import ExcessiveCoupling.ExcessiveCouplingChecks;
 import GodComplexes.GodClassCheck;
+import Lazies_Freeloader_walkingdead.WalkingDeadChecks;
 import ObjectOrientedAbusers.SwitchChecker;
 import ObjectOrientedAbusers.TemporaryFields;
 import com.github.javaparser.ast.CompilationUnit;
@@ -62,6 +63,7 @@ public class SmellDetectorCalls {
             methodThreats = checkBloats.getMethodThreats();
             ExcessiveCouplingChecks fe = new ExcessiveCouplingChecks();
             GodClassCheck Gc = new GodClassCheck();
+            WalkingDeadChecks wD = new WalkingDeadChecks();
 
             /* this for loop is only needed by the bloatAbuse check
             *  it loops through every key in our hashmap "map"
@@ -74,7 +76,7 @@ public class SmellDetectorCalls {
                 Set<ThreatLevel> t = value.keySet();
                 for (ThreatLevel tl : t) {
                     //place the class name and all its threats in to the hashmap
-                    getDetections().put(cl,new ClassThreatLevels(tl,switchC.complexityOfClass(cl),fe.checkExcessiveCoupling(cl),Gc.checkGodClass(cl)));
+                    getDetections().put(cl,new ClassThreatLevels(tl,switchC.complexityOfClass(cl),fe.checkExcessiveCoupling(cl),Gc.checkGodClass(cl),wD.overallWalkingDead(cl)));
                 }
             }
         }
@@ -115,6 +117,7 @@ public class SmellDetectorCalls {
             complexity +=getDetections().get(cl).getOOAbuseThreatLevel().ordinal();
             Ec += getDetections().get(cl).getExcessiveCouplingThreatLevel().ordinal();
             Gc += getDetections().get(cl).getGodObjectThreatLevel().ordinal();
+            Wd += getDetections().get(cl).getWalkingDeadThreatLevel().ordinal();
         }
         Double bloat = bloatedness/(double)getDetections().keySet().size();
         Double c = complexity/(double)getDetections().keySet().size();

@@ -4,6 +4,8 @@ public class testDataonly {
     private Integer stillNum;
     private String unused;
 
+
+    public String pubString;
     // Getter
     public String getName() {
         return name;

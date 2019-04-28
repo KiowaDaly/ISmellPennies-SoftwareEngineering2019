@@ -209,16 +209,34 @@ public class WalkingDeadChecks {
     }
 
 
-    //to do
-    public ThreatLevel DeadCodeChecker(ClassOrInterfaceDeclaration cl){
+    //TO DO
+    public ThreatLevel deadCodeChecker(ClassOrInterfaceDeclaration cl){
         //dead code that cannot be reached
         //find un used variables or
+        List<FieldAccessExpr> allFields = new ArrayList<>();
 
+        for (MethodDeclaration md : cl.getMethods()) {
 
+        }
+
+        //test
+        System.out.println("allFields: " + allFields);
         //else return no threat
         return ThreatLevel.NONE;
     }
 
+    //TO DO
+    public ThreatLevel overallWalkingDead(ClassOrInterfaceDeclaration cl){
+        ThreatLevel dataOnlyThreat;
+
+        if(isDataOnlyClass(cl)){
+            dataOnlyThreat = ThreatLevel.HIGH;
+        }else {
+            dataOnlyThreat = ThreatLevel.NONE;
+        }
+
+        return ThreatLevel.NONE;
+    }
 
 }
 
