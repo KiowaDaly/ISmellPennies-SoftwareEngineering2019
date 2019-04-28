@@ -120,11 +120,11 @@ public class SmellDetectorCalls {
             Gc += getDetections().get(cl).getGodObjectThreatLevel().ordinal();
             Wd += getDetections().get(cl).getWalkingDeadThreatLevel().ordinal();
         }
-        Double bloat = bloatedness/((double)getDetections().keySet().size()*4);
-        Double c = complexity/((double)getDetections().keySet().size()*4);
-        Double e = Ec/((double)getDetections().keySet().size()*4);
-        Double g = Gc/((double)getDetections().keySet().size()*4);
-        Double w = Wd/((double)getDetections().keySet().size()*4);
+        Double bloat = (double) Math.round(bloatedness/((double)getDetections().keySet().size()*4));
+        Double c = (double) Math.round(complexity/((double)getDetections().keySet().size()*4));
+        Double e = (double) Math.round(Ec/((double)getDetections().keySet().size()*4));
+        Double g = (double) Math.round(Gc/((double)getDetections().keySet().size()*4));
+        Double w = (double) Math.round(Wd/((double)getDetections().keySet().size()*4));
 
 
         Double[] total = {bloat*100,c*100,e*100,g*100,w*100};
