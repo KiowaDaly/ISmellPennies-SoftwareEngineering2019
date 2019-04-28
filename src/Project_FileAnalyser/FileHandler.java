@@ -21,10 +21,10 @@ public class FileHandler {
 
     public String getResults(File f) throws FileNotFoundException {
         List<CompilationUnit> units = loopFolders(f);
-        SmellDetectorCalls smells = SmellDetectorCalls.init(units);
-        smells.AnalyseProject();
-        smells.setNumFiles(counter);
-        String S = smells.printResults();
+
+        SmellDetectorCalls.getInstance().AnalyseProject(units);
+        SmellDetectorCalls.getInstance().setNumFiles(counter);
+        String S = SmellDetectorCalls.getInstance().printResults();
         return S;
     }
 

@@ -31,7 +31,7 @@ public class BloatedCodeAbuseCheck {
             int classLength = check_bloat.getNumLines(n);
             int CLASS_LENGTH_THRESHOLD = 200;
             threatValue += (classLength > CLASS_LENGTH_THRESHOLD)?1:0;
-            threatValue += ((classLength-check_bloat.getNumComments(n))/classLength < COMMENT_THRESHOLD) ? 1:0;
+            if(classLength > 0)threatValue += ((classLength-check_bloat.getNumComments(n))/classLength < COMMENT_THRESHOLD) ? 1:0;
             threatValue += (check_bloat.getNumFieldsOrVariables(n) > VARIABLE_THRESHOLD) ? 1:0;
             int METHOD_THRESHOLD = 15;
             threatValue += (check_bloat.getNumMethods(n) > METHOD_THRESHOLD) ? 1:0;

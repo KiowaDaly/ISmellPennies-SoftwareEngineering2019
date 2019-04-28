@@ -25,8 +25,8 @@ public class SmellDetectorCalls {
     private List<CompilationUnit> units;
     int NumFiles;
 
-    private SmellDetectorCalls(List<CompilationUnit> units) {
-        this.units = units;
+    private SmellDetectorCalls() {
+
     }
 
     public static SmellDetectorCalls getInstance(){
@@ -36,7 +36,7 @@ public class SmellDetectorCalls {
         return INSTANCE;
     }
 
-    public synchronized static SmellDetectorCalls init(List<CompilationUnit> units){
+    public synchronized static SmellDetectorCalls init(){
         if (INSTANCE != null)
         {
             // in my opinion this is optional, but for the purists it ensures
@@ -44,12 +44,13 @@ public class SmellDetectorCalls {
             throw new AssertionError("You already initialized me");
         }
 
-        INSTANCE = new SmellDetectorCalls(units);
+        INSTANCE = new SmellDetectorCalls();
         return INSTANCE;
     }
     //function below is where you call on the different classes
-    public void AnalyseProject() {
-
+    public void AnalyseProject(List<CompilationUnit> list) {
+        units = list;
+        detections.clear();
         //loop through all the different compilation units and create a list of their classes
         for (CompilationUnit cu : units) {
             List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();
