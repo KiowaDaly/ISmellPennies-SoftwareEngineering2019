@@ -78,7 +78,7 @@ public class WalkingDeadChecks {
                     similarity = CalculateSimilarity(cl.getMethods().get(i), cl.getMethods().get(j));
                 }
 
-                if(similarity>0.7) level++;
+                if(similarity>0.7 && level<3) level++;
             }
         }
         return ThreatLevel.values()[level];
@@ -220,7 +220,7 @@ public class WalkingDeadChecks {
         }
 
         //test
-        System.out.println("allFields: " + allFields);
+       // System.out.println("allFields: " + allFields);
         //else return no threat
         return ThreatLevel.NONE;
     }
@@ -229,13 +229,23 @@ public class WalkingDeadChecks {
     public ThreatLevel overallWalkingDead(ClassOrInterfaceDeclaration cl){
         ThreatLevel dataOnlyThreat;
 
+        int counter = 0;
         if(isDataOnlyClass(cl)){
             dataOnlyThreat = ThreatLevel.HIGH;
         }else {
             dataOnlyThreat = ThreatLevel.NONE;
         }
 
-        return ThreatLevel.NONE;
+
+        counter += SpeculativeGeneralityChecker(cl).ordinal();
+        counter += dataOnlyThreat.ordinal();
+        counter += LazyCodeCheck(cl).ordinal();
+        counter += deadCodeChecker(cl).ordinal();
+        counter += getDuplicationLevel(cl).ordinal();
+
+        System.out.println("allFields: " + counter);
+
+        return ThreatLevel.values()[(int) counter/5];
     }
 
 }

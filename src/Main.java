@@ -33,14 +33,14 @@ public class Main {
         System.out.println("Feature Envy? " + fe.getNumVariableCalls(classes.get(0)));
         WalkingDeadChecks wd = new WalkingDeadChecks();
         for(ClassOrInterfaceDeclaration cx:classes){
-       //     System.out.println("Threat level of duplication in "+cx.getNameAsString()+": " + wd.getDuplicationLevel(cx));
+           System.out.println("Threat level of duplication in "+cx.getNameAsString()+": " + wd.getDuplicationLevel(cx));
             }
 
         System.out.println(classes.get(0).getNameAsString()+" is data only?: " + wd.isDataOnlyClass(classes.get(0)));
         System.out.println(classes.get(0).getNameAsString()+" Speculative Generality threat level: : " + wd.SpeculativeGeneralityChecker(classes.get(0)));
         System.out.println(classes.get(0).getNameAsString()+" Lazy:  " + wd.LazyCodeCheck(classes.get(0)));
         System.out.println(classes.get(0).getNameAsString()+" Dead:  " + wd.deadCodeChecker(classes.get(0)));
-
+        System.out.println(classes.get(0).getNameAsString()+" Overall:  " + wd.overallWalkingDead(classes.get(0)));
 
     }
 
