@@ -4,6 +4,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.ForEachStmt;
@@ -34,27 +35,26 @@ public class ExcessiveCouplingChecks {
 
     //CHECK ALL METHOD DECLARATIONS OF A CLASS, IF THE METHOD DEC IS AN EXTERNAL METHOD CALL THEN  INCREMENT NUMBER OF METHOD CALLS
     //find ratio between normal method declarations and method calls from other classes
-    public Integer getNumMethodCalls(ClassOrInterfaceDeclaration ci) {
-        List<MethodCallExpr> methodCalls = new ArrayList<>();
-        List<MethodDeclaration> methodDeclarations = new ArrayList<>();
-        List<MethodCallExpr> externalCalls = new ArrayList<>();
-        for (MethodDeclaration m : ci.getMethods()) {
-            methodDeclarations.add(m);
-            methodCalls.addAll(m.findAll(MethodCallExpr.class));
-        }
+    public double getNumMethodCalls(ClassOrInterfaceDeclaration ci) {
+        List<SimpleName> declaredMethods = new ArrayList<>();
+        List<MethodCallExpr> allMethodCalls = new ArrayList<>();
+        List<SimpleName> externalMethodCalls = new ArrayList<>();
 
+        for (MethodDeclaration dm : ci.getMethods())
+            declaredMethods.add(dm.getName());
 
-        for (int i = 0; i < methodCalls.size(); i++) {
-            for (int j = 0; j < methodDeclarations.size(); j++) {
-                if (!methodCalls.get(i).getName().equals(methodDeclarations.get(j).getName())) {
-                    externalCalls.add(methodCalls.get(i));
-                }
-            }
+        allMethodCalls.addAll(ci.findAll(MethodCallExpr.class));
+
+        for (MethodCallExpr mcall : allMethodCalls)
+        {
+            if (!declaredMethods.contains(mcall.getName()) && !externalMethodCalls.contains(mcall.getName()))
+                externalMethodCalls.add(mcall.getName()); // method is not declared within the class and counted once
         }
-        return externalCalls.size() / methodDeclarations.size();
+        System.out.println(externalMethodCalls.size());
+        return externalMethodCalls.size()/declaredMethods.size();
     }
 
-    public Integer getNumVariableCalls(ClassOrInterfaceDeclaration ci) {
+    public double getNumVariableCalls(ClassOrInterfaceDeclaration ci) {
         List<FieldAccessExpr> variableCalls = new ArrayList<>();
 
         List<FieldDeclaration> fields = new ArrayList<>();
@@ -117,8 +117,8 @@ public class ExcessiveCouplingChecks {
         return ThreatLevel.NONE;
     }
     public ThreatLevel isInappropriateIntimacy(ClassOrInterfaceDeclaration ci){
-        int methodCount = getNumMethodCalls(ci);
-        int variableCount = getNumVariableCalls(ci);
+        double methodCount = getNumMethodCalls(ci);
+        double variableCount = getNumVariableCalls(ci);
         int threatCount = 0;
         //Ratios:   MEDIUM == 1        LOW < 1    HIGH > 1 can go up to three
         if(methodCount > 1 && variableCount > 1) return ThreatLevel.HIGH;
