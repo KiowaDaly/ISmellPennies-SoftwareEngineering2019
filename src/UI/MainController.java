@@ -48,7 +48,7 @@ public class MainController {
     private double complexity;
     private double Ec;
     private double Gc;
-    private double Wd = 0;
+    private double Wd;
 
 
 
@@ -106,7 +106,8 @@ public class MainController {
                 Gc = (double) SmellDetectorCalls.getInstance().getDetections().get(cl).getGodObjectThreatLevel().ordinal();
                 list.add(new PieChart.Data(SmellStrings[3],Gc));
 
-               // Wd = (double) SmellDetectorCalls.getInstance().ge
+                Wd = (double) SmellDetectorCalls.getInstance().getDetections().get(cl).getWalkingDeadThreatLevel().ordinal();
+                list.add(new PieChart.Data(SmellStrings[4],Wd));
 
                 //smellItems.addAll(SmellStrings[0],SmellStrings[1],SmellStrings[2],SmellStrings[3], SmellStrings[4], );
                 //smellItems.addAll(SmellStrings);
@@ -157,9 +158,11 @@ public class MainController {
                         disableMethodList();
                         ThreatLabel.setText(cl.getNameAsString()+"::"+SmellStrings[3]);
                     }
-//                    if(s.equals(SmellStrings[4])){
-//
-//                    }
+                    if(s.equals(SmellStrings[4])){
+                        ThreatLevel.setProgress(Gc/4);
+                        disableMethodList();
+                        ThreatLabel.setText(cl.getNameAsString()+"::"+SmellStrings[4]);
+                    }
                     if(s.equals(SmellStrings[5])){
 
                         resetProgressBar(cl);
@@ -179,6 +182,7 @@ public class MainController {
             series.getData().add(new XYChart.Data(SmellStrings[1],(complexity/total)*100));
             series.getData().add(new XYChart.Data(SmellStrings[2],(Ec/total)*100));
             series.getData().add(new XYChart.Data(SmellStrings[3],(Gc/total)*100));
+            series.getData().add(new XYChart.Data(SmellStrings[4],(Wd/total)*100));
             barChart.getData().add(series);
         }
    public void resetProgressBar(ClassOrInterfaceDeclaration cl){

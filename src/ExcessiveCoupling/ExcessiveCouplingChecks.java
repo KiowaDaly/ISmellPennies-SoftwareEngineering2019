@@ -51,7 +51,10 @@ public class ExcessiveCouplingChecks {
                 externalMethodCalls.add(mcall.getName()); // method is not declared within the class and counted once
         }
         System.out.println(externalMethodCalls.size());
-        return externalMethodCalls.size()/declaredMethods.size();
+        if(declaredMethods.size() > 0){
+            return externalMethodCalls.size()/declaredMethods.size();
+        }
+        return 0.0;
     }
 
     public double getNumVariableCalls(ClassOrInterfaceDeclaration ci) {

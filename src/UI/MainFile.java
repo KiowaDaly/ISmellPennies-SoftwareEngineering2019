@@ -1,5 +1,6 @@
 package UI;
 
+import Project_FileAnalyser.SmellDetectorCalls;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +20,7 @@ public class MainFile extends Application {
         Parent root =  FXMLLoader.load(Objects.requireNonNull(this.getClass().getClassLoader()
                 .getResource("src/UI/baseScene.fxml")));
 
-
+        SmellDetectorCalls smells = SmellDetectorCalls.init();
         // Load the FXML document
         primaryStage.setTitle("I smell Pennies");
         Scene scene =  new Scene(root,1300,800);

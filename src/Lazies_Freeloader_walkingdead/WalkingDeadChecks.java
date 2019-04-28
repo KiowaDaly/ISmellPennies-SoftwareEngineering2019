@@ -78,7 +78,7 @@ public class WalkingDeadChecks {
                     similarity = CalculateSimilarity(cl.getMethods().get(i), cl.getMethods().get(j));
                 }
 
-                if(similarity>0.7) level++;
+                if(similarity>0.7 && level<3) level++;
             }
         }
         return ThreatLevel.values()[level];
@@ -209,16 +209,43 @@ public class WalkingDeadChecks {
     }
 
 
-    //to do
-    public ThreatLevel DeadCodeChecker(ClassOrInterfaceDeclaration cl){
+    //TO DO
+    public ThreatLevel deadCodeChecker(ClassOrInterfaceDeclaration cl){
         //dead code that cannot be reached
         //find un used variables or
+        List<FieldAccessExpr> allFields = new ArrayList<>();
 
+        for (MethodDeclaration md : cl.getMethods()) {
 
+        }
+
+        //test
+       // System.out.println("allFields: " + allFields);
         //else return no threat
         return ThreatLevel.NONE;
     }
 
+    //TO DO
+    public ThreatLevel overallWalkingDead(ClassOrInterfaceDeclaration cl){
+        ThreatLevel dataOnlyThreat;
+
+        int counter = 0;
+        if(isDataOnlyClass(cl)){
+            dataOnlyThreat = ThreatLevel.HIGH;
+        }else {
+            dataOnlyThreat = ThreatLevel.NONE;
+        }
+
+        counter += SpeculativeGeneralityChecker(cl).ordinal();
+        counter += dataOnlyThreat.ordinal();
+        counter += LazyCodeCheck(cl).ordinal();
+        counter += deadCodeChecker(cl).ordinal();
+        counter += getDuplicationLevel(cl).ordinal();
+
+        System.out.println("allFields: " + counter);
+
+        return ThreatLevel.values()[(int) counter/5];
+    }
 
 }
 

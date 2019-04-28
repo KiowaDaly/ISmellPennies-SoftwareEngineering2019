@@ -5,6 +5,7 @@ import GodComplexes.GodClassCheck;
 import ObjectOrientedAbusers.RefusedBequest;
 import ObjectOrientedAbusers.RefusedBequestHelpers.Beta;
 import ObjectOrientedAbusers.RefusedBequestHelpers.BetaFactory;
+import Lazies_Freeloader_walkingdead.WalkingDeadChecks;
 import ObjectOrientedAbusers.SwitchChecker;
 import ObjectOrientedAbusers.TemporaryFields;
 import com.github.javaparser.ast.CompilationUnit;
@@ -27,8 +28,8 @@ public class SmellDetectorCalls {
     private List<CompilationUnit> units;
     int NumFiles;
 
-    private SmellDetectorCalls(List<CompilationUnit> units) {
-        this.units = units;
+    private SmellDetectorCalls() {
+
     }
 
     public static SmellDetectorCalls getInstance(){
@@ -38,7 +39,7 @@ public class SmellDetectorCalls {
         return INSTANCE;
     }
 
-    public synchronized static SmellDetectorCalls init(List<CompilationUnit> units){
+    public synchronized static SmellDetectorCalls init(){
         if (INSTANCE != null)
         {
             // in my opinion this is optional, but for the purists it ensures
@@ -46,13 +47,15 @@ public class SmellDetectorCalls {
             throw new AssertionError("You already initialized me");
         }
 
-        INSTANCE = new SmellDetectorCalls(units);
+        INSTANCE = new SmellDetectorCalls();
         return INSTANCE;
     }
     //function below is where you call on the different classes
-    public void AnalyseProject() {
+    public void AnalyseProject(List<CompilationUnit> list) {
         RefusedBequest rb = new RefusedBequest();
         rb.createClasses(units);
+        units = list;
+        detections.clear();
         //loop through all the different compilation units and create a list of their classes
         for (CompilationUnit cu : units) {
             List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();
@@ -65,11 +68,9 @@ public class SmellDetectorCalls {
             map = checkBloats.getClassThreats();
             methodThreats = checkBloats.getMethodThreats();
             ExcessiveCouplingChecks fe = new ExcessiveCouplingChecks();
-            GodClassCheck Gc = new GodClassCheck();
+            WalkingDeadChecks wD = new WalkingDeadChecks();
 
 
-
-            System.out.println("Start: "+classes.size());
 
             /* this for loop is only needed by the bloatAbuse check
             *  it loops through every key in our hashmap "map"
@@ -83,12 +84,12 @@ public class SmellDetectorCalls {
                 Set<ThreatLevel> t = value.keySet();
 
                 System.out.println("Complexity of: "+cl.getName()+" is "+rb.refuseBequestLevels(cl));
+                GodClassCheck Gc = new GodClassCheck(cl);
                 for (ThreatLevel tl : t) {
                     //place the class name and all its threats in to the hashmap
-                    getDetections().put(cl,new ClassThreatLevels(tl,switchC.complexityOfClass(cl),fe.checkExcessiveCoupling(cl),Gc.checkGodClass(cl)));
+                    getDetections().put(cl,new ClassThreatLevels(tl,switchC.complexityOfClass(cl),fe.checkExcessiveCoupling(cl),Gc.checkGodClass(),wD.overallWalkingDead(cl)));
                 }
             }
-            System.out.println("END");
         }
     }
 
@@ -129,6 +130,7 @@ public class SmellDetectorCalls {
             complexity +=getDetections().get(cl).getOOAbuseThreatLevel().ordinal();
             Ec += getDetections().get(cl).getExcessiveCouplingThreatLevel().ordinal();
             Gc += getDetections().get(cl).getGodObjectThreatLevel().ordinal();
+            Wd += getDetections().get(cl).getWalkingDeadThreatLevel().ordinal();
         }
         Double bloat = bloatedness/(double)getDetections().keySet().size();
         Double c = complexity/(double)getDetections().keySet().size();

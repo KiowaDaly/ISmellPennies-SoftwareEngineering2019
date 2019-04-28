@@ -7,12 +7,13 @@ public class ClassThreatLevels {
     private ThreatLevel OOAbuseThreatLevel;
     private ThreatLevel ExcessiveCouplingThreatLevel;
     private ThreatLevel GodObjectThreatLevel;
-    //    ThreatLevel WalkingDeadThreatLevel;
-    public ClassThreatLevels(ThreatLevel bloat, ThreatLevel OOAbuse, ThreatLevel ec,ThreatLevel godOb){
+    private ThreatLevel WalkingDeadThreatLevel;
+    public ClassThreatLevels(ThreatLevel bloat, ThreatLevel OOAbuse, ThreatLevel ec,ThreatLevel godOb, ThreatLevel walkDead){
         this.bloatThreatLevel = bloat;
         this.OOAbuseThreatLevel = OOAbuse;
         this.ExcessiveCouplingThreatLevel = ec;
         this.GodObjectThreatLevel = godOb;
+        this.WalkingDeadThreatLevel = walkDead;
     }
 
 
@@ -49,14 +50,14 @@ public class ClassThreatLevels {
     public void setGodObjectThreatLevel(ThreatLevel godObjectThreatLevel) {
         GodObjectThreatLevel = godObjectThreatLevel;
     }
-//
-//    public ThreatLevel getWalkingDeadThreatLevel() {
-//        return WalkingDeadThreatLevel;
-//    }
-//
-//    public void setWalkingDeadThreatLevel(ThreatLevel walkingDeadThreatLevel) {
-//        WalkingDeadThreatLevel = walkingDeadThreatLevel;
-//    }
+
+    public ThreatLevel getWalkingDeadThreatLevel() {
+        return WalkingDeadThreatLevel;
+    }
+
+   public void setWalkingDeadThreatLevel(ThreatLevel walkingDeadThreatLevel) {
+        WalkingDeadThreatLevel = walkingDeadThreatLevel;
+    }
 
 
 
