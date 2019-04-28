@@ -110,18 +110,17 @@ public class GodClassCheck
             if (mdec.findFirst(VariableDeclarationExpr.class).isPresent()) // method has local variables
             {
               List<String> localVariables = new ArrayList<>();
-              for (VariableDeclarationExpr locVar : mdec.findAll(VariableDeclarationExpr.class))
+              for (VariableDeclarationExpr locVar :mdec.findAll(VariableDeclarationExpr.class))
                 localVariables.add(locVar.getVariables().get(0).getName().toString()); // local variable names
 
-              if (!localVariables.contains(assign.getTarget().toString())) // local variable does not overwrite class field
-                varMatch = assign;
-              else
-                break;
+               if (!localVariables.contains(assign.getTarget().toString())) // local variable does not overwrite class field
+                 varMatch = assign;
+               else
+                 break;
             }
             List<MethodDeclaration> relatedMethods = methodFieldAccesses.get(varMatch.getTarget().toString());
             if (relatedMethods == null || !relatedMethods.contains(mdec)) // count only 1 call per method per field
               methodFieldAccesses.computeIfAbsent(varMatch.getTarget().toString(), k -> new ArrayList<>()).add(mdec); // add related methods to field key
-          }
         }
       }
     }
