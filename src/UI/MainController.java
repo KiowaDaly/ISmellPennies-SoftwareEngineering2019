@@ -250,6 +250,7 @@ public class MainController {
         FileExplorer.getResults(myFile);
         for(ClassOrInterfaceDeclaration cl: SmellDetectorCalls.getInstance().getDetections().keySet()){
             items.add(cl.getNameAsString());
+            numberOfLines += (cl.getEnd().get().line - cl.getBegin().get().line - 1);
         }
         UnitLists.setItems(items);
         displayFinalResults();
