@@ -5,6 +5,7 @@ public class ClassThreatLevels {
 
     private ThreatLevel bloatThreatLevel;
     private ThreatLevel OOAbuseThreatLevel;
+
     private ThreatLevel ExcessiveCouplingThreatLevel;
     private ThreatLevel GodObjectThreatLevel;
     private ThreatLevel WalkingDeadThreatLevel;

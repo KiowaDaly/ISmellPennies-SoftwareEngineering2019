@@ -153,8 +153,7 @@ public class DataHiding {
             complexityLevel = ThreatLevel.LOW;
         }
 
-        if(isReturnObjects())
-            complexityLevel.next();
+       
 
         return complexityLevel;
 

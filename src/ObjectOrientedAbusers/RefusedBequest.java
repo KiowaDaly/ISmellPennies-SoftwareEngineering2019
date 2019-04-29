@@ -57,13 +57,13 @@ public class RefusedBequest{
             if(b.getBeta().getName().toString().equals(cl.getName().toString())){
                 double val = b.numberOfAlphasOverBetas();
                 if(val<0.3){
-                    tl = ThreatLevel.LOW;
+                    tl = ThreatLevel.HIGH;
                 }
                 else if(val<0.6){
                     tl = ThreatLevel.MEDIUM;
                 }
                 else{
-                    tl = ThreatLevel.HIGH;
+                    tl = ThreatLevel.LOW;
                 }
             }
         }

@@ -3,9 +3,7 @@ import BloatCheckers.BloatedCodeAbuseCheck;
 import ExcessiveCoupling.ExcessiveCouplingChecks;
 import GodComplexes.GodClassCheck;
 import Lazies_Freeloader_walkingdead.WalkingDeadChecks;
-import ObjectOrientedAbusers.RefusedBequest;
-import ObjectOrientedAbusers.SwitchChecker;
-import ObjectOrientedAbusers.TemporaryFields;
+import ObjectOrientedAbusers.*;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -80,12 +78,14 @@ public class SmellDetectorCalls {
                 Set<ThreatLevel> t = value.keySet();
                 GodClassCheck Gc = new GodClassCheck(cl);
                 ThreatLevel rbComplexity = rb.refuseBequestLevels(cl);
+                DataHiding dh = new DataHiding(cl);
 
                 TemporaryFields tf = new TemporaryFields(cl);
                 tf.beginAnalysis();
                 for (ThreatLevel tl : t) {
+                    ObjectOrientedAbuser ooa = new ObjectOrientedAbuser(dh.DataHidingComplexity(), rb.refuseBequestLevels(cl), switchC.complexityOfClass(cl), tf.TemporaryFieldComplexity());
                     //place the class name and all its threats in to the hashmap
-                    getDetections().put(cl,new ClassThreatLevels(tl,switchC.complexityOfClass(cl),fe.checkExcessiveCoupling(cl),Gc.checkGodClass(),wD.overallWalkingDead(cl)));
+                    getDetections().put(cl,new ClassThreatLevels(tl,ooa.getOOAThreatLevel(),fe.checkExcessiveCoupling(cl),Gc.checkGodClass(),wD.overallWalkingDead(cl)));
                 }
             }
         }
