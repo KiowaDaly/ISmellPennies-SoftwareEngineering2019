@@ -79,7 +79,7 @@ public class SmellDetectorCalls {
                 HashMap value = map.get(cl);
                 Set<ThreatLevel> t = value.keySet();
                 GodClassCheck Gc = new GodClassCheck(cl);
-                ThreatLevel rbComplexity = rb.refuseBequestLevels(cl);
+                //ThreatLevel rbComplexity = rb.refuseBequestLevels(cl);
 
                 TemporaryFields tf = new TemporaryFields(cl);
                 tf.beginAnalysis();
