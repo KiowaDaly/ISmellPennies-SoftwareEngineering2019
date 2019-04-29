@@ -4,7 +4,7 @@ import org.json.simple.*;
 
 public class JSONReport
 {
-  private void aggregateData()
+  private JSONObject aggregateData()
   {
     int numberOfFiles = 0;
     for(ClassOrInterfaceDeclaration cl: SmellDetectorCalls.getInstance().getDetections().keySet())
@@ -15,27 +15,27 @@ public class JSONReport
     codeStats.put("projectFilelines", numberOfLines);
 
     JSONObject bloatStats = new JSONObject();
-    bloatStats.add("totalPercentage:", SmellDetectorCalls.getInstance().getOverallThreatLevels()[0]);
+    bloatStats.add("totalPercentage", SmellDetectorCalls.getInstance().getOverallThreatLevels()[0]);
     JSONObject bloatStatsObj = new JSONObject();
     bloatStatsObj.put("Bloat", bloatStats);
 
     JSONObject ooa = new JSONObject();
-    ooa.add("totalPercentage:", SmellDetectorCalls.getInstance().getOverallThreatLevels()[1]);
+    ooa.add("totalPercentage", SmellDetectorCalls.getInstance().getOverallThreatLevels()[1]);
     JSONObject ooaObj = new JSONObject();
     ooaObj.put("objectOrientedAbusers", ooa);
 
     JSONObject excessiveCoupling = new JSONObject();
-    excessiveCoupling.add("totalPercentage:", SmellDetectorCalls.getInstance().getOverallThreatLevels()[2]);
+    excessiveCoupling.add("totalPercentage", SmellDetectorCalls.getInstance().getOverallThreatLevels()[2]);
     JSONObject excessiveCouplingObj = new JSONObject();
     excessiveCouplingObj.put("excessiveCoupling", excessiveCoupling);
 
     JSONObject godClasses = new JSONObject();
-    godClasses.add("totalPercentage:", SmellDetectorCalls.getInstance().getOverallThreatLevels()[3]);
+    godClasses.add("totalPercentage", SmellDetectorCalls.getInstance().getOverallThreatLevels()[3]);
     JSONObject godClassesObj = new JSONObject();
     godClassesObj.put("godClasses", godClasses);
 
     JSONObject walkingDead = new JSONObject();
-    walkingDead.add("totalPercentage:", SmellDetectorCalls.getInstance().getOverallThreatLevels()[4]);
+    walkingDead.add("totalPercentage", SmellDetectorCalls.getInstance().getOverallThreatLevels()[4]);
     JSONObject walkingDeadObj = new JSONObject();
     walkingDeadObj.put("walkingDead", godClasses);
 
@@ -47,11 +47,14 @@ public class JSONReport
     report.put("codeSmell", excessiveCoupling);
     report.put("codeSmell", godClasses);
     report.put("codeSmell", walkingDead);
+
+    return report;
   }
 
-  public void toFile(String path, String filename)
+  public void toFile(File file)
   {
-    try (FileWriter file = new FileWriter(path+filename))
+    JSONObject report = aggregateData();
+    try (FileWriter file = new FileWriter(file))
     {
       file.write(report.toJSONString());
       file.flush();
