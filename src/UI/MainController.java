@@ -17,12 +17,14 @@ import utility_classes.ThreatLevel;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 public class MainController {
 
     private String[] SmellStrings = {"Bloat Level","Complexity Level","Excessive Coupling","God Class Threat Level", "The Walking Dead", "Overall Smelliness"};
     private String[] suggestedFixes = {"Bloat: Consider breaking the class or method down into subclasses and separate methods"};
+
     public TextArea RESULTS;
     public ListView<String> UnitLists;
     public ListView<String> SmellList;
@@ -81,8 +83,17 @@ public class MainController {
         FINALRESULTS.setText(finalRes);
 
     }
-    public void displayLinks(){
-            String links = "";
+   public void bloatLink() throws IOException {
+       java.awt.Desktop.getDesktop().browse(java.net.URI.create("https://refactoring.guru/refactoring/smells/bloaters"));
+   }
+    public void ooLink() throws IOException {
+        java.awt.Desktop.getDesktop().browse(java.net.URI.create("https://refactoring.guru/refactoring/smells/oo-abusers"));
+    }
+    public void ECLink() throws IOException {
+        java.awt.Desktop.getDesktop().browse(java.net.URI.create("https://refactoring.guru/refactoring/smells/couplers"));
+    }
+    public void WDLink() throws IOException {
+        java.awt.Desktop.getDesktop().browse(java.net.URI.create("https://refactoring.guru/refactoring/smells/dispensables"));
     }
 
     //A function that reads the selected item on our Item list and displays the corresponding classes details

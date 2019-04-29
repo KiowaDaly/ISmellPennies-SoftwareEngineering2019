@@ -6,6 +6,7 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
@@ -18,6 +19,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.MainController">
@@ -65,7 +67,7 @@
          </cursor></ListView>
         <Label layoutX="308.0" layoutY="37.0" text="Classes Analysed" />
         <Label fx:id="SmellLabel" alignment="CENTER" layoutX="464.0" layoutY="37.0" prefHeight="21.0" prefWidth="200.0" stylesheets="@baseScene.css" text="Smells" textAlignment="CENTER" AnchorPane.topAnchor="37.0" />
-      <PieChart fx:id="pieChart" layoutX="1000.0" layoutY="264.0" prefHeight="531.0" prefWidth="292.0" title="Smells Detected in Class" visible="false" AnchorPane.topAnchor="264.0">
+      <PieChart fx:id="pieChart" layoutX="665.0" layoutY="264.0" prefHeight="531.0" prefWidth="627.0" title="Smells Detected in Class" visible="false" AnchorPane.topAnchor="264.0">
          <effect>
             <DropShadow />
          </effect></PieChart>
@@ -81,7 +83,7 @@
          </cursor></ListView>
       <Label fx:id="MethodsLabel" alignment="CENTER" layoutX="538.0" layoutY="298.0" prefHeight="23.0" prefWidth="59.0" text="Methods" visible="false" />
       <TextArea fx:id="FINALRESULTS" editable="false" layoutX="667.0" layoutY="57.0" prefHeight="159.0" prefWidth="627.0" />
-      <BarChart fx:id="barChart" layoutX="952.0" layoutY="268.0" prefHeight="531.0" prefWidth="348.0" title="Smells Deteted">
+      <BarChart fx:id="barChart" layoutX="661.0" layoutY="268.0" prefHeight="531.0" prefWidth="639.0" title="Smells Deteted">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
         </xAxis>
@@ -90,6 +92,14 @@
         </yAxis>
       </BarChart>
       <Button layoutX="1033.0" layoutY="233.0" mnemonicParsing="false" onMousePressed="#togglePieChart" prefHeight="31.0" prefWidth="233.0" text="Switch Chart Layout" />
-      <TextArea editable="false" layoutX="672.0" layoutY="280.0" prefHeight="496.0" prefWidth="292.0" />
+      <Hyperlink layoutX="66.0" layoutY="519.0" onMouseClicked="#bloatLink" text="What are bloaters?" textOverrun="CLIP" />
+      <Hyperlink layoutX="53.0" layoutY="554.0" onMouseClicked="#ooLink" text="What are OO Abusers?" />
+      <Hyperlink layoutX="31.0" layoutY="593.0" onMouseClicked="#ECLink" text="What are excessive Couplers?" />
+      <Hyperlink layoutX="44.0" layoutY="632.0" onMouseClicked="#WDLink" text="What are Walking deads?" />
+      <Label layoutX="73.0" layoutY="480.0" text="Useful Links">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
     </children>
 </AnchorPane>
