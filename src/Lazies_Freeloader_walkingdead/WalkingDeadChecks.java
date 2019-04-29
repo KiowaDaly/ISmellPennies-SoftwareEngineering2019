@@ -34,37 +34,37 @@ public class WalkingDeadChecks {
                     String retType = md.findAll(ReturnStmt.class).toString();
                     String fieldName = v.getName().toString();
 
-                        //getter
-                        if(retType.contains(fieldName)){
+                    //getter
+                    if(retType.contains(fieldName)){
+                        continue;
+                    }
+
+                    //check method has no call
+                    if(md.findAll(MethodCallExpr.class).isEmpty()){ continue;}
+
+                    //setters
+                    for (Parameter p : md.getParameters()){
+                        String setterBody = md.getBody().toString(); //body of the method
+                        String setterMethod = "this."+fieldName + " = " + p.getName(); //this.fieldname = parameter
+
+                        //continue if it is a setter method
+                        if(setterBody.contains(setterMethod)){continue;}
+                        continue;
+
+                    }
+
+                    //check if method has call, but is returning a statement.
+                    if(!md.findAll(MethodCallExpr.class).isEmpty()){
+                        if(!md.findAll(ReturnStmt.class).isEmpty()){
                             continue;
-                        }
-
-                        //check method has no call
-                        if(md.findAll(MethodCallExpr.class).isEmpty()){ continue;}
-
-                        //setters
-                        for (Parameter p : md.getParameters()){
-                            String setterBody = md.getBody().toString(); //body of the method
-                            String setterMethod = "this."+fieldName + " = " + p.getName(); //this.fieldname = parameter
-
-                            //continue if it is a setter method
-                            if(setterBody.contains(setterMethod)){continue;}
-                            continue;
-
-                        }
-
-                        //check if method has call, but is returning a statement.
-                        if(!md.findAll(MethodCallExpr.class).isEmpty()){
-                            if(!md.findAll(ReturnStmt.class).isEmpty()){
-                                continue;
-                            } else
-                                nonDataMethods.add(md);
-                        }
-                     else
-                         //if its a method that doesnt return a data
+                        } else
+                            nonDataMethods.add(md);
+                    }
+                    else
+                        //if its a method that doesnt return a data
                         nonDataMethods.add(md);
-                        //to see which methods are not data
-                       // System.out.println("NON DATA Method name: " + md.getName());
+                    //to see which methods are not data
+                    // System.out.println("NON DATA Method name: " + md.getName());
 
                 }
             }
@@ -100,7 +100,7 @@ public class WalkingDeadChecks {
         }
         int longerLength = longer.length();
         if (longerLength == 0) { return 1.0; /* both strings are zero length */ }
-       // out.println(method1.getNameAsString()+" has a similarity level of: "+df.format(((longerLength - editDistance(longer, shorter)) / (double) longerLength)*100)+"% with "+method2.getNameAsString());
+        // out.println(method1.getNameAsString()+" has a similarity level of: "+df.format(((longerLength - editDistance(longer, shorter)) / (double) longerLength)*100)+"% with "+method2.getNameAsString());
         return (longerLength - editDistance(longer, shorter)) / (double) longerLength;
     }
 
@@ -180,8 +180,8 @@ public class WalkingDeadChecks {
         List<SimpleName> unusedMethods = new ArrayList<>();
 
         int uncalled = 0;
-            //adds all the called methods in the list
-            methodCalls.addAll(cl.findAll(MethodCallExpr.class));
+        //adds all the called methods in the list
+        methodCalls.addAll(cl.findAll(MethodCallExpr.class));
 
         for (MethodDeclaration md : cl.getMethods()) {
             //if it the method is not contained in the list, and is also not called 'main'
@@ -210,21 +210,21 @@ public class WalkingDeadChecks {
 
         int strike = 0;
 
-                for (MethodDeclaration md : cl.getMethods()) {
-                    allFields.addAll(md.findAll(VariableDeclarator.class));
-                    for (VariableDeclarator vD : allFields) {
-                        tempFields.isFieldUsed(vD,md);
+        for (MethodDeclaration md : cl.getMethods()) {
+            allFields.addAll(md.findAll(VariableDeclarator.class));
+            for (VariableDeclarator vD : allFields) {
+                tempFields.isFieldUsed(vD,md);
 
-                      //  System.out.println("VariableDeclarator = Method: " +md.getNameAsString() + " Variable : " + vD.toString() + " TF " + tempFields.isFieldUsed(vD,md));
+                //  System.out.println("VariableDeclarator = Method: " +md.getNameAsString() + " Variable : " + vD.toString() + " TF " + tempFields.isFieldUsed(vD,md));
 
-                        if(tempFields.isFieldUsed(vD,md)){
-                            continue;
-                        }else {
-                            strike++;
-                        }
-
-                    }
+                if(tempFields.isFieldUsed(vD,md)){
+                    continue;
+                }else {
+                    strike++;
                 }
+
+            }
+        }
 
         if (strike >= 3) return ThreatLevel.HIGH;
         if (strike == 2) return ThreatLevel.MEDIUM;
@@ -256,4 +256,3 @@ public class WalkingDeadChecks {
     }
 
 }
-
