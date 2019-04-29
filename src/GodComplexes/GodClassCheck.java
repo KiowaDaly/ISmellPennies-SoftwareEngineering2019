@@ -6,6 +6,9 @@ import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.*;
+import com.github.javaparser.symbolsolver.javaparsermodel.JavaParserFacade;
+import com.github.javaparser.symbolsolver.model.resolution.TypeSolver;
+import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
 import utility_classes.*;
 import BloatCheckers.*;
 
@@ -40,7 +43,18 @@ public class GodClassCheck
     for (MethodDeclaration dm : clin.getMethods())
       declaredMethods.add(dm);
 
-    allMethodCalls.addAll(clin.findAll(MethodCallExpr.class));
+    TypeSolver typeSolver = new ReflectionTypeSolver(false); // solve only JRE libs
+    JavaParserFacade javaParserFacade = JavaParserFacade.get(typeSolver);
+    try
+    {
+      for (MethodCallExpr mc : clin.findAll(MethodCallExpr.class)) // iterate all methods
+      {
+        if (javaParserFacade.solveMethodAsUsage(mc).getQualifiedSignature().startsWith("java."))
+          continue;
+        else
+          allMethodCalls.add(mc); // add only non java.* methods
+      }
+    } catch (Exception ex) {} // prevent crashes if symbolsolver scans unknown method
 
     externalMethodCalls.addAll(allMethodCalls); // add allMethodCalls to externalMethodCalls
 
@@ -91,7 +105,7 @@ public class GodClassCheck
     return (double) CYCLO/classLinesOfCode * methodLinesOfCode/numberOfMethods * numberOfMethods;
   }
 
-// Map class fields to local methods using them, used by getTCC()
+  // Map class fields to local methods using them, used by getTCC()
   private Map<String, List<MethodDeclaration>> getMethodVarPairs()
   {
     Map<String, List<MethodDeclaration>> methodFieldAccesses = new HashMap<>();
@@ -132,11 +146,12 @@ public class GodClassCheck
   public Double getTCC()
   {
     Map<String, List<MethodDeclaration>> methodFieldAccesses = getMethodVarPairs();
-    int methodPairs = numberOfMethods * (numberOfMethods-1)/2;
-    int relatedMethodPairs = 0;
+    double methodPairs = (numberOfMethods * (numberOfMethods-1))/2.0;
+    double relatedMethodPairs = 0.0;
     for (List<MethodDeclaration> l : methodFieldAccesses.values())
-      relatedMethodPairs+= l.size()*(l.size()-1)/2;
-    return (double)relatedMethodPairs/methodPairs;
+      relatedMethodPairs+= l.size()/2.0;
+
+    return relatedMethodPairs/methodPairs;
   }
 
 
