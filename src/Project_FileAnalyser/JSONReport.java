@@ -6,7 +6,6 @@ import org.json.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DecimalFormat;
 
 public class JSONReport
 {
