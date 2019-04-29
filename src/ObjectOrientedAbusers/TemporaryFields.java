@@ -37,7 +37,6 @@ public class TemporaryFields {
         if(fields.size() > 0){
             for(FieldDeclaration field: fields){
                 for(VariableDeclarator vd: field.getVariables()) {
-                    System.out.println("PUTTING: " + vd.getName());
                     fieldList.put(vd, 0);
                 }
             }
@@ -48,8 +47,6 @@ public class TemporaryFields {
 
     private boolean isFieldUsed(VariableDeclarator field, MethodDeclaration method){
         String methodBody = method.getBody().get().toString();
-        System.out.println("Field Name: "+field.getName()+" MethodName: "+method.getName());
-
         String fieldName = ".*"+field.getName().toString()+".*";
         Pattern checkRegex = Pattern.compile(fieldName);
         Matcher regexMatcher = checkRegex.matcher(methodBody);
@@ -73,10 +70,8 @@ public class TemporaryFields {
             for(MethodDeclaration method: methodList){
                 boolean res = isFieldUsed(field, method);
                 if(res){
-                    System.out.println("OLD: "+fieldList.get(field));
                     int val = fieldList.get(field);
                     fieldList.replace(field, val+1);
-                    System.out.println("NEW: "+fieldList.get(field));
                 }
             }
         }

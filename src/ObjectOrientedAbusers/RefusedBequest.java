@@ -81,12 +81,14 @@ public class RefusedBequest{
                 if(bf.isBetaMultiple(cl)){
                     //Do something here.
                     for(ClassOrInterfaceType clType: bf.getMultipleBeta(cl)){
+                        System.out.println("Multiple");
                         //get the ClassOrInterfaceDeclartion from a given ClassOrInterfaceType.
                         ClassOrInterfaceDeclaration clFromType = getClass(clType.getName().toString());
                         betaProductions(bf, clFromType);
                     }
                 }
                 else{
+                    System.out.println("Single");
                     betaProductions(bf, cl);
                 }
             }
@@ -96,8 +98,11 @@ public class RefusedBequest{
     private void betaProductions(BetaFactory bf, ClassOrInterfaceDeclaration cl){
         String getCurrentAlpha = bf.getAlpha(cl);
         ClassOrInterfaceDeclaration alpha =getClass(getCurrentAlpha);
-        Beta b = bf.setUpBeta(cl, alpha);
-        addBeta(b);
+        System.out.println("Alpha: "+alpha);
+        if(alpha != null){
+            Beta b = bf.setUpBeta(cl, alpha);
+            addBeta(b);
+        }
     }
 
     public ClassOrInterfaceDeclaration getClass(String claseName){
@@ -181,7 +186,8 @@ public class RefusedBequest{
 
     private void beginAnalysis(){
         for(Beta beta: betaMapping.values()){
-            for(ClassOrInterfaceDeclaration cl: classes){                System.out.println("Class Name: "+beta.getAlpha().getName());
+            for(ClassOrInterfaceDeclaration cl: classes){
+                System.out.println("Class Name: "+beta);
                 boolean isBetaEqualClass = cl.getName().toString().equals(beta.getBeta().getName().toString());
                 boolean isClassAlphaOfBeta = cl.getName().toString().equals(beta.getAlpha().getName().toString());
                 if(!isBetaEqualClass && !isClassAlphaOfBeta){
