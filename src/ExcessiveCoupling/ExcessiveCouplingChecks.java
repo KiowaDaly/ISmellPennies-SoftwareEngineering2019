@@ -152,8 +152,7 @@ public class ExcessiveCouplingChecks {
         if(threatLevelFraction > 0.66) return ThreatLevel.HIGH;
         if(threatLevelFraction > 0.33 && threatLevelFraction <= 0.66) return ThreatLevel.MEDIUM;
         if(threatLevelFraction <= 0.33 && threatLevelFraction > 0.00) return ThreatLevel.LOW;
-        System.out.println(threatLevelFraction);
-        System.out.println(isMiddleMan(ci).ordinal());
+
         return ThreatLevel.NONE;
     }
 }
