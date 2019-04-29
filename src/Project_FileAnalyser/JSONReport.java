@@ -47,10 +47,10 @@ public class JSONReport
     JSONObject report = new JSONObject();
     report.put("statistics", codeStats);
     report.put("codeSmell", bloatStatsObj);
-    report.put("codeSmell", ooa);
-    report.put("codeSmell", excessiveCoupling);
-    report.put("codeSmell", godClasses);
-    report.put("codeSmell", walkingDead);
+    report.put("codeSmell", ooaObj);
+    report.put("codeSmell", excessiveCouplingObj);
+    report.put("codeSmell", godClassesObj);
+    report.put("codeSmell", walkingDeadObj);
 
     return report;
   }
