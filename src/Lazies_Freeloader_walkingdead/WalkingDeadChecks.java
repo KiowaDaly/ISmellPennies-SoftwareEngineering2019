@@ -208,7 +208,6 @@ public class WalkingDeadChecks {
         List<VariableDeclarator> allFields = new ArrayList<>();
         TemporaryFields tempFields = new TemporaryFields(cl);
 
-        ThreatLevel threatLevel = ThreatLevel.NONE;
         int strike = 0;
 
                 for (MethodDeclaration md : cl.getMethods()) {
