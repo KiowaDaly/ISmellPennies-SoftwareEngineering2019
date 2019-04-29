@@ -51,7 +51,7 @@ public class RefusedBequest{
 
     }
 
-    private ThreatLevel refuseBequestLevels(ClassOrInterfaceDeclaration cl){
+    public ThreatLevel refuseBequestLevels(ClassOrInterfaceDeclaration cl){
         ThreatLevel tl = ThreatLevel.NONE;
         for(Beta b: betaMapping.values()){
             if(b.getBeta().getName().toString().equals(cl.getName().toString())){
