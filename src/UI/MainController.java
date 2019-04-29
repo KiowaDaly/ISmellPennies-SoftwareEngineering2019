@@ -2,6 +2,7 @@ package UI;
 /* THIS FILE IS WHERE WE IMPLEMENT THE FUNCTIONS THAT TIE OUR CODE TO THE UI SCENE
  */
 import Project_FileAnalyser.FileHandler;
+import Project_FileAnalyser.JSONReport;
 import Project_FileAnalyser.SmellDetectorCalls;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -15,6 +16,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import org.json.JSONException;
 import utility_classes.ThreatLevel;
 
 import java.io.File;
@@ -252,11 +254,13 @@ public class MainController {
         UnitLists.setItems(items);
         displayFinalResults();
     }
-    public void saveFile() {
+    public void saveFile() throws JSONException {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", new String[]{"*.json"});
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showSaveDialog(null);
+        JSONReport report = new JSONReport();
+        report.toFile(file);
     }
 
     public void togglePieChart(){

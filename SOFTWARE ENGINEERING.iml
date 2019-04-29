@@ -32,5 +32,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="animal-sniffer-annotations-1.17" level="project" />
+    <orderEntry type="library" name="org.json" level="project" />
   </component>
 </module>

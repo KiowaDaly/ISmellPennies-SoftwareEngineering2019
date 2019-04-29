@@ -23,6 +23,7 @@ public class SmellDetectorCalls {
     HashMap<ClassOrInterfaceDeclaration, HashMap> map;
     HashMap<MethodDeclaration, ThreatLevel> methodThreats;
     private List<CompilationUnit> units;
+    JSONReport REPORT = new JSONReport();
     int NumFiles;
 
     public SmellDetectorCalls() {
@@ -88,6 +89,7 @@ public class SmellDetectorCalls {
                 }
             }
         }
+
     }
 //not used yet but will in future.
     public HashMap getAnalysisResults(){
