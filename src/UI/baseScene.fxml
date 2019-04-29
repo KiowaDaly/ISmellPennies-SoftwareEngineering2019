@@ -67,7 +67,7 @@
          </cursor></ListView>
         <Label layoutX="308.0" layoutY="37.0" text="Classes Analysed" />
         <Label fx:id="SmellLabel" alignment="CENTER" layoutX="464.0" layoutY="37.0" prefHeight="21.0" prefWidth="200.0" stylesheets="@baseScene.css" text="Smells" textAlignment="CENTER" AnchorPane.topAnchor="37.0" />
-      <PieChart fx:id="pieChart" layoutX="665.0" layoutY="264.0" prefHeight="531.0" prefWidth="627.0" title="Smells Detected in Class" visible="false" AnchorPane.topAnchor="264.0">
+      <PieChart fx:id="pieChart" layoutX="665.0" layoutY="264.0" prefHeight="531.0" prefWidth="627.0" title="Smells Detected in Class" AnchorPane.topAnchor="264.0">
          <effect>
             <DropShadow />
          </effect></PieChart>
@@ -83,7 +83,7 @@
          </cursor></ListView>
       <Label fx:id="MethodsLabel" alignment="CENTER" layoutX="538.0" layoutY="298.0" prefHeight="23.0" prefWidth="59.0" text="Methods" visible="false" />
       <TextArea fx:id="FINALRESULTS" editable="false" layoutX="667.0" layoutY="57.0" prefHeight="159.0" prefWidth="627.0" />
-      <BarChart fx:id="barChart" layoutX="661.0" layoutY="268.0" prefHeight="531.0" prefWidth="639.0" title="Smells Deteted">
+      <BarChart fx:id="barChart" layoutX="661.0" layoutY="268.0" prefHeight="531.0" prefWidth="639.0" title="Smells Deteted" visible="false">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
         </xAxis>
