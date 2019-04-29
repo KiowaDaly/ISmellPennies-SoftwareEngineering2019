@@ -27,6 +27,7 @@ public class MainFile extends Application {
         primaryStage.setScene(scene);
         scene.getStylesheets().add("src/UI/baseScene.css");
         primaryStage.show();
+        primaryStage.setResizable(false);
 
     }
 }

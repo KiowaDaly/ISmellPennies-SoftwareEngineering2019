@@ -14,7 +14,7 @@ public class BloatedCodeAbuseCheck {
     private MethodBloatChecks method_bloat = new MethodBloatChecks();
     private List<ClassOrInterfaceDeclaration> classes;
     private HashMap<ClassOrInterfaceDeclaration,HashMap> classThreats = new HashMap<>();
-    private HashMap<MethodDeclaration,HashMap> MethodThreats = new HashMap<>();
+    private HashMap<MethodDeclaration,ThreatLevel> MethodThreats = new HashMap<>();
 
     public BloatedCodeAbuseCheck(List<ClassOrInterfaceDeclaration> classes){
             this.classes = classes;
@@ -46,7 +46,7 @@ public class BloatedCodeAbuseCheck {
             return threatPercentageHelper;
     }
 
-    private HashMap CheckMethod(MethodDeclaration m){
+    private ThreatLevel CheckMethod(MethodDeclaration m){
             int threatValue  = 0;
             int methodLines = method_bloat.getNumLines(m);
             int METHOD_LINE_THRESHOLD = 30;
@@ -58,8 +58,8 @@ public class BloatedCodeAbuseCheck {
             HashMap<ThreatLevel,Integer> threatPercentageHelper = new HashMap<>();
             int temp = threatValue;
             threatValue = (threatValue > 3) ? 3:threatValue;
-            threatPercentageHelper.put(ThreatLevel.values()[threatValue],temp);
-        return threatPercentageHelper;
+
+        return ThreatLevel.values()[threatValue];
     }
 
     public HashMap getMethodThreats(){

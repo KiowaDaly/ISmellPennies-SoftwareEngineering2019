@@ -22,7 +22,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.MainController">
+<AnchorPane prefHeight="800.0" prefWidth="1300.0" scaleShape="false" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.MainController">
     <children>
         <Pane layoutX="3.0" layoutY="14.0" prefHeight="466.0" prefWidth="261.0">
             <children>
@@ -75,9 +75,9 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ListView>
-      <ProgressBar fx:id="ThreatLevel" layoutX="702.0" layoutY="247.0" prefHeight="23.0" prefWidth="233.0" progress="0.0" />
-      <Label fx:id="ThreatLabel" alignment="CENTER" layoutX="670.0" layoutY="228.0" prefHeight="21.0" prefWidth="292.0" text="Threat Level      " />
-      <ListView fx:id="MethodList" layoutX="474.0" layoutY="321.0" prefHeight="466.0" prefWidth="187.0" visible="false">
+      <ProgressBar fx:id="ThreatLevel" layoutX="682.0" layoutY="247.0" prefHeight="23.0" prefWidth="337.0" progress="0.0" />
+      <Label fx:id="ThreatLabel" alignment="CENTER" layoutX="670.0" layoutY="228.0" prefHeight="21.0" prefWidth="363.0" text="Threat Level      " />
+      <ListView fx:id="MethodList" layoutX="474.0" layoutY="321.0" onMouseClicked="#getMethodSelectedBloat" prefHeight="466.0" prefWidth="187.0" visible="false">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ListView>
