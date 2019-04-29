@@ -80,6 +80,7 @@ public class SmellDetectorCalls {
                 ThreatLevel rbComplexity = rb.refuseBequestLevels(cl);
                 DataHiding dh = new DataHiding(cl);
 
+
                 TemporaryFields tf = new TemporaryFields(cl);
                 tf.beginAnalysis();
                 for (ThreatLevel tl : t) {

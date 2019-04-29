@@ -1,11 +1,15 @@
 package Project_FileAnalyser;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.DirectoryChooser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static javafx.scene.control.Alert.AlertType.ERROR;
 
 
 public class FileHandler {
@@ -21,7 +25,22 @@ public class FileHandler {
 
     public String getResults(File f) throws FileNotFoundException {
         List<CompilationUnit> units = loopFolders(f);
-
+        if(units.size()==0){
+            Alert alert = new Alert(ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("No Java Files Detected");
+            alert.setContentText("Please select a folder that contains java Source Files");
+            alert.showAndWait().ifPresent(rs -> {
+                if (rs == ButtonType.OK) {
+                    System.out.println("Pressed OK.");
+                    try {
+                        getResults(selectFolder());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
         SmellDetectorCalls.getInstance().AnalyseProject(units);
         SmellDetectorCalls.getInstance().setNumFiles(counter);
         String S = SmellDetectorCalls.getInstance().printResults();

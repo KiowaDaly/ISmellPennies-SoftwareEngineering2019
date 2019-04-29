@@ -242,7 +242,7 @@ public class WalkingDeadChecks {
         counter += deadCodeChecker(cl).ordinal();
         counter += getDuplicationLevel(cl).ordinal();
 
-        System.out.println("allFields: " + counter);
+        //.out.println("allFields: " + counter);
 
         return ThreatLevel.values()[(int) counter/5];
     }
