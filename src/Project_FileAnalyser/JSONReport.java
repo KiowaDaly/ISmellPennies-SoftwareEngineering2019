@@ -9,6 +9,8 @@ import java.io.IOException;
 
 public class JSONReport
 {
+  private static DecimalFormat df2 = new DecimalFormat("#.##");
+
   private JSONObject aggregateData() throws JSONException {
     int numberOfLines = 0;
     for(ClassOrInterfaceDeclaration cl: SmellDetectorCalls.getInstance().getDetections().keySet())
@@ -19,38 +21,30 @@ public class JSONReport
     codeStats.put("projectFilelines", numberOfLines);
 
     JSONObject bloatStats = new JSONObject();
-    bloatStats.put("totalPercentage", SmellDetectorCalls.getInstance().getOverallThreatLevels()[0]);
-    JSONObject bloatStatsObj = new JSONObject();
-    bloatStatsObj.put("Bloat", bloatStats);
+    bloatStats.put("totalPercentage", String.format("%.2f", SmellDetectorCalls.getInstance().getOverallThreatLevels()[0]));
 
     JSONObject ooa = new JSONObject();
-    ooa.put("totalPercentage", SmellDetectorCalls.getInstance().getOverallThreatLevels()[1]);
-    JSONObject ooaObj = new JSONObject();
-    ooaObj.put("objectOrientedAbusers", ooa);
+    ooa.put("totalPercentage", String.format("%.2f", SmellDetectorCalls.getInstance().getOverallThreatLevels()[1]));
 
     JSONObject excessiveCoupling = new JSONObject();
-    excessiveCoupling.put("totalPercentage", SmellDetectorCalls.getInstance().getOverallThreatLevels()[2]);
-    JSONObject excessiveCouplingObj = new JSONObject();
-    excessiveCouplingObj.put("excessiveCoupling", excessiveCoupling);
+    excessiveCoupling.put("totalPercentage", String.format("%.2f", SmellDetectorCalls.getInstance().getOverallThreatLevels()[2]));
 
     JSONObject godClasses = new JSONObject();
-    godClasses.put("totalPercentage", SmellDetectorCalls.getInstance().getOverallThreatLevels()[3]);
-    JSONObject godClassesObj = new JSONObject();
-    godClassesObj.put("godClasses", godClasses);
+    godClasses.put("totalPercentage", String.format("%.2f", SmellDetectorCalls.getInstance().getOverallThreatLevels()[3]));
 
     JSONObject walkingDead = new JSONObject();
-    walkingDead.put("totalPercentage", SmellDetectorCalls.getInstance().getOverallThreatLevels()[4]);
-    JSONObject walkingDeadObj = new JSONObject();
-    walkingDeadObj.put("walkingDead", godClasses);
+    walkingDead.put("totalPercentage", String.format("%.2f", SmellDetectorCalls.getInstance().getOverallThreatLevels()[4]));
 
+    JSONObject codeSmells = new JSONObject();
+    codeSmells.put("bloat", bloatStats);
+    codeSmells.put("objectOrientedAbusers", ooa);
+    codeSmells.put("excessiveCoupling", excessiveCoupling);
+    codeSmells.put("godClasses", godClasses);
+    codeSmells.put("walkingDead", walkingDead);
 
     JSONObject report = new JSONObject();
     report.put("statistics", codeStats);
-    report.put("codeSmell", bloatStatsObj);
-    report.put("codeSmell", ooaObj);
-    report.put("codeSmell", excessiveCouplingObj);
-    report.put("codeSmell", godClassesObj);
-    report.put("codeSmell", walkingDeadObj);
+    report.put("codeSmell", codeSmells);
 
     return report;
   }
