@@ -18,12 +18,13 @@ import utility_classes.ThreatLevel;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainController {
 
     private String[] SmellStrings = {"Bloat Level","Complexity Level","Excessive Coupling","God Class Threat Level", "The Walking Dead", "Overall Smelliness"};
-    private String[] suggestedFixes = {"Bloat: Consider breaking the class or method down into subclasses and separate methods"};
+
 
     public TextArea RESULTS;
     public ListView<String> UnitLists;
@@ -208,6 +209,20 @@ public class MainController {
        ThreatLabel.setText(cl.getNameAsString() + "::" + SmellStrings[5]);
 
    }
+   public void getMethodSelectedBloat(){
+            String s = SmellList.getSelectionModel().getSelectedItem();
+            for(ClassOrInterfaceDeclaration cl:SmellDetectorCalls.getInstance().getDetections().keySet()){
+                        for(MethodDeclaration m:SmellDetectorCalls.getInstance().getMethodThreats().keySet()){
+                            if(m.getNameAsString().equals(s)){
+                                ThreatLevel.setProgress(SmellDetectorCalls.getInstance().getMethodThreats().get(m).ordinal()/4);
+                                System.out.println(cl.getNameAsString()+"::"+m.getNameAsString()+"::"+SmellStrings[0]);
+                                ThreatLabel.setText(cl.getNameAsString()+"::"+m.getNameAsString()+"::"+SmellStrings[0]);
+                            }
+                        }
+                    }
+                }
+
+
 
 
     /*The next two methods deal with the drag and drop section*/
@@ -235,13 +250,4 @@ public class MainController {
         barChart.setVisible(!barChart.isVisible());
 
     }
-
-
-
-
-
-
-
-
-
 }

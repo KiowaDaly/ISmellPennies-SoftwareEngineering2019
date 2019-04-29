@@ -8,6 +8,7 @@ import ObjectOrientedAbusers.SwitchChecker;
 import ObjectOrientedAbusers.TemporaryFields;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
 import utility_classes.ClassThreatLevels;
 import utility_classes.CompilationUnitVisitor;
 import utility_classes.ThreatLevel;
@@ -22,7 +23,7 @@ public class SmellDetectorCalls {
     //store the class and its corresponding threat levels in a hashmap
     private HashMap<ClassOrInterfaceDeclaration, ClassThreatLevels> detections = new HashMap<>();
     HashMap<ClassOrInterfaceDeclaration, HashMap> map;
-    HashMap<ClassOrInterfaceDeclaration, HashMap> methodThreats;
+    HashMap<MethodDeclaration, ThreatLevel> methodThreats;
     private List<CompilationUnit> units;
     int NumFiles;
 
@@ -143,5 +144,9 @@ public class SmellDetectorCalls {
 
     public void setDetections(HashMap<ClassOrInterfaceDeclaration, ClassThreatLevels> detections) {
         this.detections = detections;
+    }
+
+    public HashMap<MethodDeclaration, ThreatLevel> getMethodThreats() {
+        return methodThreats;
     }
 }
