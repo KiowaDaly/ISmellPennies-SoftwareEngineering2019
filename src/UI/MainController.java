@@ -13,6 +13,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 import utility_classes.ThreatLevel;
 
 import java.io.File;
@@ -58,6 +60,9 @@ public class MainController {
 
     //function that is called when we click the "choose file" button.
         public void selectFile() throws FileNotFoundException {
+            this.items.clear();
+            this.smellItems.clear();
+            this.numberOfLines = 0;
         FileHandler FileExplorer = new FileHandler();
         File ourProject = FileExplorer.selectFolder();
         FileExplorer.getResults(ourProject);
@@ -233,6 +238,9 @@ public class MainController {
         }
     }
     public void handleDropEvent(DragEvent event) throws FileNotFoundException {
+        this.items.clear();
+        this.smellItems.clear();
+        this.numberOfLines = 0;
         List<File> f = event.getDragboard().getFiles();
         File myFile = f.get(0);
         System.out.println(myFile.getName());
@@ -243,6 +251,12 @@ public class MainController {
         }
         UnitLists.setItems(items);
         displayFinalResults();
+    }
+    public void saveFile() {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", new String[]{"*.json"});
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showSaveDialog(null);
     }
 
     public void togglePieChart(){
