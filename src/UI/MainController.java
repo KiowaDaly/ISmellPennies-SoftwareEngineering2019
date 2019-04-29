@@ -252,6 +252,8 @@ public class MainController {
             items.add(cl.getNameAsString());
             numberOfLines += (cl.getEnd().get().line - cl.getBegin().get().line - 1);
         }
+        smellItems.addAll(SmellStrings);
+        SmellList.setItems(smellItems);
         UnitLists.setItems(items);
         displayFinalResults();
     }
