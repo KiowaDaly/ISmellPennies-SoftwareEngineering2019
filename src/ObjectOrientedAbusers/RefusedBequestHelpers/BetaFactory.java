@@ -40,7 +40,6 @@ public class BetaFactory {
     }
 
     public String getAlpha(ClassOrInterfaceDeclaration betaClase){
-        System.out.println(betaClase.getName()+" - "+betaClase.getExtendedTypes());
         return betaClase.getExtendedTypes(0).getName().toString();
     }
 
