@@ -10,6 +10,7 @@ import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.visitor.GenericVisitor;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 import javassist.compiler.ast.FieldDecl;
+import utility_classes.ThreatLevel;
 
 
 import java.lang.reflect.Field;

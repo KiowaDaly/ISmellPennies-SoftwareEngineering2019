@@ -79,6 +79,9 @@ public class SmellDetectorCalls {
                 Set<ThreatLevel> t = value.keySet();
                 GodClassCheck Gc = new GodClassCheck(cl);
                 ThreatLevel rbComplexity = rb.refuseBequestLevels(cl);
+
+                TemporaryFields tf = new TemporaryFields(cl);
+                tf.beginAnalysis();
                 for (ThreatLevel tl : t) {
                     //place the class name and all its threats in to the hashmap
                     getDetections().put(cl,new ClassThreatLevels(tl,switchC.complexityOfClass(cl),fe.checkExcessiveCoupling(cl),Gc.checkGodClass(),wD.overallWalkingDead(cl)));
@@ -105,8 +108,6 @@ public class SmellDetectorCalls {
          string += "\nCLASS:  "+cl.getName();
          string += "Bloatedness: "+value.getBloatThreatLevel();
          string += "Complexity: "+value.getOOAbuseThreatLevel();
-            TemporaryFields tf = new TemporaryFields(cl);
-         System.out.println("Temporary Fields: "+tf.toString());
         }
         return string;
     }
