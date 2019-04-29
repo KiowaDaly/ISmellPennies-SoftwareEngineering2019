@@ -154,18 +154,18 @@ public class GodClassCheck
     return relatedMethodPairs/methodPairs;
   }
 
-
+  // God Class = (WMC > VERY_HIGH) and (ATFD > FEW) and (TCC < ONE_THIRD)
   public ThreatLevel checkGodClass()
   {
     int atfd = getATFD();
     double wmc = getWMC();
     double tcc = getTCC();
-    // if ((atfd > ATFD_THRES) && (wmc > WMC_HIGH_THRES) && (tcc > TCC_THRES))
-    //   return ThreatLevel.HIGH;
-    // if ((atfd > ATFD_THRES) && (wmc > WMC_AV_THRES) && (tcc > TCC_THRES))
-    //   return ThreatLevel.MEDIUM;
-    // if ((atfd > ATFD_THRES) && (wmc > WMC_LOW_THRES) && (tcc > TCC_THRES))
-    //   return ThreatLevel.LOW;
+    if ((atfd > ATFD_THRES) && (wmc > WMC_HIGH_THRES) && (tcc > TCC_THRES))
+      return ThreatLevel.HIGH;
+    if ((atfd > ATFD_THRES) || (wmc > WMC_HIGH_THRES) || (tcc > TCC_THRES))
+      return ThreatLevel.MEDIUM;
+    if ((atfd > ATFD_THRES) || (wmc > WMC_AV_THRES) || (tcc > TCC_THRES))
+      return ThreatLevel.LOW;
 
     return ThreatLevel.NONE;
   }
