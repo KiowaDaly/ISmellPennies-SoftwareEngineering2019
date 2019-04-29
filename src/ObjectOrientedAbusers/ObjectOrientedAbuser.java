@@ -12,22 +12,22 @@ public class ObjectOrientedAbuser {
         RefusedBequest = rb;
         SwitchChecker = sc;
         TemporaryFields = tf;
+
     }
 
     public ThreatLevel getOOAThreatLevel(){
         ThreatLevel complexity = ThreatLevel.NONE;
 
         double total = DataHiding.ordinal() + RefusedBequest.ordinal() + SwitchChecker.ordinal() + TemporaryFields.ordinal();
-        total = (total/4);
-        if(total<0.1)
+        total = Math.ceil((total)/4);
+        if(total == 0)
             complexity = ThreatLevel.NONE;
-        else if(total<0.3)
+        else if(total==1)
             complexity = ThreatLevel.LOW;
-        else if(total<0.6)
+        else if(total==2)
             complexity = ThreatLevel.MEDIUM;
         else
             complexity = ThreatLevel.HIGH;
-
         return complexity;
     }
 }
