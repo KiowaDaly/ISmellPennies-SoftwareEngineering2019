@@ -45,7 +45,7 @@ public class TemporaryFields {
     }
 
 
-    private boolean isFieldUsed(VariableDeclarator field, MethodDeclaration method){
+    public boolean isFieldUsed(VariableDeclarator field, MethodDeclaration method){
         String methodBody = method.getBody().get().toString();
         String fieldName = ".*"+field.getName().toString()+".*";
         Pattern checkRegex = Pattern.compile(fieldName);

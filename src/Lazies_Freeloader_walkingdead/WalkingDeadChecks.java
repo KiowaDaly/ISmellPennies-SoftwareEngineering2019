@@ -4,6 +4,8 @@ import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -13,6 +15,9 @@ import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.ThisExpr;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import utility_classes.ThreatLevel;
+
+import ObjectOrientedAbusers.TemporaryFields;
+
 
 //delete some comments later
 
@@ -156,13 +161,6 @@ public class WalkingDeadChecks {
             lazyStrike ++;   //1 strikes,
         }
 
-/*
-        System.out.println("Lazy All Methods " +allMethodCalls );
-        System.out.println("Lazy Declared methods " +declaredMethods );
-        System.out.println("Lazy External methods" +externalMethodCalls);
-        System.out.println("size " + externalMethodCalls.size());
-        System.out.println(allMethodCalls);
-*/
         if (lazyStrike == 3) return ThreatLevel.HIGH;
         if (lazyStrike == 2) return ThreatLevel.MEDIUM;
         if (lazyStrike == 1) return ThreatLevel.LOW;
@@ -185,8 +183,6 @@ public class WalkingDeadChecks {
             //adds all the called methods in the list
             methodCalls.addAll(cl.findAll(MethodCallExpr.class));
 
-        //    System.out.println("DEADDDDD Method declarations: " + methodCalls);
-
         for (MethodDeclaration md : cl.getMethods()) {
             //if it the method is not contained in the list, and is also not called 'main'
             if(!methodCalls.toString().contains(md.getNameAsString()) && !md.getNameAsString().equals("main")){
@@ -195,11 +191,7 @@ public class WalkingDeadChecks {
             }
 
         }
-/*        //testing
-        System.out.println("uncalled" + uncalled);
-        System.out.println("methodCalls: " + methodCalls + "'");
-        System.out.println("unused: " + unusedMethods+ "'");
-*/
+
         if (uncalled >= 3) return ThreatLevel.HIGH;
         if (uncalled == 2) return ThreatLevel.MEDIUM;
         if (uncalled == 1) return ThreatLevel.LOW;
@@ -213,14 +205,33 @@ public class WalkingDeadChecks {
     public ThreatLevel deadCodeChecker(ClassOrInterfaceDeclaration cl){
         //dead code that cannot be reached
         //find un used variables or
-        List<FieldAccessExpr> allFields = new ArrayList<>();
+        List<VariableDeclarator> allFields = new ArrayList<>();
+        TemporaryFields tempFields = new TemporaryFields(cl);
 
-        for (MethodDeclaration md : cl.getMethods()) {
+        ThreatLevel threatLevel = ThreatLevel.NONE;
+        int strike = 0;
 
-        }
+                for (MethodDeclaration md : cl.getMethods()) {
+                    allFields.addAll(md.findAll(VariableDeclarator.class));
+                    for (VariableDeclarator vD : allFields) {
+                        tempFields.isFieldUsed(vD,md);
 
-        //test
-       // System.out.println("allFields: " + allFields);
+                      //  System.out.println("VariableDeclarator = Method: " +md.getNameAsString() + " Variable : " + vD.toString() + " TF " + tempFields.isFieldUsed(vD,md));
+
+                        if(tempFields.isFieldUsed(vD,md)){
+                            continue;
+                        }else {
+                            strike++;
+                        }
+
+                    }
+                }
+
+        if (strike >= 3) return ThreatLevel.HIGH;
+        if (strike == 2) return ThreatLevel.MEDIUM;
+        if (strike == 1) return ThreatLevel.LOW;
+        //if methods are uncalled
+        if (SpeculativeGeneralityChecker(cl) == ThreatLevel.HIGH) return ThreatLevel.HIGH;
         //else return no threat
         return ThreatLevel.NONE;
     }
@@ -241,8 +252,6 @@ public class WalkingDeadChecks {
         counter += LazyCodeCheck(cl).ordinal();
         counter += deadCodeChecker(cl).ordinal();
         counter += getDuplicationLevel(cl).ordinal();
-
-        //.out.println("allFields: " + counter);
 
         return ThreatLevel.values()[(int) counter/5];
     }
