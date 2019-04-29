@@ -5,13 +5,10 @@ package utility_classes;
 public enum ThreatLevel {
     NONE,LOW,MEDIUM,HIGH{
         public ThreatLevel next() {
-            return null; // see below for options for this line
+            return null;
         };
     };
-
     public ThreatLevel next() {
-        // No bounds checking required here, because the last instance overrides
-        return values()[ordinal() + 1];
+        return values()[ ordinal()+1];
     }
 }
-

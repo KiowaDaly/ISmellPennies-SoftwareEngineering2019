@@ -32,15 +32,15 @@ public class DataHiding {
     }
     private int getGlobalPrivates(){
         //returns the number of private fields found.
-       int numPrivates = 0;
-       List<FieldDeclaration> fieldList =  clase.getFields();
-       for(FieldDeclaration f: fieldList){
-           //check if a field is private
-           if(f.isPrivate()){
-               //increment number of found
-               numPrivates++;
-           }
-       }
+        int numPrivates = 0;
+        List<FieldDeclaration> fieldList =  clase.getFields();
+        for(FieldDeclaration f: fieldList){
+            //check if a field is private
+            if(f.isPrivate()){
+                //increment number of found
+                numPrivates++;
+            }
+        }
         return numPrivates;
     }
 
